@@ -1,0 +1,64 @@
+package org.gk.biosystems;
+
+public class BioSystemsConstants {
+
+    public static final String sid = "sid";
+    public static final String gene = "gene";
+    public static final String subset = "subset";
+    public static final String externalid = "externalid";
+    public static final String citation = "citation";
+    public static final String linkedsystemtype = "linkedsystemtype";
+    public static final String pmid = "pmid";
+    public static final String linkedsystems = "linkedsystems";
+    public static final String linkedsystem = "linkedsystem";
+    public static final String taxid = "taxid";
+    public static final String smallmoleculehilite = "smallmoleculehilite";
+    public static final String hilitetype = "hilitetype";
+    public static final String property = "property";
+    public static final String genehilite = "genehilite";
+    public static final String organism_specific_biosystem = "organism_specific_biosystem";
+    public static final String entity = "entity";
+    public static final String biosystems = "biosystems";
+    public static final String accession = "accession";
+    public static final String protein = "protein";
+    public static final String source = "source";
+    public static final String png = "png";
+    public static final String biosystem = "biosystem";
+    public static final String conserved_biosystem = "conserved_biosystem";
+    public static final String smallmolecules = "smallmolecules";
+    public static final String taxonomyname = "taxonomyname";
+    public static final String citations = "citations";
+    public static final String superset = "superset";
+    public static final String gif = "gif";
+    public static final String comment = "comment";
+    public static final String gi = "gi";
+    public static final String cid = "cid";
+    public static final String sourceurl = "sourceurl";
+    public static final String image = "image";
+    public static final String url = "url";
+    public static final String taxonomy = "taxonomy";
+    public static final String name = "name";
+    public static final String textcitation = "textcitation";
+    public static final String value = "value";
+    public static final String type = "type";
+    public static final String category = "category";
+    public static final String simple = "simple";
+    public static final String feedbackurl = "feedbackurl";
+    public static final String taxnode = "taxnode";
+    public static final String geneid = "geneid";
+    public static final String thumbnail = "thumbnail";
+    public static final String idtypes = "idtypes";
+    public static final String jpeg = "jpeg";
+    public static final String linked = "linked";
+    public static final String conservedlink = "conservedlink";
+    public static final String encodedimage = "encodedimage";
+    public static final String biosystemtype = "biosystemtype";
+    public static final String description = "description";
+    public static final String smallmolecule = "smallmolecule";
+    public static final String hiliteurl = "hiliteurl";
+    public static final String fullimage = "fullimage";
+    public static final String genes = "genes";
+    public static final String sourcename = "sourcename";
+    public static final String xref = "xref";
+}
+

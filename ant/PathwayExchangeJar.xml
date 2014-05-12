@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!-- ====================================================================== 
+     Jul 1, 2005 3:47:49 PM                                                        
+
+     project    Jar Reactome APIs
+     description Create a jar files from gkdev to be used by caBigR3 project.
+                   
+     guanming                                                                
+     ====================================================================== -->
+<project name="PathwayExchangeJar" default="jar" basedir="..">
+	<property name="destDir" value="/home/preecej/Documents/projects/plant_reactome/aracyc_to_reactome_conversion/aracyc_data/aracyc_v11/merge_exec" />
+	<property name="sourceClsDir" value="class" />
+		
+	<target name="jar">
+		<mkdir dir="${destDir}" />
+        <jar destfile="${destDir}/Arabidopsis_merge.jar">
+            <fileset dir="${sourceClsDir}">
+            	    <include name="**" />
+            </fileset>
+			<manifest>
+				<attribute name="Main-Class" value="org.reactome.px.util.AraCycPostProcessor" />
+				<attribute name="Class-Path" value="lib/mysql/mysql-connector-java-5.0.8-bin.jar lib/reactome/reactome.jar lib/jdom/jdom.jar lib/jdom/saxpath.jar lib/jdom/jaxen-core.jar lib/jdom/jaxen-jdom.jar lib/protege/log4j.jar lib/protege/protege-owl.jar lib/protege/protege.jar lib/owlsyntax.jar lib/ols-client/axis-1.4.jar lib/ols-client/wsdl4j-1.5.1.jar lib/ols-client/saaj.jar lib/ols-client/jaxrpc.jar lib/ols-client/commons-logging-1.0.4.jar lib/ols-client/commons-discovery-0.2.jar lib/ols-client/ols-client.jar" />
+			</manifest>
+        </jar>
+		<java classname="Main-Class">
+			<arg value="dumpToDatabase"/>
+		</java>
+		<mkdir dir="${destDir}/lib" />
+		<copy todir="${destDir}/lib">
+			<fileset dir="lib">
+				<include name="mysql/mysql-connector-java-5.0.8-bin.jar" />
+				<include name="reactome/reactome.jar" />
+				<include name="jdom/*.jar" />
+				<include name="protege/log4j.jar" />
+				<include name="protege/*.jar" />
+			</fileset>
+		</copy>
+		<mkdir dir="${destDir}/resources" />
+		<!-- copy todir="${destDir}/resources">
+			<fileset dir="/Users/wgm/Documents/gkteam/Liya/">
+				<include name="RiceListOfConvertGOCompartments.txt" />
+				<include name="RicePredictedPathways.txt" />
+				<include name="ricecyc_v3_0_biopax2_before_dump_120610.rtpj" />
+			</fileset>
+		</copy -->
+		<copy todir="${destDir}/resources" file="resources/log4j.properties" />
+		<copy todir="${destDir}/resources" file="resources/schema" />
+		<!--copy todir="${destDir}/resources" file="resources/CuratorUtilities.xml" /-->
+    </target>
+
+</project>

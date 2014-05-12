@@ -1,0 +1,350 @@
+a glycerophosphodiester	55491
+divinyl protochlorophyllide a	30619
+GA34	29593
+dihydrolipoate	18047
+dolichyl diphosphooligosaccharide	15926
+indole-3-acetonitrile-gamma-glutamylcysteine conjugate	65022
+2-oxo-3-hydroxy-4-phosphobutanoate	27951
+(1E,4S,5E,7R)-germacra-1(10),5-dien-11-ol	46734
+dihydrozeatin	17874
+FAD	16238
+(6S)-hydroxyhyoscyamine	15645
+levopimaradienol	52482
+ent-kaur-16-en-19-oate	15417
+a ribonucleoside monophosphate	26558
+3-hexaprenyl-4-hydroxybenzoate	31116
+3-hydroxy-isobutyryl-CoA	15481
+kinetin-9-N-glucoside	72620
+GA8-catabolite	29604
+delta-carotene	27705
+alpha-zeacarotene	35063
+stearoyl-CoA	15541
+phosphoribosyl-formamido-carboxamide	18381
+2,3-dimethyl-6-phytyl-1,4-benzoquinol	75407
+a cis-3-enoyl-CoA	27773
+cis-zeatin-9-N-glucoside	72607
+a homogalacturonan	60190
+6-oxocampestanol	20747
+obtusifoliol	17791
+3-(4-hydroxyphenyl)-3-hydroxy-propionyl-CoA	73500
+GA24	32906
+cathasterone	23057
+nornicotine	28313
+7-dehydrodesmosterol	27910
+7,2'-dihydroxy-4'-methoxy-isoflavanol	71335
+CDP-N-dimethylethanolamine	64676
+3-dehydroteasterone	20000
+a trans-3-enoyl-CoA	27700
+1-alkyl-sn-glycero-3-phosphoethanolamine	18244
+vinorine	16791
+cholest-5-en-3-one	63906
+8-methoxypsoralen	18358
+5-O-(indol-3-ylacetyl-myo-inositol) D-galactoside	17391
+GA17	24236
+(+)-alpha-barbatene	61690
+an inulin	15443
+chlorophyllide a	16900
+9,9'-di-cis-zeta-carotene	48716
+nicotine-1'-N-oxide	30734
+(-)-jasmonate	18292
+a 1-lyso-2-acyl-sn-glycero-3-phosphoethanolamine	28936
+(S)-scoulerine	17129
+an aryl aldehyde	33855
+GA51	29599
+a dolichyl beta-D-glucosyl phosphate	15812
+heme o	24480
+O-feruloylquinate	18013
+pregn-5-ene-3,20-dione-17-ol	63843
+6-(alpha-D-glucosaminyl)-1-phosphatidyl-1D-myo-inositol	17049
+phosphoribosyl-ATP	73200
+dihydromyricetin	28429
+syringin	9380
+adenylo-succinate	15919
+a nucleoside triphosphate	17326
+15,15'-dihydroxy-beta-carotene	67228
+3-dehydro-6-deoxoteasterone	20710
+(2E,4E,6E)-7-hydroxy-4-methylhepta-2,4,6-trienal	67191
+3-oxodecanoyl-CoA	28528
+cycloartenol	17030
+chlorophyllide b	38209
+lipoamide	17460
+5alpha-cholesta-7,24-dien-3beta-ol	16290
+alpha-L-fucoside	28349
+dammarenediol II	62416
+beta-gentiobiose	28066
+glycyl-peptide	16462
+a nitrile	18379
+a 2-hydroxy carboxylate	52618
+sphinganine 1-phosphate	16893
+dTDP-4-acetamido-4,6-dideoxy-D-galactose	68677
+S-formylglutathione	16225
+cortisone	16962
+a glucosinolate	24279
+dehydrospermidine	48007
+2-methylacetoacetyl-CoA	15476
+malonyl-CoA	15531
+isopentenyladenine-7-N-glucoside	74321
+D-ribulose-1,5-bisphosphate	16710
+N-methylanthraniloyl-CoA	30305
+a 2-oxo acid	35910
+a 1-acyl-2- (S)-12-hydroxyoleoyl -sn-glycero-3-phosphocholine	16999
+hydroxyl radical	29191
+L-arginino-succinate	15682
+campest-4-en-3-one	18534
+an L-1-phosphatidyl-glycerol	17517
+9-cis-10'-apo-beta-carotenal	67192
+a 9-cis-epoxycarotenoid	51973
+stigmasterol	28824
+5-phospho-ribosyl-glycineamide	18349
+4-amino-2,6-dinitrotoluene	20306
+a sphingoid base	35785
+a dolichyl beta-D-mannosyl phosphate	15809
+castasterone	23051
+L-histidinol-phosphate	16996
+hydroxymethylbilane	16645
+zymosterol	18252
+quercetin 3-O-rhamnoside	17558
+3-dimethylsulfoniopropionaldehyde	74027
+N-monomethylethanolamine	21763
+typhasterol	27173
+N-acetylglutamyl-phosphate	16878
+dipyrromethane	36319
+trans-zeatin-9-N-glucoside	72609
+sulfanilamide	45373
+7-O-(beta-D-apiofuranosyl-(1-2)-beta-D-glucosyl)-apigenin	15932
+2-amino-4,6-dinitrotoluene	19452
+D-myo-inositol (1,2,3,4,5)-pentakisphosphate	18345
+riboflavin	17015
+pelargonidin-3-O-rutinoside-5-O-beta-D-glucoside	31969
+3-ureido-isobutyrate	1670
+methylacrylyl-CoA	27754
+UDP-L-rhamnose	17454
+D-hexose 6-phosphate	4195
+a lipid	18059
+9-cis-beta-carotene	67188
+neomycin	7507
+carlactone	67190
+pregn-5-ene-3,20-dione	63837
+6-deoxotyphasterol	20717
+4-hydroxylamino-2,6-dinitrotoluene	20408
+bergapten	18293
+O-succinyl-L-homoserine	16160
+L-gamma-glutamylcysteine	17515
+(S)-3-hydroxy-isobutanoate	62638
+a quinol	17594
+oleoyl-CoA	15534
+campestanol	36799
+GA13	72598
+GA14	29588
+an N-acetyl-beta-D-hexosaminide	28000
+beta-nicotinate D-ribonucleotide	15763
+a phosphatidyl-N-methylethanolamine	15958
+a beta-D-galactoside	28034
+1,4-dichlorobenzene dihydrodiol	28957
+8-oxo-GMP	65135
+morphine	17303
+vernoleate	27706
+an S-alkyl-L-cysteine S-oxide	28133
+a fatty aldehyde	35746
+5-phospho-beta-D-ribosyl-amine	37737
+isopimaric acid	6039
+dipalmitoyl phosphatidate	72859
+5'-phosphoribosyl-N-formylglycineamide	18272
+pelargonidin-3-O-rutinoside	31968
+an all-trans-retinyl ester	63410
+a methyl jasmonate	15929
+fructose-1-phosphate	18105
+p-chloromercuribenzoate	28420
+cyanidin-3,5-diglucoside	3978
+a chlorophyll	28966
+plastoquinol-9	28026
+caffeoyl-CoA	15518
+a vernolate	27706
+a proanthocyanidin	26267
+a ribonucleoside triphosphate	17972
+cannabigerolate	66962
+brassinolide	28277
+phospho-alpha-glucan	14808
+2'-deoxymugineic acid	19274
+an ADP-sugar	35239
+5-hydroxy-8-methoxypsoralen	2082
+S-(2-hydroxyacyl)glutathione	17491
+1-phosphatidyl-1D-myo-inositol 3,5-bisphosphate	16851
+a nucleoside monophosphate	29075
+starch	28017
+teasterone	26863
+2-C-methyl-D-erythritol-4-phosphate	17764
+2,6-diamino-4-hydroxy-5-formamidopyrimidine	29145
+cellulose	18246
+2-hydroxylamino-4,6-dinitrotoluene	19644
+morphinone	16315
+abieta-7,13-dien-18-ol	29510
+verbascose	28586
+NiSO4	53001
+luteolin 7-O-beta-D-diglucuronide	16559
+adenosine 5'-phosphosulfate	17709
+1,4-dihydroxy-2-naphthoyl-CoA	52668
+GDP-L-fucose	17009
+a CDP-diacylglycerol	17962
+delphinidin-3,5-diglucoside	55455
+CDP-N-methylethanolamine	15868
+O-acetyl-L-serine	17981
+delphinidin 3-O-(6''-O-malonyl)-beta-glucoside	55334
+a beta-D-galactosyl-(1->4)-beta-D-glucosyl-(1<-->1)-ceramide	17950
+vanillylamine	46958
+a cardiolipin	28494
+(E,E)-geranyllinalool	74299
+UDP-4-dehydro-6-deoxy-D-glucose	16553
+orotidine-5'-phosphate	15842
+isopentenyladenine-9-N-glucoside	72616
+campest-4-en-3beta-ol	18535
+pheophorbide b	38258
+ajugose	28554
+a methyl thioether	17437
+neopinone	7510
+gallocatechin	31018
+codeine	16714
+histidinol	16255
+a lysophospholipid	16961
+dehydroabietadienol	52486
+S-sulfanylglutathione	52857
+NMNH	74452
+a thalian-diol	73157
+dihydrozeatin-9-N-glucoside	72612
+delta8-phytosphingenine	50934
+THF-L-glutamate	27650
+4,8,12-trimethyl-1,3,7,11-tridecatetraene	74322
+chlorophyll b	27888
+isofucosterol	28604
+an aryl beta-D-glucoside	28749
+a 1-alkyl-sn-glycerol-3-phosphate	17106
+trans-octadec-2-enoyl-CoA	50570
+squalene	15440
+an L-1-phosphatidyl-ethanolamine	16038
+a 1-acyl-2-linoleoyl-sn-glycero-3-phosphocholine	15726
+(2S)-pinocembrin	28157
+a 1-phosphatidyl-1D-myo-inositol 4,5-bisphosphate	18348
+a glycan	18154
+luteolin 7-O-beta-D-glucuronide	18128
+beta-D-ribosylnicotinate	27748
+a jasmonic acid	18292
+3beta-hydroxy-4beta-methyl-5alpha-cholest-7-ene-4alpha-carbaldehyde	16286
+S-prenyl-L-cysteine	47914
+6-deoxoteasterone	20716
+violaxanthin	35288
+eriodictyol	28412
+13-sophorosyloxydocosanoate 6',6''-diacetate	51078
+3-epi-6-deoxocathasterone	59410
+xanthosine	18107
+a 12'-apo-carotenal	51972
+tropinone	16656
+phytyl monophosphate	75838
+a nucleoside 2'-phosphate	53010
+a ribonucleoside diphosphate	17668
+a glucomannan	17020
+lathosterol	17168
+quercetin 7-O-glucoside	28529
+a carboxylic ester	33308
+6-deoxocastasterone	20712
+N-debenzoyl-(3'-RS)-taxol	63862
+monovinyl protochlorophyllide a	16673
+a thiol	29256
+(2R,3S)-2,3-dimethylmalate	15582
+trans-beta-D-glucosyl-2-hydroxycinnamate	17531
+9-cis-violaxanthin	35305
+an isothiocyanate	52221
+L-glutamate gamma-semialdehyde	17232
+a polysaccharide	18154
+a cis-2-enoyl-CoA	27803
+succinyl-CoA	15380
+delphinidin-3-O-beta-D-glucoside	31463
+pinene	17187
+16-hentriacontanol	35985
+4-(2'-carboxyphenyl)-4-oxobutyryl-CoA	15509
+UDP-D-apiose	73886
+a limit dextrin	28912
+dehydroabietadienal	52487
+a lipid hydroperoxide	61051
+levopimaradienal	52483
+3-cis-dodecenoyl-CoA	27989
+progesterone	17026
+3-decaprenyl-4-hydroxybenzoate	64136
+lanosterol	16521
+sphinganine	16566
+indole-3-acetonitrile-cysteine conjugate	64988
+cis-3-hexenal	23292
+L-glutamate-5-phosphate	17798
+a xylogalacturonan	27343
+antheraxanthin	27867
+glutaryl-CoA	15524
+D-glucosamine-6-phosphate	15873
+(+)-sesamin	66470
+2,5-diamino-6-(5-phospho-D-ribitylamino)pyrimidin-4(3H)-one	52402
+a glycol	13643
+(2R,3R)-pinobanksin	28103
+3-oxo-(11Z)-eicos-11-enoyl-CoA	74037
+delphinidin	28436
+a protein dithiol	17999
+(+)-secoisolariciresinol	67247
+soyasapogenol E	62444
+3-methylthiopropyl-glucosinolate	5407
+(15Z)-tetracosenoate	32392
+trans-neoxanthin	32446
+GA51-catabolite	29600
+(4S)-4-hydroxy-2,3,4,5-tetrahydro-(2S)-dipicolinate	67139
+ent-7alpha-hydroxykaur-16-en-19-oate	15419
+prostaglandin-H2	15554
+ent-kaurenal	15418
+a 7-hydroxy-4-isopropenyl-7-methyloxepan-2-one	64274
+FADH2	17877
+an L-1-phosphatidylglycerol-phosphate	37393
+desacetoxyvindoline	16957
+epsilon-carotene	32549
+cycloeucalenol	16653
+leucodopachrome	60872
+luteolin 7-O-neohesperidoside	31788
+NaF	28741
+phaseic acid	28205
+alpha-linolenoyl-CoA	51985
+3-dehydrosphinganine	17862
+quercetin-3-glucoside	28299
+monodemalonylsalvianin	31121
+1-(o-carboxyphenylamino)-1'-deoxyribulose-5'-phosphate	29112
+lactucaxanthin	6357
+epoxide	32955
+strictosidine	17559
+biochanin A-7-O-glucoside	28751
+S-lactoyl-glutathione	15694
+(S)-3-hydroxybutanoyl-CoA	15453
+5alpha-cholesta-8,24-dien-3-one	52386
+2,3-dehydroadipyl-CoA	68471
+a dicarboxylate	35692
+17-O-deacetylvindoline	18362
+an isoflavone-7-O-beta-D-glucoside	18174
+an oligosaccharide	50699
+6,7-dimethyl-8-(1-D-ribityl)lumazine	17601
+beta-carotene 15,15' epoxide	67227
+benzyladenine-9-N-glucoside	72604
+(3S,5R,6S)-5,6-epoxy-3-hydroxy-5,6-dihydro-12'-apo-beta-caroten-12'-al	34597
+a maltodextrin	18398
+2-trans-dodecenoyl-CoA	15471
+prephytoene diphosphate	17090
+alginate	17548
+P(1),P(5)-di(adenosine-5'-)pentaphosphate	28898
+EDTA	42191
+(Z)-15-tetracosenoyl-CoA	74142
+7-dehydrocholesterol	17759
+hamamelose	28994
+L-arabinose	17535
+hederagenin	69579
+an L-2-amino-acid	15705
+a flavonol-7-O-beta-D-glucosides	52144
+nitric oxide	16480
+homomethionine	50707
+N-carbamoyl-L-aspartate	15859
+3-aminomethylindole	65009
+soyasapogenol B	9209
+a 1,4-alpha-D-glucan	28102
+24-methylenecholesterol	19812
+an N6-alkylaminopurine	17524
+an anthocyanidin-3-O-beta-D-glucoside	16307

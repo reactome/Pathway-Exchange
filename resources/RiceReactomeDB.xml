@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rice_dbs>
+    <rice_db name="CAS" url="http://www.cas.org" />
+    <rice_db name="EC-NUMBER" matched="4" />
+    <rice_db name="EcoCyc" accessUrl="http://biocyc.org/new-image?object=###ID###" url="http://biocyc.org" />
+    <rice_db name="GR_genedb" accessUrl="http://www.gramene.org/db/genes/search_gene?acc=###ID###" url="http://www.gramene.org" />
+    <rice_db name="LIGAND" matched="6" />
+    <rice_db name="MODBASE" accessUrl="http://modbase.compbio.ucsf.edu/modbase-cgi/model_search.cgi?searchkw=name&amp;kword=###ID###" url="http://salilab.org/modbase/" />
+    <rice_db name="NCBI Taxonomy" matched="72810" />
+    <rice_db name="NCI" accessUrl="http://cactus.nci.nih.gov/ncidb2/?nsc=###ID###" url="http://cactus.nci.nih.gov/" />
+    <rice_db name="PIR" accessUrl="http://www.pir.uniprot.org/cgi-bin/searchpsd?id=###ID###" url="http://pir.georgetown.edu" />
+    <rice_db name="PubChem" matched="181973" />
+    <rice_db name="RiceCyc" accessUrl="http://pathway.gramene.org/RICE/substring-search?object=###ID###&amp;quickSearch=Quick+Search" url="http://pathway.gramene.org" />
+    <rice_db name="UMBBD" accessUrl="http://umbbd.msi.umn.edu/servlets/pageservlet?ptype=c&amp;compID=###ID###" url="http://umbbd.ahc.umn.edu/" />
+    <rice_db name="UniProtKB" matched="2" />
+    <rice_db name="ChEBI" matched="114984" />
+    <rice_db name="GO" matched="1" />
+</rice_dbs>

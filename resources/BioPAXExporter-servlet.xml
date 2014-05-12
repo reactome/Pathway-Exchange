@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<!--
+  - Application context definition for BioPAXExporter DispatcherServlet.
+  -->
+
+<beans>
+	<bean id="converter" class="org.reactome.biopax.ReactomeToBioPAXXMLConverter">		
+	</bean>
+	
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location">
+			<value>WEB-INF/jdbc.property</value>
+		</property>
+	</bean>
+	
+	<bean id="service" class="org.reactome.servlet.BioPAXExporterService">
+		<property name="defaultDbName">
+			<value>${jdbc.defaultDbName}</value>
+		</property>
+        <property name="dbUser">
+			<value>${jdbc.dbUser}</value>
+		</property>
+		<property name="dbPwd">
+			<value>${jdbc.dbPwd}</value>
+		</property>
+		<property name="dbPort">
+			<value>${jdbc.dbPort}</value>
+		</property>
+		<property name="converter">
+			<ref bean="converter" />
+		</property>
+	</bean>
+	
+	<bean id="exporterController" class="org.reactome.servlet.BioPAXExporterController">
+		<property name="service">
+			<ref bean="service" />
+		</property>
+	</bean>
+	
+	<bean name="simpleUrlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="mappings">
+			<props>
+				<prop key="/event.htm">exporterController</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+		<property name="templateLoaderPath">
+			<value>WEB-INF/ftl/</value>
+		</property>
+		<property name="freemarkerSettings">
+			<props>
+				<prop key="template_update_delay">5</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<bean id="beanNameViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver"></bean>
+	
+	<bean id="biopaxView" class="org.reactome.servlet.BioPAXExporterView">
+	</bean>
+</beans>

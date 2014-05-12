@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ara_dbs>
+	<!-- comented ref dbs were removed with the AraCyc 8 deletion and need to be re-added -->
+    <!--ara_db name="ARALIP" matched="3323001" /-->
+    <ara_db name="AraCyc" matched="1385634" />
+    <!--ara_db name="BRENDA" matched="1385646" /-->
+    <ara_db name="CAS" matched="1118111" />
+    <ara_db name="COMPOUND" matched="6" />
+    <ara_db name="ChEBI" matched="114984" />
+    <ara_db name="EC" matched="4" />
+    <ara_db name="EcoCyc" matched="1118113" />
+    <!-- the next two entries will be pointed to the same ref db; the only difference is in the naming scheme; the NCBI source is the same -->
+    <ara_db name="Entrez" matched="1598255" />				 <!--ara_db name="Entrez" matched="1385645" /-->
+    <ara_db name="Entrez-Nucleotide" matched="1598255" />    <!--ara_db name="Entrez-Nucleotide" matched="1385649" /-->
+    <ara_db name="GO" matched="1" />
+    <ara_db name="KEGG" matched="1592498" />
+    <!--ara_db name="KNApSAcK" matched="1385639" /-->
+    <!--ara_db name="MetaCyc" matched="1385652" /-->
+    <ara_db name="ModBase" matched="1118115" />
+    <ara_db name="NCI" matched="1118114" />
+    <!--ara_db name="PDB" matched="1385648" /-->
+    <ara_db name="PIR" matched="1118110" />
+    <!--ara_db name="Phytozome Plant Orthologs" matched="1385633" /-->
+    <!--ara_db name="PlantCyc" matched="1385647" /-->
+    <ara_db name="PubChem Compound" matched="181973" />
+    <ara_db name="RefSeq" matched="1385650" />
+    <!--ara_db name="Swiss-Model" matched="1385641" /-->
+    <ara_db name="TAIR" matched="1592497" />
+    <ara_db name="UMBBD-Compounds" matched="1118112" />
+    <ara_db name="UniProt" matched="2" />
+    <!--ara_db name="Wikipedia" matched="1385643" /-->
+</ara_dbs>

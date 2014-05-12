@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!-- ====================================================================== 
+     Jul 5, 2005 2:08:55 PM                                                        
+
+     project    output Reactome in the GSEA file format
+                   
+     guanming                                                                
+     ====================================================================== -->
+<project name="deployAsApplication" default="jar" >
+	<property name="destDir" value="/Users/wgm/Documents/EclipseWorkspace/WebELVTool" />
+	
+	<target name="jar">
+		<jar destfile="${destDir}/GSEAExport.jar">
+			<fileset dir="../classes">
+				<include name="org/reactome/gsea/*.class" />
+				<include name="org/reactome/convert/common/*.class" />
+			</fileset>
+		</jar>
+	</target>
+
+</project>
+

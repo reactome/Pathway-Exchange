@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!-- ====================================================================== 
+     Jul 5, 2005 2:08:55 PM                                                        
+
+     project    deploy the exporter as an application with command arguments
+     description
+                   
+     guanming                                                                
+     ====================================================================== -->
+<project name="deployAsApplication" default="copy" >
+	<property name="destDir" value="/Users/gwu/Documents/EclipseWorkspace/biopaxexporter" />
+	
+	<target name="clean">
+		<delete dir="${destDir}" />
+		<mkdir dir="${destDir}" />
+	</target>
+	
+	<target name="copy">
+		<copy todir="${destDir}">
+			<fileset dir="..">
+				<include name="classes/org/reactome/biopax/*.class" />
+				<include name="classes/org/reactome/model/*.class" />
+			</fileset>
+			<!-- fileset dir="..">
+				<include name="resources/biopax-level2.owl" />
+			</fileset>
+			<fileset dir="..">
+				<include name="plugins/**" />
+			</fileset -->
+			<fileset dir="..">
+				<include name="lib/owl/xercesImpl.jar" />
+				<include name="lib/owl/xml-apis.jar" />
+				<include name="lib/owl/xmlParserAPIs.jar" />
+				<include name="lib/mysql/**" />
+				<include name="lib/reactome/**" />
+				<include name="lib/jdom/**" />
+			</fileset>
+		</copy>
+		<!-- copy file="../runme.sh" todir="${destDir}" / -->
+		<!-- jar destfile="${destDir}/all.jar">
+			<fileset dir="${destDir}">
+			</fileset>
+		</jar -->
+	</target>
+
+</project>
+

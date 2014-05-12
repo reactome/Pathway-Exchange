@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project PathwayExchange with Jar-in-Jar Loader">
+    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+    <!--ANT 1.7 is required                                        -->
+    <target name="create_run_jar">
+        <jar destfile="/home/croft/Reactome/packages/eclipse-java-galileo-linux-gtk/workspace/PathwayExchange/bin/reactome_sbml_dumper.jar">
+            <manifest>
+                <attribute name="Main-Class" value="org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader"/>
+                <attribute name="Rsrc-Main-Class" value="org.gk.sbml.ReactomeToSBMLCommandLine"/>
+                <attribute name="Class-Path" value="."/>
+                <attribute name="Rsrc-Class-Path" value="./ antlr.jar arq.jar commons-lang-2.0.jar commons-logging.jar concurrent.jar edtftpj-1.5.2.jar ekitspell.jar icu4j.jar iri.jar jakarta-oro-2.0.5.jar jcalendar.jar jena.jar junit.jar kazuki.jar log4j.jar owlsyntax.jar protege-owl.jar protege.jar rdf-api-2001-01-19.jar xercesImpl.jar xml-apis.jar xmlParserAPIs.jar reactome.jar jaxen-core.jar jaxen-jdom.jar jdom.jar saxpath.jar freemarker.jar junit.jar org.hamcrest.core_1.1.0.v20090501071000.jar mysql-connector-java-5.0.8-bin.jar celldesigner.jar org.sbgn.jar libsbmlj.jar JSON4Java.jar"/>
+            </manifest>
+            <zipfileset src="jar-in-jar-loader.zip"/>
+            <fileset dir="/home/croft/Reactome/packages/eclipse-java-galileo-linux-gtk/workspace/PathwayExchange/class"/>
+            <zipfileset dir="/home/croft/Reactome/packages/eclipse-java-galileo-linux-gtk/workspace/PathwayExchange/lib/protege" includes="antlr.jar"/>
+            <zipfileset dir="/home/croft/Reactome/packages/eclipse-java-galileo-linux-gtk/workspace/PathwayExchange/lib/protege" includes="arq.jar"/>
+            <zipfileset dir="/home/croft/Reactome/packages/eclipse-java-galileo-linux-gtk/workspace/PathwayExchange/lib/protege" includes="commons-lang-2.0.jar"/>
+            <zipfileset dir="/home/croft/Reactome/packages/eclipse-java-galileo-linux-gtk/workspace/PathwayExchange/lib/protege" includes="commons-logging.jar"/>
+            <zipfileset dir="/home/croft/Reactome/packages/eclipse-java-galileo-linux-gtk/workspace/PathwayExchange/lib/protege" includes="concurrent.jar"/>
+            <zipfileset dir="/home/croft/Reactome/packages/eclipse-java-galileo-linux-gtk/workspace/PathwayExchange/lib/protege" includes="edtftpj-1.5.2.jar"/>
+            <zipfileset dir="/home/croft/Reactome/packages/eclipse-java-galileo-linux-gtk/workspace/PathwayExchange/lib/protege" includes="ekitspell.jar"/>
+            <zipfileset dir="/home/croft/Reactome/packages/eclipse-java-galileo-linux-gtk/workspace/PathwayExchange/lib/protege" includes="icu4j.jar"/>
+            <zipfileset dir="/home/croft/Reactome/packages/eclipse-java-galileo-linux-gtk/workspace/PathwayExchange/lib/protege" includes="iri.jar"/>
+            <zipfileset dir="/home/croft/Reactome/packages/eclipse-java-galileo-linux-gtk/workspace/PathwayExchange/lib/protege" includes="jakarta-oro-2.0.5.jar"/>
+            <zipfileset dir="/home/croft/Reactome/packages/eclipse-java-galileo-linux-gtk/workspace/PathwayExchange/lib/protege" includes="jcalendar.jar"/>
+            <zipfileset dir="/home/croft/Reactome/packages/eclipse-java-galileo-linux-gtk/workspace/PathwayExchange/lib/protege" includes="jena.jar"/>
+            <zipfileset dir="/home/croft/Reactome/packages/eclipse-java-galileo-linux-gtk/workspace/PathwayExchange/lib/protege" includes="junit.jar"/>
+            <zipfileset dir="/home/croft/Reactome/packages/eclipse-java-galileo-linux-gtk/workspace/PathwayExchange/lib/protege" includes="kazuki.jar"/>
+            <zipfileset dir="/home/croft/Reactome/packages/eclipse-java-galileo-linux-gtk/workspace/PathwayExchange/lib/protege" includes="log4j.jar"/>
+            <zipfileset dir="/home/croft/Reactome/packages/eclipse-java-galileo-linux-gtk/workspace/PathwayExchange/lib/protege" includes="owlsyntax.jar"/>
+            <zipfileset dir="/home/croft/Reactome/packages/eclipse-java-galileo-linux-gtk/workspace/PathwayExchange/lib/protege" includes="protege-owl.jar"/>
+            <zipfileset dir="/home/croft/Reactome/packages/eclipse-java-galileo-linux-gtk/workspace/PathwayExchange/lib/protege" includes="protege.jar"/>
+            <zipfileset dir="/home/croft/Reactome/packages/eclipse-java-galileo-linux-gtk/workspace/PathwayExchange/lib/protege" includes="rdf-api-2001-01-19.jar"/>
+            <zipfileset dir="/home/croft/Reactome/packages/eclipse-java-galileo-linux-gtk/workspace/PathwayExchange/lib/protege" includes="xercesImpl.jar"/>
+            <zipfileset dir="/home/croft/Reactome/packages/eclipse-java-galileo-linux-gtk/workspace/PathwayExchange/lib/protege" includes="xml-apis.jar"/>
+            <zipfileset dir="/home/croft/Reactome/packages/eclipse-java-galileo-linux-gtk/workspace/PathwayExchange/lib/protege" includes="xmlParserAPIs.jar"/>
+            <zipfileset dir="/home/croft/Reactome/packages/eclipse-java-galileo-linux-gtk/workspace/PathwayExchange/lib/reactome" includes="reactome.jar"/>
+            <zipfileset dir="/home/croft/Reactome/packages/eclipse-java-galileo-linux-gtk/workspace/PathwayExchange/lib/jdom" includes="jaxen-core.jar"/>
+            <zipfileset dir="/home/croft/Reactome/packages/eclipse-java-galileo-linux-gtk/workspace/PathwayExchange/lib/jdom" includes="jaxen-jdom.jar"/>
+            <zipfileset dir="/home/croft/Reactome/packages/eclipse-java-galileo-linux-gtk/workspace/PathwayExchange/lib/jdom" includes="jdom.jar"/>
+            <zipfileset dir="/home/croft/Reactome/packages/eclipse-java-galileo-linux-gtk/workspace/PathwayExchange/lib/jdom" includes="saxpath.jar"/>
+            <zipfileset dir="/home/croft/Reactome/packages/eclipse-java-galileo-linux-gtk/workspace/PathwayExchange/lib/freemarker" includes="freemarker.jar"/>
+            <zipfileset dir="/home/croft/Reactome/packages/eclipse-java-galileo-linux-gtk/plugins/org.junit4_4.5.0.v20090824" includes="junit.jar"/>
+            <zipfileset dir="/home/croft/Reactome/packages/eclipse-java-galileo-linux-gtk/plugins" includes="org.hamcrest.core_1.1.0.v20090501071000.jar"/>
+            <zipfileset dir="/home/croft/Reactome/packages/eclipse-java-galileo-linux-gtk/workspace/PathwayExchange/lib/mysql" includes="mysql-connector-java-5.0.8-bin.jar"/>
+            <zipfileset dir="/home/croft/Reactome/packages/eclipse-java-galileo-linux-gtk/workspace/PathwayExchange/lib/celldesigner" includes="celldesigner.jar"/>
+            <zipfileset dir="/home/croft/Reactome/packages/eclipse-java-galileo-linux-gtk/workspace/PathwayExchange/lib/sbgn" includes="org.sbgn.jar"/>
+            <zipfileset dir="/home/croft/Reactome/packages/eclipse-java-galileo-linux-gtk/workspace/PathwayExchange/lib/sbml" includes="libsbmlj.jar"/>
+            <zipfileset dir="/home/croft/Reactome/packages/eclipse-java-galileo-linux-gtk/workspace/PathwayExchange/lib" includes="JSON4Java.jar"/>
+        </jar>
+    </target>
+</project>

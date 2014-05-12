@@ -1,0 +1,875 @@
+ReactomeID	CHEBI	XREF_Type	XREF_ID
+-10833	CHEBI:16225	CompoundSynonym	S-Formylglutathione
+-10833	CHEBI:16225	CompoundTerm	S-formylglutathione
+-10833	CHEBI:16225	LIGAND	C01031
+-10994	CHEBI:29593	CompoundSynonym	GA34
+-10994	CHEBI:29593	LIGAND	C11868
+-11159	CHEBI:75407	LIGAND	C15883
+-11159	CHEBI:75921	CompoundSynonym	2,3-dimethyl-6-phytyl-1,4-benzoquinol
+-11248	CHEBI:75406	LIGAND	C15882
+-11248	CHEBI:75920	CompoundSynonym	2-methyl-6-phytyl-1,4-benzoquinol
+-11248	CHEBI:75920	LIGAND	C15882
+-11367	CHEBI:5407	LIGAND	C08412
+-11413	CHEBI:28965	CompoundSynonym	dicarboxylate
+-11413	CHEBI:35692	LIGAND	C02028
+-11691	CHEBI:28824	CompoundSynonym	Stigmasterol
+-11691	CHEBI:28824	LIGAND	C05442
+-11768	CHEBI:18534	CompoundSynonym	campest-4-en-3-one
+-11768	CHEBI:18534	CompoundTerm	campest-4-en-3-one
+-11830	CHEBI:20717	CompoundSynonym	6-deoxotyphasterol
+-11830	CHEBI:20717	CompoundSynonym	6-Deoxotyphasterol
+-11830	CHEBI:20717	CompoundTerm	6-deoxotyphasterol
+-11830	CHEBI:20717	LIGAND	C15801
+-11854	CHEBI:27173	CompoundTerm	typhasterol
+-11927	CHEBI:28604	CompoundTerm	isofucosterol
+-11952	CHEBI:19812	CompoundTerm	24-methylenecholesterol
+-12019	CHEBI:35746	CompoundTerm	fatty aldehyde
+-12392	CHEBI:29600	LIGAND	C11854
+-12405	CHEBI:29599	CompoundSynonym	GA51
+-12405	CHEBI:29599	LIGAND	C11865
+-12856	CHEBI:67190	CompoundSynonym	carlactone
+-12856	CHEBI:67190	CompoundTerm	carlactone
+-12860	CHEBI:67191	CompoundSynonym	(2E,4E,6E)-7-hydroxy-4-methylhepta-2,4,6-trienal
+-12860	CHEBI:67191	CompoundTerm	(2E,4E,6E)-7-hydroxy-4-methylhepta-2,4,6-trienal
+-12870	CHEBI:67192	CompoundSynonym	9-cis-10'-apo-beta-carotenal
+-12870	CHEBI:67192	CompoundTerm	9-cis-10'-apo-beta-carotenal
+-12938	CHEBI:67188	CompoundSynonym	9-cis-beta-carotene
+-12938	CHEBI:67188	CompoundTerm	9-cis-beta-carotene
+-12959	CHEBI:23292	CompoundTerm	cis-3-hexenal
+-13175	CHEBI:15541	CAS	362-66-3
+-13175	CHEBI:15541	CompoundSynonym	Stearoyl-CoA
+-13175	CHEBI:15541	CompoundTerm	stearoyl-CoA
+-13175	CHEBI:15541	LIGAND	C00412
+-13210	CHEBI:74037	CompoundSynonym	3-oxo-(11Z)-eicos-11-enoyl-CoA
+-13219	CHEBI:15534	CompoundSynonym	Oleoyl-CoA
+-13219	CHEBI:15534	CompoundTerm	oleoyl-CoA
+-13219	CHEBI:15534	LIGAND	C00510
+-13326	CHEBI:27506	LIGAND	C08424
+-13326	CHEBI:64965	LIGAND	C08424
+-13466	CHEBI:42191	CompoundSynonym	edta
+-13466	CHEBI:42191	CompoundSynonym	EDTA
+-13466	CHEBI:42191	LIGAND	C00284
+-13498	CHEBI:35910	CompoundSynonym	2-oxo acid
+-13498	CHEBI:35910	CompoundSynonym	2-Oxo acid
+-13498	CHEBI:35910	LIGAND	C00161
+-13525	CHEBI:50707	CompoundTerm	homomethionine
+-1394	CHEBI:15531	CAS	524-14-1
+-1394	CHEBI:15531	CompoundSynonym	Malonyl-CoA
+-1394	CHEBI:15531	CompoundTerm	malonyl-CoA
+-1394	CHEBI:15531	LIGAND	C00083
+-14100	CHEBI:15444	CompoundSynonym	1,4-alpha-D-glucan
+-14100	CHEBI:15444	CompoundSynonym	1,4-alpha-D-Glucan
+-14100	CHEBI:28102	LIGAND	C00718
+-14261	CHEBI:60190	CompoundTerm	homogalacturonan
+-14362	CHEBI:18047	CAS	462-20-4
+-14362	CHEBI:18047	LIGAND	C02147
+-14362	CHEBI:30316	CompoundSynonym	dihydrolipoate
+-14362	CHEBI:30316	CompoundTerm	dihydrolipoate
+-1447	CHEBI:16238	CAS	146-14-5
+-1447	CHEBI:16238	CompoundSynonym	FAD
+-1447	CHEBI:16238	CompoundTerm	FAD
+-1447	CHEBI:16238	LIGAND	C00016
+-1447	CHEBI:57692	CompoundSynonym	FAD
+-1447	CHEBI:73627	CompoundSynonym	FAD
+-14524	CHEBI:29256	CompoundSynonym	Thiol
+-14524	CHEBI:29256	CompoundTerm	thiol
+-14524	CHEBI:29256	LIGAND	C00145
+-14524	CHEBI:29917	CompoundSynonym	thiol
+-14665	CHEBI:20000	CompoundTerm	3-dehydroteasterone
+-14694	CHEBI:23057	CompoundTerm	cathasterone
+-14728	CHEBI:26863	CompoundTerm	teasterone
+-14735	CHEBI:18535	CompoundSynonym	campest-4-en-3beta-ol
+-14735	CHEBI:18535	CompoundTerm	campest-4-en-3beta-ol
+-14772	CHEBI:36799	CompoundTerm	campestanol
+-14785	CHEBI:20747	CompoundTerm	6-oxocampestanol
+-14993	CHEBI:16286	CompoundSynonym	3beta-hydroxy-4beta-methyl-5alpha-cholest-7-ene-4alpha-carbaldehyde
+-14993	CHEBI:16286	CompoundSynonym	3beta-Hydroxy-4beta-methyl-5alpha-cholest-7-ene-4alpha-carbaldehyde
+-14993	CHEBI:16286	CompoundTerm	3beta-hydroxy-4beta-methyl-5alpha-cholest-7-ene-4alpha-carbaldehyde
+-14993	CHEBI:16286	LIGAND	C11509
+-15132	CHEBI:29588	CompoundSynonym	GA14
+-15132	CHEBI:29588	LIGAND	C11858
+-15183	CHEBI:72598	CompoundSynonym	GA13
+-15206	CHEBI:32906	CompoundSynonym	GA24
+-15276	CHEBI:28412	CompoundSynonym	Eriodictyol
+-15276	CHEBI:28412	CompoundTerm	eriodictyol
+-15276	CHEBI:28412	LIGAND	C05631
+-15298	CHEBI:17846	CompoundSynonym	Naringenin
+-15298	CHEBI:17846	CompoundSynonym	NARINGENIN
+-15298	CHEBI:50202	CompoundTerm	naringenin
+-15345	CHEBI:16900	CAS	14897-06-4
+-15345	CHEBI:16900	CompoundSynonym	Chlorophyllide a
+-15345	CHEBI:16900	CompoundTerm	chlorophyllide a
+-15345	CHEBI:16900	LIGAND	C02139
+-15396	CHEBI:28157	CompoundSynonym	(2S)-pinocembrin
+-15396	CHEBI:28157	LIGAND	C09827
+-15488	CHEBI:28103	LIGAND	C09826
+-15605	CHEBI:75838	CompoundSynonym	phytyl monophosphate
+-15674	CHEBI:38209	CompoundSynonym	chlorophyllide b
+-15674	CHEBI:38209	CompoundTerm	chlorophyllide b
+-15693	CHEBI:27888	CompoundSynonym	chlorophyll b
+-15693	CHEBI:27888	CompoundSynonym	Chlorophyll b
+-15693	CHEBI:27888	CompoundSynonym	CHLOROPHYLL B
+-15693	CHEBI:27888	CompoundTerm	chlorophyll b
+-15693	CHEBI:27888	LIGAND	C05307
+-15693	CHEBI:61721	CompoundSynonym	chlorophyll b
+-15767	CHEBI:18345	LIGAND	C04579
+-16007	CHEBI:15509	LIGAND	C03160
+-16168	CHEBI:15417	LIGAND	C11874
+-16168	CHEBI:57297	CompoundSynonym	ent-kaur-16-en-19-oate
+-16168	CHEBI:57297	CompoundTerm	ent-kaur-16-en-19-oate
+-16236	CHEBI:72616	CompoundSynonym	Isopentenyladenine-9-N-glucoside
+-16329	CHEBI:74321	CompoundSynonym	isopentenyladenine-7-N-glucoside
+-16403	CHEBI:72607	CompoundSynonym	cis-zeatin-9-N-glucoside
+-16418	CHEBI:72604	CompoundSynonym	benzyladenine-9-N-glucoside
+-16467	CHEBI:72620	CompoundSynonym	Kinetin-9-N-glucoside
+-16635	CHEBI:15418	CompoundSynonym	ent-kaurenal
+-16731	CHEBI:17877	CAS	1910-41-4
+-16731	CHEBI:17877	CompoundSynonym	FADH2
+-16731	CHEBI:17877	CompoundTerm	FADH2
+-16731	CHEBI:17877	LIGAND	C01352
+-16731	CHEBI:58307	CompoundSynonym	FADH2
+-1687	CHEBI:15524	CompoundSynonym	Glutaryl-CoA
+-1687	CHEBI:15524	CompoundTerm	glutaryl-CoA
+-1687	CHEBI:15524	LIGAND	C00527
+-17008	CHEBI:72609	CompoundSynonym	trans-zeatin-9-N-glucoside
+-17106	CHEBI:72612	CompoundSynonym	dihydrozeatin-9-N-glucoside
+-17131	CHEBI:17874	CAS	23599-75-9
+-17131	CHEBI:17874	CompoundSynonym	Dihydrozeatin
+-17131	CHEBI:17874	CompoundTerm	dihydrozeatin
+-17131	CHEBI:17874	LIGAND	C02029
+-17307	CHEBI:21763	CompoundSynonym	N-Monomethylethanolamine
+-17614	CHEBI:27650	CompoundSynonym	THF-L-glutamate
+-17839	CHEBI:30619	LIGAND	C11831
+-18079	CHEBI:15809	LIGAND	C03862
+-18079	CHEBI:17624	CompoundSynonym	Dolichyl beta-D-mannosyl phosphate
+-18079	CHEBI:17624	CompoundTerm	dolichyl beta-D-mannosyl phosphate
+-18079	CHEBI:58211	CompoundSynonym	dolichyl beta-D-mannosyl phosphate
+-18111	CHEBI:17454	CompoundSynonym	UDP-L-rhamnose
+-18111	CHEBI:17454	CompoundTerm	UDP-L-rhamnose
+-18111	CHEBI:17454	LIGAND	C02199
+-18118	CHEBI:16553	CompoundSynonym	UDP-4-dehydro-6-deoxy-D-glucose
+-18118	CHEBI:16553	CompoundTerm	UDP-4-dehydro-6-deoxy-D-glucose
+-18118	CHEBI:16553	LIGAND	C04089
+-18126	CHEBI:15926	CompoundSynonym	Dolichyl diphosphooligosaccharide
+-18126	CHEBI:15926	CompoundTerm	dolichyl diphosphooligosaccharide
+-18126	CHEBI:15926	LIGAND	C04213
+-18149	CHEBI:15812	CompoundSynonym	Dolichyl beta-D-glucosyl phosphate
+-18149	CHEBI:15812	CompoundTerm	dolichyl beta-D-glucosyl phosphate
+-18149	CHEBI:15812	LIGAND	C01246
+-18149	CHEBI:57525	CompoundSynonym	dolichyl beta-D-glucosyl phosphate
+-1827	CHEBI:15380	CAS	604-98-8
+-1827	CHEBI:15380	CompoundSynonym	succinyl-CoA
+-1827	CHEBI:15380	CompoundSynonym	Succinyl-CoA
+-1827	CHEBI:15380	CompoundTerm	succinyl-CoA
+-1827	CHEBI:15380	LIGAND	C00091
+-18498	CHEBI:21437	CompoundSynonym	molybdenum cofactor
+-18498	CHEBI:21437	CompoundSynonym	Molybdenum cofactor
+-18498	CHEBI:60525	CompoundSynonym	molybdenum cofactor
+-18498	CHEBI:71302	CompoundSynonym	molybdenum cofactor
+-18498	CHEBI:71306	CompoundSynonym	molybdenum cofactor
+-18520	CHEBI:62727	CompoundSynonym	adenylyl-molybdopterin
+-18520	CHEBI:62728	CompoundSynonym	adenylyl-molybdopterin
+-18747	CHEBI:27748	LIGAND	C05841
+-18747	CHEBI:58527	CompoundSynonym	beta-D-ribosylnicotinate
+-18938	CHEBI:61690	CompoundSynonym	(+)-alpha-barbatene
+-18938	CHEBI:61690	CompoundTerm	(+)-alpha-barbatene
+-19117	CHEBI:3978	LIGAND	C08639
+-19200	CHEBI:55334	LIGAND	C16301
+-19244	CHEBI:53001	CompoundSynonym	NiSO4
+-19256	CHEBI:28420	CompoundSynonym	p-Chloromercuribenzoate
+-19256	CHEBI:28420	LIGAND	C03444
+-19336	CHEBI:28529	CompoundSynonym	Quercetin 7-O-glucoside
+-19428	CHEBI:24279	CompoundSynonym	glucosinolate
+-19428	CHEBI:24279	CompoundTerm	glucosinolate
+-19447	CHEBI:18379	CompoundSynonym	nitrile
+-19447	CHEBI:18379	CompoundSynonym	Nitrile
+-19447	CHEBI:18379	CompoundTerm	nitrile
+-19447	CHEBI:18379	LIGAND	C00726
+-19466	CHEBI:28494	CompoundSynonym	Cardiolipin
+-19466	CHEBI:28494	CompoundSynonym	CARDIOLIPIN
+-19466	CHEBI:28494	CompoundTerm	cardiolipin
+-19466	CHEBI:28494	LIGAND	C05980
+-19473	CHEBI:28205	CompoundSynonym	Phaseic acid
+-19473	CHEBI:28205	CompoundTerm	phaseic acid
+-19473	CHEBI:28205	LIGAND	C09707
+-19620	CHEBI:28586	CompoundTerm	verbascose
+-19620	CHEBI:28586	LIGAND	C08252
+-19631	CHEBI:28554	CompoundSynonym	Ajugose
+-19631	CHEBI:28554	CompoundTerm	ajugose
+-19631	CHEBI:28554	LIGAND	C08238
+-19820	CHEBI:17558	CompoundSynonym	Quercetin 3-O-rhamnoside
+-19838	CHEBI:28299	LIGAND	C05623
+-20035	CHEBI:27867	CompoundSynonym	antheraxanthin
+-20035	CHEBI:27867	CompoundSynonym	Antheraxanthin
+-20035	CHEBI:27867	CompoundTerm	antheraxanthin
+-20035	CHEBI:27867	LIGAND	C08579
+-20088	CHEBI:51973	CompoundTerm	9-cis-epoxycarotenoid
+-20093	CHEBI:51972	CompoundTerm	12'-apo-carotenal
+-20106	CHEBI:27989	CompoundSynonym	3-cis-Dodecenoyl-CoA
+-20106	CHEBI:27989	LIGAND	C02944
+-20111	CHEBI:15471	CompoundSynonym	2-trans-Dodecenoyl-CoA
+-20111	CHEBI:15471	LIGAND	C03221
+-20134	CHEBI:34597	CompoundTerm	(3S,5R,6S)-5,6-epoxy-3-hydroxy-5,6-dihydro-12'-apo-beta-caroten-12'-al
+-20196	CHEBI:52618	CompoundSynonym	2-Hydroxy carboxylate
+-20196	CHEBI:52618	LIGAND	C02929
+-20196	CHEBI:58896	CompoundTerm	2-hydroxy carboxylate
+-20202	CHEBI:17491	CompoundSynonym	S-(2-Hydroxyacyl)glutathione
+-20202	CHEBI:17491	CompoundTerm	S-(2-hydroxyacyl)glutathione
+-20202	CHEBI:17491	LIGAND	C03899
+-20333	CHEBI:27295	CompoundTerm	violaxanthin
+-20333	CHEBI:35288	CompoundSynonym	Violaxanthin
+-20333	CHEBI:35288	LIGAND	C08614
+-20345	CHEBI:35305	CompoundSynonym	9-cis-Violaxanthin
+-20345	CHEBI:35305	CompoundTerm	9-cis-violaxanthin
+-20345	CHEBI:35305	LIGAND	C13433
+-20487	CHEBI:66962	CompoundSynonym	cannabigerolate
+-20487	CHEBI:66962	CompoundTerm	cannabigerolate
+-20616	CHEBI:32446	LIGAND	C08606
+-20681	CHEBI:35063	CompoundSynonym	alpha-Zeacarotene
+-20681	CHEBI:35063	CompoundTerm	alpha-zeacarotene
+-20681	CHEBI:35063	LIGAND	C14146
+-20790	CHEBI:17531	CompoundSynonym	trans-beta-D-glucosyl-2-hydroxycinnamate
+-20790	CHEBI:17531	CompoundSynonym	trans-beta-D-Glucosyl-2-hydroxycinnamate
+-20790	CHEBI:17531	LIGAND	C05158
+-20790	CHEBI:58181	CompoundTerm	trans-beta-D-glucosyl-2-hydroxycinnamate
+-20832	CHEBI:32549	CompoundTerm	epsilon-carotene
+-20834	CHEBI:27705	CompoundTerm	delta-carotene
+-20834	CHEBI:27705	LIGAND	C08586
+-21045	CHEBI:20712	CompoundTerm	6-deoxocastasterone
+-21045	CHEBI:20712	LIGAND	C15802
+-21066	CHEBI:17326	CompoundSynonym	Nucleoside triphosphate
+-21066	CHEBI:17326	CompoundTerm	nucleoside triphosphate
+-21066	CHEBI:17326	LIGAND	C00201
+-21075	CHEBI:15933	CompoundTerm	UDP-D-apiose
+-21075	CHEBI:73886	CompoundSynonym	UDP-D-apiose
+-21075	CHEBI:73886	LIGAND	C01623
+-21179	CHEBI:20716	CompoundTerm	6-deoxoteasterone
+-21179	CHEBI:20716	LIGAND	C15799
+-21342	CHEBI:28017	CompoundSynonym	Starch
+-21342	CHEBI:28017	CompoundTerm	starch
+-21342	CHEBI:28017	LIGAND	C00369
+-21612	CHEBI:31463	LIGAND	C12138
+-21658	CHEBI:27803	CompoundSynonym	cis-2-Enoyl-CoA
+-21658	CHEBI:27803	CompoundTerm	cis-2-enoyl-CoA
+-21694	CHEBI:27700	CompoundSynonym	trans-3-Enoyl-CoA
+-21694	CHEBI:27700	CompoundTerm	trans-3-enoyl-CoA
+-21694	CHEBI:27700	LIGAND	C05067
+-21749	CHEBI:28436	CompoundTerm	delphinidin
+-21749	CHEBI:28436	LIGAND	C05908
+-21749	CHEBI:38701	CompoundSynonym	Delphinidin
+-21881	CHEBI:17009	CompoundSynonym	GDP-L-fucose
+-21881	CHEBI:17009	CompoundTerm	GDP-L-fucose
+-21881	CHEBI:17009	LIGAND	C00325
+-21921	CHEBI:28429	CompoundSynonym	Dihydromyricetin
+-21921	CHEBI:28429	LIGAND	C02906
+-21921	CHEBI:28917	CompoundTerm	dihydromyricetin
+-21986	CHEBI:18107	CAS	146-80-5
+-21986	CHEBI:18107	CompoundSynonym	xanthosine
+-21986	CHEBI:18107	CompoundSynonym	Xanthosine
+-21986	CHEBI:18107	CompoundTerm	xanthosine
+-21986	CHEBI:18107	LIGAND	C01762
+-22177	CHEBI:74452	CompoundTerm	NMNH
+-22473	CHEBI:15419	LIGAND	C11875
+-22473	CHEBI:57298	CompoundSynonym	ent-7alpha-hydroxykaur-16-en-19-oate
+-22473	CHEBI:57298	CompoundTerm	ent-7alpha-hydroxykaur-16-en-19-oate
+-22511	CHEBI:24236	CompoundSynonym	GA17
+-22531	CHEBI:16673	LIGAND	C02880
+-22531	CHEBI:25415	CompoundTerm	monovinyl protochlorophyllide a
+-22714	CHEBI:48716	CompoundSynonym	9,9'-di-cis-zeta-carotene
+-22714	CHEBI:48716	CompoundTerm	9,9'-di-cis-zeta-carotene
+-22782	CHEBI:15653	LIGAND	C04672
+-22782	CHEBI:36438	LIGAND	C04672
+-22981	CHEBI:18059	CompoundSynonym	lipid
+-22981	CHEBI:18059	CompoundSynonym	Lipid
+-22981	CHEBI:18059	CompoundTerm	lipid
+-22981	CHEBI:18059	LIGAND	C01356
+-23207	CHEBI:17026	CompoundSynonym	Progesterone
+-23207	CHEBI:17026	CompoundSynonym	PROGESTERONE
+-23207	CHEBI:17026	CompoundTerm	progesterone
+-23207	CHEBI:17026	LIGAND	C00410
+-23240	CHEBI:19452	CompoundTerm	2-amino-4,6-dinitrotoluene
+-23273	CHEBI:19644	CompoundTerm	2-hydroxylamino-4,6-dinitrotoluene
+-23346	CHEBI:20408	CompoundTerm	4-hydroxylamino-2,6-dinitrotoluene
+-23405	CHEBI:20306	CompoundTerm	4-amino-2,6-dinitrotoluene
+-23602	CHEBI:17668	CompoundSynonym	ribonucleoside diphosphate
+-23602	CHEBI:17668	CompoundSynonym	Ribonucleoside diphosphate
+-23602	CHEBI:17668	CompoundTerm	ribonucleoside diphosphate
+-23602	CHEBI:17668	LIGAND	C03723
+-24034	CHEBI:64136	CompoundSynonym	3-Decaprenyl-4-hydroxybenzoate
+-24166	CHEBI:50570	CompoundSynonym	trans-octadec-2-enoyl-CoA
+-24166	CHEBI:50570	LIGAND	C16218
+-24284	CHEBI:52668	CompoundSynonym	1,4-Dihydroxy-2-naphthoyl-CoA
+-24284	CHEBI:52668	CompoundTerm	1,4-dihydroxy-2-naphthoyl-CoA
+-24284	CHEBI:52668	LIGAND	C15547
+-24610	CHEBI:27343	CompoundTerm	xylogalacturonan
+-24835	CHEBI:73157	CompoundSynonym	thalian-diol
+-24878	CHEBI:74322	CAS	62235-06-7
+-24945	CHEBI:18105	CAS	15978-08-2
+-25357	CHEBI:62416	CompoundSynonym	dammarenediol II
+-25425	CHEBI:46958	CompoundTerm	vanillylamine
+-25532	CHEBI:17535	CompoundSynonym	L-Arabinose
+-25532	CHEBI:17535	LIGAND	C00259
+-25532	CHEBI:22599	CAS	147-81-9
+-25532	CHEBI:30849	CompoundSynonym	L-arabinose
+-25532	CHEBI:30849	CompoundTerm	L-arabinose
+-25532	CHEBI:6182	CompoundSynonym	L-Arabinose
+-25611	CHEBI:28912	CompoundSynonym	Limit dextrin
+-25611	CHEBI:28912	CompoundTerm	limit dextrin
+-25705	CHEBI:9380	CompoundSynonym	Syringin
+-25705	CHEBI:9380	CompoundTerm	syringin
+-25705	CHEBI:9380	LIGAND	C01533
+-25970	CHEBI:17437	CompoundSynonym	Methyl thioether
+-26199	CHEBI:17709	CAS	485-84-7
+-26199	CHEBI:17709	CompoundSynonym	Adenosine 5'-phosphosulfate
+-26199	CHEBI:17709	LIGAND	C00224
+-26199	CHEBI:58243	CompoundSynonym	adenosine 5'-phosphosulfate
+-26360	CHEBI:16893	CompoundSynonym	Sphinganine 1-phosphate
+-26360	CHEBI:16893	CompoundTerm	sphinganine 1-phosphate
+-26360	CHEBI:16893	LIGAND	C01120
+-26541	CHEBI:17559	CAS	20824-29-7
+-26541	CHEBI:17559	CompoundSynonym	Strictosidine
+-26541	CHEBI:17559	LIGAND	C03470
+-2694	CHEBI:16710	LIGAND	C01182
+-2694	CHEBI:17994	CAS	14689-84-0
+-26963	CHEBI:17981	CompoundSynonym	O-acetyl-L-serine
+-26963	CHEBI:17981	CompoundSynonym	O-Acetyl-L-serine
+-26963	CHEBI:17981	CompoundTerm	O-acetyl-L-serine
+-26963	CHEBI:17981	LIGAND	C00979
+-27055	CHEBI:17862	CompoundSynonym	3-Dehydrosphinganine
+-27055	CHEBI:17862	CompoundTerm	3-dehydrosphinganine
+-27055	CHEBI:17862	LIGAND	C02934
+-27138	CHEBI:28026	CompoundSynonym	plastoquinol-9
+-27138	CHEBI:28026	CompoundTerm	plastoquinol-9
+-27138	CHEBI:28026	LIGAND	C16695
+-27460	CHEBI:65009	CompoundSynonym	3-aminomethylindole
+-28024	CHEBI:17515	CompoundSynonym	L-gamma-Glutamylcysteine
+-28024	CHEBI:17515	LIGAND	C00669
+-28045	CHEBI:35985	CompoundSynonym	16-hentriacontanol
+-28839	CHEBI:28994	CompoundSynonym	Hamamelose
+-28894	CHEBI:14885	CompoundSynonym	prephytoene diphosphate
+-28894	CHEBI:14885	CompoundTerm	prephytoene diphosphate
+-28894	CHEBI:17090	CompoundSynonym	Prephytoene diphosphate
+-28894	CHEBI:17090	LIGAND	C03427
+-28925	CHEBI:30734	CompoundSynonym	Nicotine-1'-N-oxide
+-28938	CHEBI:17759	CAS	434-16-2
+-28938	CHEBI:17759	CompoundSynonym	7-Dehydrocholesterol
+-28938	CHEBI:17759	LIGAND	C01164
+-28956	CHEBI:17168	CAS	80-99-9
+-28956	CHEBI:17168	CompoundSynonym	Lathosterol
+-28956	CHEBI:17168	LIGAND	C01189
+-28968	CHEBI:52386	CompoundSynonym	5alpha-cholesta-8,24-dien-3-one
+-28986	CHEBI:18252	CAS	128-33-6
+-28986	CHEBI:18252	CompoundSynonym	Zymosterol
+-28986	CHEBI:18252	CompoundTerm	zymosterol
+-28986	CHEBI:18252	LIGAND	C05437
+-29182	CHEBI:16521	CAS	79-63-0
+-29182	CHEBI:16521	CompoundSynonym	Lanosterol
+-29182	CHEBI:16521	CompoundSynonym	LANOSTEROL
+-29182	CHEBI:16521	CompoundTerm	lanosterol
+-29182	CHEBI:16521	LIGAND	C01724
+-29223	CHEBI:15440	CAS	111-02-4
+-29223	CHEBI:15440	CompoundSynonym	Squalene
+-29223	CHEBI:15440	CompoundTerm	squalene
+-29223	CHEBI:15440	LIGAND	C00751
+-29513	CHEBI:64676	CompoundSynonym	CDP-N-dimethylethanolamine
+-29565	CHEBI:15958	CompoundSynonym	Phosphatidyl-N-methylethanolamine
+-29565	CHEBI:15958	CompoundTerm	phosphatidyl-N-methylethanolamine
+-29565	CHEBI:15958	LIGAND	C01241
+-29567	CHEBI:15868	CompoundSynonym	CDP-N-methylethanolamine
+-29567	CHEBI:15868	CompoundTerm	CDP-N-methylethanolamine
+-29567	CHEBI:15868	LIGAND	C03486
+-30018	CHEBI:65135	CompoundTerm	8-oxo-GMP
+-30410	CHEBI:16566	CAS	764-22-7
+-30410	CHEBI:16566	CompoundSynonym	sphinganine
+-30410	CHEBI:16566	CompoundSynonym	Sphinganine
+-30410	CHEBI:16566	CompoundTerm	sphinganine
+-30410	CHEBI:16566	LIGAND	C00836
+-30410	CHEBI:57817	CompoundSynonym	sphinganine
+-30515	CHEBI:16653	CAS	469-39-6
+-30515	CHEBI:16653	CompoundSynonym	Cycloeucalenol
+-30515	CHEBI:16653	CompoundTerm	cycloeucalenol
+-30515	CHEBI:16653	LIGAND	C02141
+-30581	CHEBI:18398	CompoundSynonym	Maltodextrin
+-30581	CHEBI:18398	LIGAND	C01935
+-30581	CHEBI:25140	CompoundTerm	maltodextrin
+-30610	CHEBI:16962	CAS	53-06-5
+-30610	CHEBI:16962	CompoundSynonym	Cortisone
+-30610	CHEBI:16962	CompoundTerm	cortisone
+-30610	CHEBI:16962	LIGAND	C00762
+-31304	CHEBI:52487	CompoundTerm	dehydroabietadienal
+-31324	CHEBI:64274	CompoundSynonym	7-hydroxy-4-isopropenyl-7-methyloxepan-2-one
+-31324	CHEBI:64274	CompoundTerm	7-hydroxy-4-isopropenyl-7-methyloxepan-2-one
+-31333	CHEBI:52483	CompoundTerm	levopimaradienal
+-31380	CHEBI:38258	CompoundSynonym	pheophorbide b
+-31380	CHEBI:38258	CompoundTerm	pheophorbide b
+-3150	CHEBI:37737	LIGAND	C03090
+-31522	CHEBI:72859	CompoundSynonym	dipalmitoyl phosphatidate
+-31603	CHEBI:16645	CAS	73023-76-4
+-31603	CHEBI:16645	CompoundSynonym	Hydroxymethylbilane
+-31603	CHEBI:16645	LIGAND	C01024
+-31861	CHEBI:60872	CompoundTerm	leucodopachrome
+-31875	CHEBI:16815	CompoundSynonym	enol-Phenylpyruvate
+-31875	CHEBI:16815	CompoundTerm	enol-phenylpyruvate
+-31875	CHEBI:16815	LIGAND	C02763
+-31875	CHEBI:32815	LIGAND	C02763
+-31966	CHEBI:59950	CompoundSynonym	neopinone
+-31966	CHEBI:7510	CompoundSynonym	Neopinone
+-31966	CHEBI:7510	CompoundTerm	neopinone
+-31966	CHEBI:7510	LIGAND	C06172
+-31979	CHEBI:52857	CompoundSynonym	S-Sulfanylglutathione
+-31979	CHEBI:52857	CompoundTerm	S-sulfanylglutathione
+-31979	CHEBI:52857	LIGAND	C17267
+-31992	CHEBI:29191	CompoundSynonym	hydroxyl radical
+-32419	CHEBI:28898	CompoundSynonym	P(1),P(5)-Di(adenosine-5'-)pentaphosphate
+-3256	CHEBI:17797	CAS	4300-28-1
+-3256	CHEBI:17797	CompoundSynonym	D-Ribose 5-phosphate
+-3256	CHEBI:17797	CompoundTerm	D-ribose 5-phosphate
+-3256	CHEBI:17797	LIGAND	C00117
+-3256	CHEBI:52742	CAS	4300-28-1
+-3256	CHEBI:52742	CompoundSynonym	D-Ribose 5-phosphate
+-3256	CHEBI:52742	LIGAND	C00117
+-3256	CHEBI:58273	CompoundSynonym	D-ribose 5-phosphate
+-3280	CHEBI:15554	CAS	42935-17-1
+-3280	CHEBI:15554	LIGAND	C00427
+-32811	CHEBI:16656	CAS	532-24-1
+-32811	CHEBI:16656	CompoundSynonym	Tropinone
+-32811	CHEBI:16656	CompoundTerm	tropinone
+-32811	CHEBI:16656	LIGAND	C00783
+-3298	CHEBI:17232	CompoundSynonym	L-Glutamate gamma-semialdehyde
+-3298	CHEBI:17232	LIGAND	C01165
+-33661	CHEBI:17049	CompoundSynonym	6-(alpha-D-glucosaminyl)-1-phosphatidyl-1D-myo-inositol
+-33661	CHEBI:17049	CompoundTerm	6-(alpha-D-glucosaminyl)-1-phosphatidyl-1D-myo-inositol
+-33661	CHEBI:17049	LIGAND	C04248
+-33668	CHEBI:12194	LIGAND	C01288
+-33668	CHEBI:15935	LIGAND	C01288
+-33709	CHEBI:17999	CompoundSynonym	Protein dithiol
+-33709	CHEBI:17999	CompoundTerm	protein dithiol
+-33709	CHEBI:17999	LIGAND	C02315
+-33765	CHEBI:17303	CAS	57-27-2
+-33765	CHEBI:17303	CompoundSynonym	Morphine
+-33765	CHEBI:17303	CompoundTerm	morphine
+-33765	CHEBI:17303	LIGAND	C01516
+-33775	CHEBI:16714	CAS	76-57-3
+-33775	CHEBI:16714	CompoundSynonym	codeine
+-33775	CHEBI:16714	CompoundSynonym	Codeine
+-33775	CHEBI:16714	CompoundTerm	codeine
+-33775	CHEBI:16714	LIGAND	C06174
+-33822	CHEBI:51985	CompoundSynonym	alpha-Linolenoyl-CoA
+-33822	CHEBI:51985	CompoundTerm	alpha-linolenoyl-CoA
+-33822	CHEBI:51985	LIGAND	C16162
+-33986	CHEBI:63837	CompoundSynonym	pregn-5-ene-3,20-dione
+-33986	CHEBI:63837	CompoundTerm	pregn-5-ene-3,20-dione
+-34008	CHEBI:63843	CompoundSynonym	pregn-5-ene-3,20-dione-17-ol
+-34022	CHEBI:63906	CompoundSynonym	cholest-5-en-3-one
+-34022	CHEBI:63906	CompoundTerm	cholest-5-en-3-one
+-34117	CHEBI:15645	CompoundSynonym	(6S)-hydroxyhyoscyamine
+-34117	CHEBI:15645	CompoundSynonym	(6S)-Hydroxyhyoscyamine
+-34117	CHEBI:15645	LIGAND	C03325
+-3415	CHEBI:29112	LIGAND	C01302
+-3421	CHEBI:18277	LIGAND	C04302
+-3421	CHEBI:7091	LIGAND	C04302
+-34252	CHEBI:32392	CompoundSynonym	(15Z)-tetracosenoate
+-34257	CHEBI:74142	CompoundSynonym	(Z)-15-tetracosenoyl-CoA
+-34300	CHEBI:16315	CompoundSynonym	Morphinone
+-34300	CHEBI:16315	CompoundTerm	morphinone
+-34300	CHEBI:16315	LIGAND	C01735
+-34392	CHEBI:46734	CompoundSynonym	(1E,4S,5E,7R)-germacra-1(10),5-dien-11-ol
+-34410	CHEBI:15582	CompoundSynonym	(2R,3S)-2,3-dimethylmalate
+-34410	CHEBI:15582	CompoundSynonym	(2R,3S)-2,3-Dimethylmalate
+-34410	CHEBI:15582	LIGAND	C03652
+-34410	CHEBI:57422	CompoundSynonym	(2R,3S)-2,3-dimethylmalate
+-34496	CHEBI:71335	LIGAND	C16187
+-34823	CHEBI:52144	LIGAND	C15580
+-34923	CHEBI:15726	CompoundSynonym	1-Acyl-2-linoleoyl-sn-glycero-3-phosphocholine
+-34923	CHEBI:15726	CompoundTerm	1-acyl-2-linoleoyl-sn-glycero-3-phosphocholine
+-34923	CHEBI:15726	LIGAND	C04636
+-34938	CHEBI:16999	LIGAND	C04792
+-34945	CHEBI:17848	CompoundSynonym	1-Acyl-2-oleoyl-sn-glycero-3-phosphocholine
+-34945	CHEBI:17848	CompoundTerm	1-acyl-2-oleoyl-sn-glycero-3-phosphocholine
+-34945	CHEBI:17848	LIGAND	C01282
+-34945	CHEBI:58293	CompoundSynonym	1-acyl-2-oleoyl-sn-glycero-3-phosphocholine
+-34945	CHEBI:58293	LIGAND	C01282
+-34965	CHEBI:17188	CompoundSynonym	nucleoside monophosphate
+-34965	CHEBI:17188	CompoundSynonym	Nucleoside monophosphate
+-34965	CHEBI:17188	CompoundTerm	nucleoside monophosphate
+-34965	CHEBI:29075	LIGAND	C02171
+-35172	CHEBI:31116	LIGAND	C13425
+-35252	CHEBI:28936	LIGAND	C05973
+-35425	CHEBI:33855	LIGAND	C00193
+-36223	CHEBI:29510	CompoundSynonym	abieta-7,13-dien-18-ol
+-36223	CHEBI:29510	LIGAND	C11882
+-36952	CHEBI:29145	CompoundSynonym	2,6-Diamino-4-hydroxy-5-formamidopyrimidine
+-37525	CHEBI:55455	LIGAND	C16312
+-37547	CHEBI:18293	CAS	484-20-8
+-37547	CHEBI:18293	CompoundSynonym	bergapten
+-37547	CHEBI:18293	CompoundSynonym	Bergapten
+-37547	CHEBI:18293	LIGAND	C01557
+-37591	CHEBI:6357	CompoundSynonym	Lactucaxanthin
+-37591	CHEBI:6357	CompoundTerm	lactucaxanthin
+-37591	CHEBI:6357	LIGAND	C08599
+-37603	CHEBI:31121	CompoundSynonym	Monodemalonylsalvianin
+-37603	CHEBI:31121	LIGAND	C12641
+-37648	CHEBI:17226	CompoundTerm	rosmarinic acid
+-37648	CHEBI:50371	CAS	537-15-5
+-37648	CHEBI:50371	CompoundSynonym	Rosmarinic acid
+-37648	CHEBI:50371	LIGAND	C01850
+-37648	CHEBI:50372	LIGAND	C01850
+-37667	CHEBI:31969	LIGAND	C12645
+-37680	CHEBI:31968	LIGAND	C12644
+-37818	CHEBI:17391	CompoundSynonym	5-O-(Indol-3-ylacetyl-myo-inositol) D-galactoside
+-37818	CHEBI:17391	LIGAND	C04695
+-37960	CHEBI:17548	CAS	9005-32-7
+-37960	CHEBI:17548	CompoundSynonym	Alginate
+-37960	CHEBI:17548	LIGAND	C01768
+-37960	CHEBI:58187	CompoundSynonym	alginate
+-37960	CHEBI:58187	CompoundTerm	alginate
+-38044	CHEBI:31788	CompoundSynonym	Luteolin 7-O-neohesperidoside
+-38044	CHEBI:31788	CompoundTerm	luteolin 7-O-neohesperidoside
+-38044	CHEBI:31788	LIGAND	C12630
+-38062	CHEBI:16559	CompoundSynonym	Luteolin 7-O-beta-D-diglucuronide
+-38062	CHEBI:16559	LIGAND	C12632
+-38086	CHEBI:18128	LIGAND	C03515
+-38119	CHEBI:15932	CAS	26544-34-3
+-38119	CHEBI:15932	LIGAND	C04858
+-38270	CHEBI:9209	CompoundSynonym	soyasapogenol B
+-38270	CHEBI:9209	CompoundTerm	soyasapogenol B
+-38270	CHEBI:9209	LIGAND	C08980
+-38275	CHEBI:62444	CompoundSynonym	soyasapogenol E
+-38275	CHEBI:62444	CompoundTerm	soyasapogenol E
+-38344	CHEBI:66470	CompoundTerm	(+)-sesamin
+-38946	CHEBI:69579	CompoundTerm	hederagenin
+-38	CHEBI:16290	CompoundSynonym	5alpha-cholesta-7,24-dien-3beta-ol
+-38	CHEBI:16290	CompoundSynonym	5alpha-Cholesta-7,24-dien-3beta-ol
+-38	CHEBI:16290	CompoundTerm	5alpha-cholesta-7,24-dien-3beta-ol
+-38	CHEBI:16290	LIGAND	C05439
+-39057	CHEBI:63862	LIGAND	C16524
+-39071	CHEBI:67247	CompoundSynonym	(+)-secoisolariciresinol
+-39071	CHEBI:67247	CompoundTerm	(+)-secoisolariciresinol
+-39188	CHEBI:52482	CompoundTerm	levopimaradienol
+-39199	CHEBI:52486	CompoundTerm	dehydroabietadienol
+-39264	CHEBI:6039	CompoundSynonym	Isopimaric acid
+-39264	CHEBI:6039	CompoundTerm	isopimaric acid
+-39264	CHEBI:6039	LIGAND	C09118
+-39371	CHEBI:28313	CompoundSynonym	Nornicotine
+-39371	CHEBI:28313	CompoundTerm	nornicotine
+-39415	CHEBI:51078	CompoundTerm	13-sophorosyloxydocosanoate 6',6''-diacetate
+-39479	CHEBI:28957	LIGAND	C07093
+-39715	CHEBI:62890	CompoundSynonym	2-(2-carboxy-4-methylthiazol-5-yl)ethyl phosphate
+-39715	CHEBI:62912	CompoundTerm	2-(2-carboxy-4-methylthiazol-5-yl)ethyl phosphate
+-39737	CHEBI:30305	CompoundSynonym	N-Methylanthraniloyl-CoA
+-39737	CHEBI:30305	CompoundTerm	N-methylanthraniloyl-CoA
+-39737	CHEBI:30305	LIGAND	C12092
+-39737	CHEBI:58630	CompoundSynonym	N-methylanthraniloyl-CoA
+-39815	CHEBI:67227	CompoundSynonym	beta-carotene 15,15' epoxide
+-39822	CHEBI:67228	CompoundSynonym	15,15'-dihydroxy-beta-carotene
+-39822	CHEBI:67228	CompoundTerm	15,15'-dihydroxy-beta-carotene
+-39863	CHEBI:31018	CompoundSynonym	gallocatechin
+-39863	CHEBI:31018	LIGAND	C12127
+-39863	CHEBI:68330	CompoundTerm	gallocatechin
+-4016	CHEBI:27951	CompoundSynonym	2-Oxo-3-hydroxy-4-phosphobutanoate
+-4016	CHEBI:27951	LIGAND	C06054
+-40216	CHEBI:52402	CompoundSynonym	2,5-diamino-6-(5-phospho-D-ribitylamino)pyrimidin-4(3H)-one
+-40429	CHEBI:19274	CompoundTerm	2'-deoxymugineic acid
+-40692	CHEBI:17106	LIGAND	C03968
+-40702	CHEBI:18244	CompoundSynonym	1-alkyl-sn-glycero-3-phosphoethanolamine
+-40702	CHEBI:18244	CompoundTerm	1-alkyl-sn-glycero-3-phosphoethanolamine
+-40702	CHEBI:18244	LIGAND	C04476
+-40778	CHEBI:63410	CompoundSynonym	all-trans-retinyl ester
+-40778	CHEBI:63410	CompoundTerm	all-trans-retinyl ester
+-40778	CHEBI:63410	LIGAND	C02075
+-40821	CHEBI:17950	LIGAND	C01290
+-40890	CHEBI:15443	CAS	9005-80-5
+-40890	CHEBI:15443	CompoundSynonym	Inulin
+-40890	CHEBI:15443	CompoundTerm	inulin
+-40890	CHEBI:15443	LIGAND	C03323
+-40914	CHEBI:18174	LIGAND	C04074
+-40927	CHEBI:28751	LIGAND	C05376
+-40974	CHEBI:50699	CompoundSynonym	Oligosaccharide
+-40974	CHEBI:50699	CompoundTerm	oligosaccharide
+-41002	CHEBI:18154	CompoundSynonym	polysaccharide
+-41002	CHEBI:18154	CompoundSynonym	Polysaccharide
+-41002	CHEBI:18154	CompoundTerm	polysaccharide
+-41002	CHEBI:18154	LIGAND	C00420
+-41107	CHEBI:17129	CAS	6451-73-6
+-41107	CHEBI:17129	CompoundSynonym	(S)-scoulerine
+-41107	CHEBI:17129	CompoundSynonym	(S)-Scoulerine
+-41107	CHEBI:17129	CompoundTerm	(S)-scoulerine
+-41107	CHEBI:17129	LIGAND	C02106
+-41168	CHEBI:50934	CompoundSynonym	DELTA8-phytosphingenine
+-41192	CHEBI:28528	CompoundSynonym	3-Oxodecanoyl-CoA
+-41192	CHEBI:28528	CompoundTerm	3-oxodecanoyl-CoA
+-41192	CHEBI:28528	LIGAND	C05265
+-41192	CHEBI:62548	CompoundSynonym	3-oxodecanoyl-CoA
+-4146	CHEBI:17601	CompoundSynonym	6,7-dimethyl-8-(1-D-ribityl)lumazine
+-4146	CHEBI:17601	CompoundSynonym	6,7-Dimethyl-8-(1-D-ribityl)lumazine
+-4146	CHEBI:17601	CompoundTerm	6,7-dimethyl-8-(1-D-ribityl)lumazine
+-4146	CHEBI:17601	LIGAND	C04332
+-4146	CHEBI:58201	CompoundSynonym	6,7-dimethyl-8-(1-D-ribityl)lumazine
+-4170	CHEBI:17015	CAS	83-88-5
+-4170	CHEBI:17015	CompoundSynonym	riboflavin
+-4170	CHEBI:17015	CompoundSynonym	Riboflavin
+-4170	CHEBI:17015	CompoundTerm	riboflavin
+-4170	CHEBI:17015	LIGAND	C00255
+-4170	CHEBI:57986	CompoundSynonym	riboflavin
+-42196	CHEBI:16329	CompoundSynonym	UDP-N-acetylmuramoyl-L-alanyl-gamma-D-glutamyl-L-lysine
+-42196	CHEBI:28289	LIGAND	C04700
+-42196	CHEBI:9837	LIGAND	C04700
+-42269	CHEBI:18052	CompoundTerm	loganate
+-42269	CHEBI:18052	LIGAND	C01512
+-42269	CHEBI:30632	CAS	22255-40-9
+-42269	CHEBI:30632	LIGAND	C01512
+-4255	CHEBI:15473	CompoundSynonym	Crotonyl-CoA
+-4255	CHEBI:15473	LIGAND	C00877
+-4255	CHEBI:36926	LIGAND	C00877
+-42945	CHEBI:27706	CAS	503-07-1
+-42945	CHEBI:27706	LIGAND	C08368
+-43012	CHEBI:2082	CompoundSynonym	5-hydroxy-8-methoxypsoralen
+-43014	CHEBI:18358	CompoundSynonym	8-methoxypsoralen
+-43184	CHEBI:64988	CompoundSynonym	indole-3-acetonitrile-cysteine conjugate
+-43207	CHEBI:65022	CompoundSynonym	indole-3-acetonitrile-gamma-glutamylcysteine conjugate
+-43221	CHEBI:59410	CompoundSynonym	3-epi-6-deoxocathasterone
+-43221	CHEBI:59410	CompoundSynonym	3-epi-6-Deoxocathasterone
+-43221	CHEBI:59410	CompoundTerm	3-epi-6-deoxocathasterone
+-43733	CHEBI:35785	CompoundSynonym	sphingoid base
+-44082	CHEBI:15476	CompoundSynonym	2-Methylacetoacetyl-CoA
+-44082	CHEBI:15476	CompoundTerm	2-methylacetoacetyl-CoA
+-44082	CHEBI:15476	LIGAND	C03344
+-44297	CHEBI:47914	CompoundSynonym	S-Prenyl-L-cysteine
+-44297	CHEBI:47914	CompoundTerm	S-prenyl-L-cysteine
+-44297	CHEBI:47914	LIGAND	C06751
+-44624	CHEBI:17791	CompoundSynonym	Obtusifoliol
+-44624	CHEBI:17791	CompoundTerm	obtusifoliol
+-44624	CHEBI:17791	LIGAND	C01943
+-44649	CHEBI:16957	CompoundSynonym	Desacetoxyvindoline
+-44649	CHEBI:16957	LIGAND	C02673
+-44657	CHEBI:18362	CompoundSynonym	17-O-deacetylvindoline
+-44657	CHEBI:18362	CompoundSynonym	17-O-Deacetylvindoline
+-44657	CHEBI:18362	CompoundTerm	17-O-deacetylvindoline
+-44657	CHEBI:18362	LIGAND	C01091
+-44657	CHEBI:58461	CompoundSynonym	17-O-deacetylvindoline
+-4517	CHEBI:15763	CompoundSynonym	beta-Nicotinate D-ribonucleotide
+-4517	CHEBI:15763	LIGAND	C01185
+-45377	CHEBI:48007	CompoundSynonym	Dehydrospermidine
+-45419	CHEBI:67139	CompoundSynonym	(4S)-4-hydroxy-2,3,4,5-tetrahydro-(2S)-dipicolinate
+-45442	CHEBI:15481	LIGAND	C04047
+-45521	CHEBI:16480	CAS	10102-43-9
+-45521	CHEBI:16480	CompoundSynonym	Nitric oxide
+-45521	CHEBI:16480	CompoundTerm	nitric oxide
+-45521	CHEBI:16480	LIGAND	C00533
+-45811	CHEBI:17761	CompoundSynonym	Ceramide
+-45811	CHEBI:17761	CompoundTerm	ceramide
+-45811	CHEBI:17761	LIGAND	C00195
+-45811	CHEBI:52639	CompoundSynonym	ceramide
+-45811	CHEBI:52639	LIGAND	C00195
+-46435	CHEBI:15453	CompoundSynonym	(S)-3-Hydroxybutanoyl-CoA
+-46435	CHEBI:15453	CompoundTerm	(S)-3-hydroxybutanoyl-CoA
+-46435	CHEBI:15453	LIGAND	C01144
+-46501	CHEBI:73500	CompoundSynonym	3-(4-hydroxyphenyl)-3-hydroxy-propionyl-CoA
+-46519	CHEBI:68471	CompoundSynonym	2,3-dehydroadipyl-CoA
+-46924	CHEBI:18154	CompoundSynonym	Glycan
+-47816	CHEBI:17594	CompoundSynonym	Quinol
+-47994	CHEBI:74027	CompoundTerm	3-dimethylsulfoniopropionaldehyde
+-4859	CHEBI:18367	CAS	14265-44-2
+-4859	CHEBI:18367	CompoundSynonym	phosphate
+-4859	CHEBI:18367	CompoundSynonym	Phosphate
+-4859	CHEBI:18367	LIGAND	C00009
+-4859	CHEBI:26020	CompoundTerm	phosphate
+-4859	CHEBI:26078	LIGAND	C00009
+-4859	CHEBI:35780	CompoundSynonym	phosphate
+-4859	CHEBI:43474	CompoundSynonym	phosphate
+-4896	CHEBI:16110	CAS	8002-43-5
+-4896	CHEBI:16110	CompoundSynonym	Phosphatidylcholine
+-4896	CHEBI:16110	LIGAND	C00157
+-4896	CHEBI:49183	CAS	8002-43-5
+-4896	CHEBI:49183	CompoundTerm	phosphatidylcholine
+-4896	CHEBI:49183	LIGAND	C00157
+-49301	CHEBI:18230	CompoundSynonym	Chlorophyll
+-49301	CHEBI:28966	CAS	1406-65-1
+-49301	CHEBI:28966	CompoundSynonym	chlorophyll
+-49301	CHEBI:28966	CompoundSynonym	Chlorophyll
+-49301	CHEBI:28966	CompoundTerm	chlorophyll
+-49301	CHEBI:28966	LIGAND	C01793
+-49457	CHEBI:18246	CompoundSynonym	Cellulose
+-49457	CHEBI:18246	LIGAND	C00760
+-49474	CHEBI:33308	CompoundSynonym	carboxylic ester
+-49474	CHEBI:33308	CompoundSynonym	Carboxylic ester
+-49474	CHEBI:33308	CompoundTerm	carboxylic ester
+-49474	CHEBI:33308	LIGAND	C02391
+-49926	CHEBI:73200	CompoundSynonym	Phosphoribosyl-ATP
+-49926	CHEBI:73200	LIGAND	C02739
+-49998	CHEBI:15859	CompoundSynonym	N-Carbamoyl-L-aspartate
+-49998	CHEBI:15859	CompoundSynonym	N-CARBAMOYL-L-ASPARTATE
+-49998	CHEBI:15859	LIGAND	C00438
+-49998	CHEBI:32814	CompoundSynonym	N-carbamoyl-L-aspartate
+-50143	CHEBI:15682	LIGAND	C03406
+-50431	CHEBI:28349	CompoundSynonym	alpha-L-Fucoside
+-50431	CHEBI:28349	CompoundTerm	alpha-L-fucoside
+-50431	CHEBI:28349	LIGAND	C02475
+-50493	CHEBI:27706	LIGAND	C08368
+-50497	CHEBI:28133	CompoundSynonym	S-alkyl-L-cysteine S-oxide
+-50497	CHEBI:28133	CompoundSynonym	S-Alkyl-L-cysteine S-oxide
+-50497	CHEBI:28133	CompoundTerm	S-alkyl-L-cysteine S-oxide
+-50497	CHEBI:28133	LIGAND	C03726
+-50840	CHEBI:35239	CompoundSynonym	ADP-sugar
+-50840	CHEBI:35239	CompoundTerm	ADP-sugar
+-50906	CHEBI:18381	LIGAND	C04734
+-51052	CHEBI:15919	LIGAND	C03794
+-51114	CHEBI:15873	LIGAND	C00352
+-51114	CHEBI:20995	CAS	3616-42-0
+-51114	CHEBI:20995	CompoundSynonym	D-glucosamine-6-phosphate
+-51363	CHEBI:18349	LIGAND	C03838
+-51442	CHEBI:15705	LIGAND	C00151
+-51607	CHEBI:61562	CompoundSynonym	dTDP-4-acetamido-4,6-dideoxy-D-galactose
+-51607	CHEBI:61661	CompoundTerm	dTDP-4-acetamido-4,6-dideoxy-D-galactose
+-51607	CHEBI:68677	LIGAND	C06018
+-51706	CHEBI:17006	LIGAND	C04922
+-51706	CHEBI:17292	CompoundSynonym	lactotetraosylceramide
+-51706	CHEBI:22788	LIGAND	C04922
+-51882	CHEBI:18272	LIGAND	C04376
+-52093	CHEBI:27773	CompoundSynonym	cis-3-Enoyl-CoA
+-52093	CHEBI:27773	CompoundTerm	cis-3-enoyl-CoA
+-52093	CHEBI:27773	LIGAND	C05057
+-52111	CHEBI:13643	CompoundTerm	glycol
+-52111	CHEBI:30742	CompoundSynonym	Glycol
+-52116	CHEBI:32955	CompoundSynonym	Epoxide
+-52116	CHEBI:32955	CompoundTerm	epoxide
+-52811	CHEBI:17460	CAS	940-69-2
+-52811	CHEBI:17460	CompoundSynonym	lipoamide
+-52811	CHEBI:17460	CompoundSynonym	Lipoamide
+-52811	CHEBI:17460	CompoundTerm	lipoamide
+-52811	CHEBI:17460	LIGAND	C00248
+-52993	CHEBI:17524	CompoundSynonym	N6-Alkylaminopurine
+-52993	CHEBI:17524	LIGAND	C02860
+-53104	CHEBI:62638	LIGAND	C06001
+-53315	CHEBI:14808	CompoundTerm	phospho-alpha-glucan
+-53386	CHEBI:53010	CompoundSynonym	Nucleoside 2'-phosphate
+-53386	CHEBI:53010	CompoundTerm	nucleoside 2'-phosphate
+-53386	CHEBI:53010	LIGAND	C03418
+-53838	CHEBI:17764	LIGAND	C11434
+-54456	CHEBI:17020	CompoundSynonym	Glucomannan
+-54456	CHEBI:17020	CompoundTerm	glucomannan
+-54749	CHEBI:16961	CompoundSynonym	Lysophospholipid
+-54763	CHEBI:16307	CompoundSynonym	Anthocyanidin-3-O-beta-D-glucoside
+-54778	CHEBI:16791	CompoundSynonym	Vinorine
+-54778	CHEBI:16791	CompoundTerm	vinorine
+-54778	CHEBI:16791	LIGAND	C11807
+-55016	CHEBI:16462	LIGAND	C02038
+-55036	CHEBI:18013	CompoundSynonym	O-Feruloylquinate
+-55036	CHEBI:18013	LIGAND	C02572
+-55073	CHEBI:27681	LIGAND	C06006
+-55073	CHEBI:49256	LIGAND	C06006
+-55262	CHEBI:16878	LIGAND	C04133
+-55273	CHEBI:27512	LIGAND	C06007
+-55273	CHEBI:49258	LIGAND	C06007
+-55510	CHEBI:18198	LIGAND	C11355
+-55510	CHEBI:35181	CompoundSynonym	4-Amino-4-deoxychorismate
+-55510	CHEBI:35181	LIGAND	C11355
+-55780	CHEBI:17187	CompoundSynonym	Pinene
+-55780	CHEBI:17187	CompoundTerm	pinene
+-55780	CHEBI:17187	LIGAND	C06077
+-55844	CHEBI:26558	CompoundTerm	ribonucleoside monophosphate
+-56110	CHEBI:28000	CompoundSynonym	N-Acetyl-beta-D-hexosaminide
+-56767	CHEBI:28034	CompoundSynonym	beta-D-Galactoside
+-56767	CHEBI:28034	CompoundTerm	beta-D-galactoside
+-56767	CHEBI:28034	LIGAND	C00602
+-5723	CHEBI:17517	LIGAND	C00344
+-58177	CHEBI:52221	CompoundTerm	isothiocyanate
+-6078	CHEBI:17962	CompoundTerm	CDP-diacylglycerol
+-6078	CHEBI:17962	LIGAND	C00269
+-60923	CHEBI:16996	CAS	25679-93-0
+-60923	CHEBI:16996	LIGAND	C01100
+-60951	CHEBI:16255	LIGAND	C00860
+-61075	CHEBI:24480	CompoundSynonym	heme O
+-61075	CHEBI:24480	CompoundTerm	heme o
+-61075	CHEBI:24480	LIGAND	C15672
+-61075	CHEBI:36301	CompoundSynonym	HEME O
+-61104	CHEBI:4195	CompoundSynonym	D-Hexose 6-phosphate
+-61104	CHEBI:4195	CompoundTerm	D-hexose 6-phosphate
+-61104	CHEBI:4195	LIGAND	C02965
+-61104	CHEBI:61567	CompoundSynonym	D-hexose 6-phosphate
+-61490	CHEBI:28741	CompoundSynonym	NaF
+-61924	CHEBI:17798	LIGAND	C03287
+-62231	CHEBI:55491	CompoundSynonym	glycerophosphodiester
+-62623	CHEBI:15694	CAS	25138-66-3
+-62623	CHEBI:15694	LIGAND	C03451
+-62660	CHEBI:45373	CompoundSynonym	Sulfanilamide
+-62660	CHEBI:45373	CompoundSynonym	SULFANILAMIDE
+-62660	CHEBI:45373	CompoundTerm	sulfanilamide
+-6294	CHEBI:16038	LIGAND	C00350
+-63066	CHEBI:21437	CompoundSynonym	Moco
+-63066	CHEBI:60525	CompoundSynonym	MoCo
+-63073	CHEBI:21437	CompoundSynonym	Moco
+-63073	CHEBI:60525	CompoundSynonym	MoCo
+-63103	CHEBI:29348	CompoundSynonym	Aliphatic amide
+-63103	CHEBI:29348	LIGAND	C02244
+-63103	CHEBI:65285	CompoundTerm	aliphatic amide
+-63103	CHEBI:65285	LIGAND	C02244
+-63121	CHEBI:17972	CompoundSynonym	ribonucleoside triphosphate
+-63121	CHEBI:17972	CompoundSynonym	Ribonucleoside triphosphate
+-63121	CHEBI:17972	CompoundTerm	ribonucleoside triphosphate
+-63121	CHEBI:17972	LIGAND	C03802
+-63228	CHEBI:36319	CompoundSynonym	dipyrromethane
+-63228	CHEBI:36319	CompoundTerm	dipyrromethane
+-63277	CHEBI:15842	CAS	2149-82-8
+-63277	CHEBI:15842	LIGAND	C01103
+-6387	CHEBI:28749	CompoundSynonym	aryl beta-D-glucoside
+-6387	CHEBI:28749	CompoundSynonym	Aryl beta-D-glucoside
+-6387	CHEBI:28749	CompoundTerm	aryl beta-D-glucoside
+-6387	CHEBI:28749	LIGAND	C03097
+-6398	CHEBI:37393	LIGAND	C03892
+-63	CHEBI:27910	CompoundSynonym	7-dehydrodesmosterol
+-63	CHEBI:27910	CompoundSynonym	7-Dehydrodesmosterol
+-63	CHEBI:27910	CompoundTerm	7-dehydrodesmosterol
+-63	CHEBI:27910	LIGAND	C05107
+-64281	CHEBI:18398	CompoundSynonym	Maltodextrin
+-64281	CHEBI:18398	LIGAND	C01935
+-64281	CHEBI:25140	CompoundTerm	maltodextrin
+-64418	CHEBI:27754	CAS	6008-91-9
+-64418	CHEBI:27754	CompoundSynonym	Methylacrylyl-CoA
+-64418	CHEBI:27754	LIGAND	C03460
+-64590	CHEBI:16160	CAS	1492-23-5
+-64590	CHEBI:16160	CompoundSynonym	O-succinyl-L-homoserine
+-64590	CHEBI:16160	CompoundSynonym	O-Succinyl-L-homoserine
+-64590	CHEBI:16160	CompoundTerm	O-succinyl-L-homoserine
+-64590	CHEBI:16160	LIGAND	C01118
+-6461	CHEBI:7507	CompoundSynonym	Neomycin
+-6461	CHEBI:7507	CompoundTerm	neomycin
+-6466	CHEBI:7507	CompoundSynonym	Neomycin
+-6466	CHEBI:7507	CompoundTerm	neomycin
+-6525	CHEBI:18348	CompoundSynonym	1-Phosphatidyl-1D-myo-inositol 4,5-bisphosphate
+-6525	CHEBI:18348	CompoundTerm	1-phosphatidyl-1D-myo-inositol 4,5-bisphosphate
+-6525	CHEBI:18348	LIGAND	C04637
+-6525	CHEBI:58456	CompoundSynonym	1-phosphatidyl-1D-myo-inositol 4,5-bisphosphate
+-6744	CHEBI:23051	CompoundTerm	castasterone
+-6762	CHEBI:28277	CompoundSynonym	Brassinolide
+-6762	CHEBI:28277	CompoundTerm	brassinolide
+-6762	CHEBI:28277	LIGAND	C08814
+-6948	CHEBI:16851	CompoundSynonym	1-phosphatidyl-1D-myo-inositol 3,5-bisphosphate
+-6948	CHEBI:16851	CompoundSynonym	1-Phosphatidyl-1D-myo-inositol 3,5-bisphosphate
+-6948	CHEBI:16851	CompoundTerm	1-phosphatidyl-1D-myo-inositol 3,5-bisphosphate
+-6948	CHEBI:16851	LIGAND	C11556
+-7253	CHEBI:20710	CompoundSynonym	3-dehydro-6-deoxoteasterone
+-7253	CHEBI:20710	CompoundTerm	3-dehydro-6-deoxoteasterone
+-7253	CHEBI:20710	LIGAND	C15800
+-7595	CHEBI:15518	CompoundSynonym	Caffeoyl-CoA
+-7595	CHEBI:15518	CompoundTerm	caffeoyl-CoA
+-7595	CHEBI:15518	LIGAND	C00323
+-7595	CHEBI:57372	CompoundSynonym	caffeoyl-CoA
+-7748	CHEBI:1670	LIGAND	C05100
+-8225	CHEBI:29604	CompoundSynonym	GA8-catabolite
+-8225	CHEBI:29604	LIGAND	C11870
+-86	CHEBI:17030	CAS	469-38-5
+-86	CHEBI:17030	CompoundSynonym	Cycloartenol
+-86	CHEBI:17030	CompoundTerm	cycloartenol
+-86	CHEBI:17030	LIGAND	C01902
+-9090	CHEBI:18292	LIGAND	C08491
+-9110	CHEBI:18292	CompoundSynonym	Jasmonic acid
+-9110	CHEBI:18292	CompoundTerm	jasmonic acid
+-9115	CHEBI:74299	CompoundSynonym	(E,E)-geranyllinalool
+-9355	CHEBI:61051	CompoundTerm	lipid hydroperoxide
+-9409	CHEBI:60835	CompoundTerm	leucoanthocyanidin
+-9409	CHEBI:71216	CompoundSynonym	leucoanthocyanidin
+-9419	CHEBI:26267	CompoundTerm	proanthocyanidin
+-9812	CHEBI:28066	CAS	554-91-6
+-9812	CHEBI:28066	LIGAND	C08240
+-9858	CHEBI:15929	CompoundSynonym	Methyl jasmonate

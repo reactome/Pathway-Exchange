@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!-- ====================================================================== 
+     Jul 5, 2005 2:08:55 PM                                                        
+
+     project    output Reactome in the GSEA file format
+                   
+     guanming                                                                
+     ====================================================================== -->
+<project name="deployAsApplication" default="jar" >
+	<property name="destDir" value="../../WebELVTool" />
+	
+	<target name="jar">
+		<jar destfile="${destDir}/BioSystems.jar">
+			<fileset dir="../classes">
+				<include name="org/gk/biosystems/*.class" />
+				<include name="org/reactome/convert/common/*.class" />
+			</fileset>
+		</jar>
+	</target>
+
+</project>
+

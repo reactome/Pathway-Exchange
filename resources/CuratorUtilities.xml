@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<utility_settings>
+	<!-- db_connection_info host="reactomecurator.oicr.on.ca" port="3306" name="gk_central" user="" pwd=""/-->
+	<!-- db_connection_info host="floret.cgrb.oregonstate.edu" port="3306" name="gk_central_aracyc8_removed" user="reactome_aracyc" pwd="r3actom3_aracyc"/-->
+	<data_file path="/home/preecej/Documents/projects/plant_reactome/aracyc_to_reactome_conversion/aracyc_data/aracyc_v11/" name="aracyc_v11_biopax-level2.rtpj.4.chebi-lessRefMolsReplaced"/>
+	<target_taxa>
+		<!-->species>Oryza sativa</species>
+		<species>Oryza sativa subsp. japonica</species-->
+		<species>Arabidopsis thaliana</species>
+	</target_taxa>
+	<!--designated_species>Oryza sativa</designated_species-->
+	<designated_species>Arabidopsis thaliana</designated_species>
+	<!--target_database_objects>
+		<target_database_object id="1158975"/>
+		<target_database_object id="1161095"/>
+	</target_database_objects-->
+	<!-- target_instance_edit id="1428497"/--> 	<!-- AraCyc 8 from 7/7/11 (NOTE: ArabidopsisReactome.org human projections from 9/12/11 left alone) -->
+	<editor person_id="1385632"/>
+	<!--mapping_file path="/home/preecej/Documents/projects/plant_reactome/data_utilities/UniProt_edits/Testing/1796_Pathways_LOC_to_Uniprot_Japonica_All.txt"/-->
+	<!--mapping_file path="/home/preecej/Documents/projects/plant_reactome/data_utilities/UniProt_edits/aracyc_10/Arabidopsis_AraCyc_Uniprot_1to1_mappings_PD.txt"/-->
+	<!--mapping_file path="/home/preecej/Documents/projects/plant_reactome/data_utilities/UniProt_edits/aracyc_10/sample.txt"/-->
+</utility_settings>
