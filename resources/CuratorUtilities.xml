@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <utility_settings>
 	<!-- db_connection_info host="reactomecurator.oicr.on.ca" port="3306" name="gk_central" user="" pwd=""/-->
-	<!-- db_connection_info host="floret.cgrb.oregonstate.edu" port="3306" name="gk_central_aracyc8_removed" user="reactome_aracyc" pwd="r3actom3_aracyc"/-->
-	<data_file path="/home/preecej/Documents/projects/plant_reactome/aracyc_to_reactome_conversion/aracyc_data/aracyc_v11/" name="aracyc_v11_biopax-level2.rtpj.4.chebi-lessRefMolsReplaced"/>
+	<db_connection_info host="floret.cgrb.oregonstate.edu" port="3306" name="test_slice_oryza_sativa_07_ortho_osat_all" user="react-app-user" pwd="react-app-user_pw"/>
+	<!--data_file path="/home/preecej/Documents/projects/plant_reactome/aracyc_to_reactome_conversion/aracyc_data/aracyc_v11/" name="aracyc_v11_biopax-level2.rtpj.4.chebi-lessRefMolsReplaced"/-->
 	<target_taxa>
 		<!-->species>Oryza sativa</species>
 		<species>Oryza sativa subsp. japonica</species-->
