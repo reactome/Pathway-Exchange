@@ -1087,13 +1087,177 @@ public class CuratorUtilities
         }
     }
 
+    private void grameneSolrExporter() throws Exception {
+    	int count = 0;
+    	StringBuilder sb = new StringBuilder(); 
+    	String pathwayEntry = "";
+    	String reactionEntry = "";
+    	String catalystEntry = "";
+    	String reactantEntry = "";
+    	
+    	// header
+        System.out.println("id\tsearch_type\tplant_reactome_pathway_id\tplant_reactome_class\tobject_id\tobject_visual_id\ttaxon\tspecies\tplant_reactome_species_id\tname\tdescription\tcontent");
+
+        // set defaults
+        String curSpeciesName = "";
+        String curTaxonID = ""; // NCBI
+        String curDescription = "";
+        
+        // get pathways
+        Collection<?> pathways = dbAdaptor.fetchInstancesByClass(ReactomeJavaConstants.Pathway);
+        for (Iterator<?> itP = pathways.iterator(); itP.hasNext();) {
+            GKInstance curP = (GKInstance) itP.next();
+            count++;
+            Long curPathwayID = curP.getDBID();
+            String curPathwayName = curP.getDisplayName();
+            Long curObjectID = curPathwayID;
+            String curObjectName = curP.getDisplayName();
+            
+            GKInstance curSpecies = (GKInstance)curP.getAttributeValue(ReactomeJavaConstants.species);
+            curSpeciesName = curSpecies.getDisplayName();
+            // NOTE: had to modify sliced db to make sure projected Species and DatabaseIdentifier exists in db and was assigned;
+            // It may be better to hard-code those NCBI ids (or provide a config listing) in the future to avoid this problem.
+            curTaxonID = ((GKInstance)((List<GKInstance>)curSpecies
+            		.getAttributeValuesList(ReactomeJavaConstants.crossReference)).get(0))
+            		.getAttributeValue(ReactomeJavaConstants.identifier).toString();
+			GKInstance curGoPB = (GKInstance)curP.getAttributeValue(ReactomeJavaConstants.goBiologicalProcess);
+			List<GKInstance> curLitRefs = (List<GKInstance>)curP.getAttributeValuesList(ReactomeJavaConstants.literatureReference);
+
+            /*
+             * NOT NEEDED FOR NOW... (it's almost all projection statements)
+            try {
+            	curDescription = ((GKInstance)((List<GKInstance>)curP
+            		.getAttributeValuesList(ReactomeJavaConstants.summation)).get(0))
+            		.getAttributeValue(ReactomeJavaConstants.text).toString();
+            } catch (Exception e) {}
+        	*/	
+            pathwayEntry = 
+        		curSpeciesName.toLowerCase().replace(' ', '_') + "-pathway-" + curObjectName.replace(' ', '_') + "\t" // Solr identifier
+            		+ "pathway_browser\t" // search_type
+    				+ curPathwayID.toString() + "\t" // plant_reactome_pathway_id
+    				+ curPathwayName + "\t" // pathway_name
+    				+ curP.getSchemClass().getName() + "\t" // plant_reactome_class
+    				+ curObjectID.toString() + "\t" // object_id
+    				+ curTaxonID + "\t" // taxon
+    				+ curSpeciesName + "\t" // species
+    				+ curSpecies.getDBID().toString() + "\t" // plant_reactome_species_ids
+    				+ curObjectName + "\t" // name
+    				+ curDescription + "\t"; // description
+    				// content field (all other human-readable and desired searchable attributes (GO bio process, litRefs, compartment, other names, basket of RGP ids), space-delimited)...
+	    				if (curGoPB != null)
+	    					pathwayEntry += curGoPB.getDisplayName() + " "
+								+ curGoPB.getAttributeValue(ReactomeJavaConstants.accession) + " ";
+	    				if (curLitRefs != null)
+	    					for (GKInstance litRef : curLitRefs)
+	    						pathwayEntry += litRef.getDisplayName() + " ";
+        			pathwayEntry += "\n";
+			sb.append(pathwayEntry);
+			
+    		// get reactions
+            Collection<GKInstance> events = curP.getAttributeValuesList(ReactomeJavaConstants.hasEvent);
+            if (events != null) {
+            	// check to make sure this isn't a super-pathway; we don't want to generate sub-instance data (rxns, etc.) from those
+            	boolean hasParent = false;
+            	for (GKInstance curEvent : events) {
+            		// if the pathway has a child pathway, it's a superpathway
+            		if (curEvent.getSchemClass().getName().equals(ReactomeJavaConstants.Pathway)) {
+            			hasParent = true;
+            			break;
+            		}
+            	}
+            	if (hasParent) continue; // don't bother getting reactions, etc from a superpathway
+            	for (GKInstance curEvent : events) {
+                    if (curEvent.getSchemClass().getName().equals(ReactomeJavaConstants.Reaction)) {
+                        curObjectID = curEvent.getDBID();
+                        curObjectName = curEvent.getDisplayName();
+                        
+                        reactionEntry = 
+                        		curSpeciesName.toLowerCase().replace(' ', '_') + "-reaction-" + curObjectName.replace(' ', '_') + "\t" // Solr identifier
+                        		+ "pathway_browser\t" // search_type
+                				+ curPathwayID.toString() + "\t" // plant_reactome_pathway_id
+                				+ curPathwayName + "\t" // pathway_name
+                				+ curEvent.getSchemClass().getName() + "\t" // plant_reactome_class
+                				+ curObjectID.toString() + "\t" // object_id
+                				+ curTaxonID + "\t" // taxon
+                				+ curSpeciesName + "\t" // species
+                				+ curSpecies.getDBID().toString() + "\t" // plant_reactome_species_id
+                				+ curObjectName + "\t" // name
+                				+ curDescription + "\t" // description
+                				// + content (all other human-readable attributes) // content
+                				+ "\n";
+            			//sb.append(reactionEntry);
+
+                    	// get EWAS (via Catalystactivity.PhysicalEntity)
+	                    Collection<GKInstance> cas = curEvent.getAttributeValuesList(ReactomeJavaConstants.catalystActivity);
+	                    if (cas != null) {
+	                    	for (GKInstance curCA : cas) {
+	                            GKInstance pe = (GKInstance)curCA.getAttributeValue(ReactomeJavaConstants.physicalEntity);
+	                            if (pe != null) {
+	                                //System.out.println(pe.getAttributeValue(ReactomeJavaConstants.name) + "\t" + curPathwayID + "\t" + pe.getDBID());
+
+	                                curObjectID = pe.getDBID();
+	                                curObjectName = pe.getDisplayName();
+	                                
+	                                catalystEntry = 
+	                                		curSpeciesName.toLowerCase().replace(' ', '_') + "-catalyst-" + curObjectName.replace(' ', '_') + "\t" // Solr identifier
+	                                		+ "pathway_browser\t" // search_type
+	                        				+ curPathwayID.toString() + "\t" // plant_reactome_pathway_id
+	                        				+ curPathwayName + "\t" // pathway_name
+	                        				+ pe.getSchemClass().getName() + "\t" // plant_reactome_class
+	                        				+ curObjectID.toString() + "\t" // object_id
+	                        				+ curTaxonID + "\t" // taxon
+	                        				+ curSpeciesName + "\t" // species
+	                        				+ curSpecies.getDBID().toString() + "\t" // plant_reactome_species_id
+	                        				+ curObjectName + "\t" // name
+	                        				+ curDescription + "\t" // description
+	                        				// + content (all other human-readable attributes) // content
+	                        				+ "\n";
+	                    			//sb.append(catalystEntry);
+
+	                            }
+	                        }
+	                    }
+	                    // get SimpleEntities (or any and all Physical Entities acting as inputs and outputs)
+	                    Collection<GKInstance> inputs = curEvent.getAttributeValuesList(ReactomeJavaConstants.input);
+	                    Collection<GKInstance> outputs = curEvent.getAttributeValuesList(ReactomeJavaConstants.output);
+	                    Collection<GKInstance> SEs = inputs;
+	                    SEs.addAll(outputs);
+	                    if (SEs!= null) {
+		                    for (GKInstance entity : SEs) {
+	                                curObjectID = entity.getDBID();
+	                                curObjectName = entity.getDisplayName();
+
+	                                reactantEntry = 
+	                                		curSpeciesName.toLowerCase().replace(' ', '_') + "-reactant-" + curObjectName.replace(' ', '_') + "\t" // Solr identifier
+	                                		+ "pathway_browser\t" // search_type
+	                        				+ curPathwayID.toString() + "\t" // plant_reactome_pathway_id
+	                        				+ curPathwayName + "\t" // pathway_name
+	                        				+ entity.getSchemClass().getName() + "\t" // plant_reactome_class
+	                        				+ curObjectID.toString() + "\t" // object_id
+	                        				+ curTaxonID + "\t" // taxon
+	                        				+ curSpeciesName + "\t" // species
+	                        				+ curSpecies.getDBID().toString() + "\t" // plant_reactome_species_id
+	                        				+ curObjectName + "\t" // name
+	                        				+ curDescription + "\t" // description
+	                        				// + content (all other human-readable attributes) // content
+	                        				+ "\n";
+	                    			//sb.append(reactantEntry);
+		                    }
+	                    }
+                    }
+                }
+            }
+        }
+        System.out.println(sb.toString());
+    }
+    
     // generate a tab-del index list of Pathway, Reaction, EWAS, and SE names and IDs found in Pathway diagrams 
     // for the Gramene Solr search index
     private void dumpPathwayDiagramTermsForGrameneSearchIndex() throws Exception {
         // NOTE: assumes dbAdaptor b/c you want to use fetchInstancesByClass()
     	Integer count = 0;
     	String searchTerms = null;
-    	
+
     	// new approach: if pathway does not have at least one child pathway, then generate a row, otherwise: "next..."
     	
     	// special case for certain multi-level pathway ids (an inadvisable hack, btw)
@@ -1110,7 +1274,7 @@ public class CuratorUtilities
             count++;
             Long curPathwayID = curP.getDBID();
     	    Long curMultiLevelPathwayParent = null;
-    	    // check the parents	
+    	    // check the parents
     	    Collection<GKInstance> parentRefs = curP.getReferers(ReactomeJavaConstants.hasEvent);
             if (parentRefs != null) {
             	for (GKInstance ref : parentRefs) {
@@ -1223,7 +1387,7 @@ public class CuratorUtilities
 	        //run_utilities.testUpdate1();
 	        //run_utilities.testUpdate2(run_utilities.target_instances);
 	        //run_utilities.updateRGPsWithUniProtKBData();
-	        run_utilities.listRiceRGPs(true);
+	        //run_utilities.listRiceRGPs(true);
 	        //run_utilities.listAthRGPs();
 	        //run_utilities.deleteReactomeDataByInstanceEdit();
 	        //run_utilities.profileAthIsoforms();
@@ -1236,10 +1400,11 @@ public class CuratorUtilities
 	        //run_utilities.profileDupeSEs();
 	        //run_utilities.compareRefMols();
 	        //run_utilities.listNewRefMols();
+	        run_utilities.grameneSolrExporter();
 	        //run_utilities.dumpPathwayDiagramTermsForGrameneSearchIndex();
 	        //run_utilities.dumpQuickSearchTermsForGrameneSearchIndex();
 	        // create and attach IE to changes; commit changes
-    		run_utilities.commitChanges();
+    		//run_utilities.commitChanges();
         }
         catch(Exception e) {
             e.printStackTrace();
