@@ -1096,7 +1096,7 @@ public class CuratorUtilities
     	String reactantEntry = "";
     	
     	// header
-        System.out.println("id\tsearch_type\tplant_reactome_pathway_id\tplant_reactome_class\tobject_id\tobject_visual_id\ttaxon\tspecies\tplant_reactome_species_id\tname\tdescription\tcontent");
+        System.out.println("id\tsearch_type\tplant_reactome_pathway_id\tpathway_name\tplant_reactome_class\tobject_id\ttaxon\tspecies\tplant_reactome_species_id\tname\tdescription\tcontent");
 
         // set defaults
         String curSpeciesName = "";
@@ -1140,7 +1140,7 @@ public class CuratorUtilities
     				+ curObjectID.toString() + "\t" // object_id
     				+ curTaxonID + "\t" // taxon
     				+ curSpeciesName + "\t" // species
-    				+ curSpecies.getDBID().toString() + "\t" // plant_reactome_species_ids
+    				+ curSpecies.getDBID().toString() + "\t" // plant_reactome_species_id
     				+ curObjectName + "\t" // name
     				+ curDescription + "\t"; // description
     				// content field (all other human-readable and desired searchable attributes (GO bio process, litRefs, compartment, other names, basket of RGP ids), space-delimited)...
