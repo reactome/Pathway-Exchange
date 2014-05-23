@@ -1097,7 +1097,6 @@ public class CuratorUtilities
     	
     	// header
         System.out.println("id\tsearch_type\tplant_reactome_pathway_id\tpathway_name\tplant_reactome_class\tobject_id\ttaxon\tspecies\tplant_reactome_species_id\tname\tdescription\tcontent");
-
         // set defaults
         String curSpeciesName = "";
         String curTaxonID = ""; // NCBI
