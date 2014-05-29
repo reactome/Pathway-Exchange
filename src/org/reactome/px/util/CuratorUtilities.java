@@ -1250,6 +1250,113 @@ public class CuratorUtilities
         System.out.println(sb.toString());
     }
     
+    private void dumpRGPsBinnedByPathway() throws Exception {
+    	int count = 0;
+    	
+    	// get pathways
+        Collection<?> pathways = dbAdaptor.fetchInstancesByClass(ReactomeJavaConstants.Pathway);
+        for (Iterator<?> itP = pathways.iterator(); itP.hasNext();) {
+            GKInstance curP = (GKInstance) itP.next();
+            Long curPathwayID = curP.getDBID();
+            String curPathwayName = curP.getDisplayName();
+            Long curObjectID = curPathwayID;
+            String curObjectName = curPathwayName;
+    	    Long curMultiLevelPathwayParent = null;
+    	    // check the parents
+    	    Collection<GKInstance> parentRefs = curP.getReferers(ReactomeJavaConstants.hasEvent);
+            //System.out.println(curPathwayName + "\t" + curPathwayID);
+
+            Collection<GKInstance> events = curP.getAttributeValuesList(ReactomeJavaConstants.hasEvent);
+            if (events != null) {
+            	// check to make sure this isn't a super-pathway; we don't want to generate sub-instance data (rxns, etc.) from those
+            	boolean hasParent = false;
+            	for (GKInstance curEvent : events) {
+            		// if the pathway has a child pathway, it's a superpathway
+            		if (curEvent.getSchemClass().getName().equals(ReactomeJavaConstants.Pathway)) {
+            			hasParent = true;
+            			break;
+            		}
+            	}
+            	if (hasParent) continue; // don't bother getting reactions, etc from a superpathway
+            	for (GKInstance curEvent : events) {
+                    if (curEvent.getSchemClass().getName().equals(ReactomeJavaConstants.Reaction)) {
+                        curObjectID = curEvent.getDBID();
+                        curObjectName = curEvent.getDisplayName();
+                        
+                    	// get EWAS (via Catalystactivity.PhysicalEntity)
+	                    Collection<GKInstance> cas = curEvent.getAttributeValuesList(ReactomeJavaConstants.catalystActivity);
+	                    if (cas != null) {
+	                    	for (GKInstance curCA : cas) {
+	                            GKInstance pe = (GKInstance)curCA.getAttributeValue(ReactomeJavaConstants.physicalEntity);
+	                            if (pe != null) {
+	                                //System.out.println(pe.getAttributeValue(ReactomeJavaConstants.name) + "\t" + curPathwayID + "\t" + curPathwayName);
+
+	                                curObjectID = pe.getDBID();
+	                                curObjectName = pe.getDisplayName();
+	                                
+	                                // is EWAS? get refEntity (RGP) identifier (Uniprot) and stop
+	                                if (pe.getSchemClass().getName().equals(ReactomeJavaConstants.EntityWithAccessionedSequence)) {
+	                                	GKInstance re = (GKInstance)pe.getAttributeValue(ReactomeJavaConstants.referenceEntity);
+	                                	if (re != null) {
+	                                		String rgpIdentifier = re.getAttributeValue(ReactomeJavaConstants.identifier).toString();
+	                                		if (rgpIdentifier != null) {
+	        	                                System.out.println(rgpIdentifier + "\t" + curPathwayID + "\t" + curPathwayName);
+	                                			count++;
+	                                		}
+	                                	}
+	                                }
+	                                // else, is DefinedSet?
+	                                else {
+		                                if (pe.getSchemClass().getName().equals(ReactomeJavaConstants.DefinedSet)) {
+		                                	// get hasMember collection
+		                                	List<GKInstance> members = (List<GKInstance>)pe.getAttributeValuesList(ReactomeJavaConstants.hasMember);
+		                                	for (GKInstance member : members) {
+		                                		// is EWAS? get refEntity (RGP) identifier (Uniprot)
+		    	                                if (member.getSchemClass().getName().equals(ReactomeJavaConstants.EntityWithAccessionedSequence)) {
+				                                	GKInstance re = (GKInstance)member.getAttributeValue(ReactomeJavaConstants.referenceEntity);
+				                                	if (re != null) {
+				                                		if (re.getAttributeValue(ReactomeJavaConstants.identifier) != null) {
+					                                		String rgpIdentifier = re.getAttributeValue(ReactomeJavaConstants.identifier).toString();
+					                                		if (rgpIdentifier != null) {
+					        	                                System.out.println(rgpIdentifier + "\t" + curPathwayID + "\t" + curPathwayName);
+					                                			count++;
+					                                		}
+				                                		}	
+				                                	}
+		    	                                // is it a Complex?
+		    	                                } else {
+		    	                                	// get the EWAS
+		    		                                if (member.getSchemClass().getName().equals(ReactomeJavaConstants.Complex)) {
+		    		                                	// get hasMember collection
+		    		                                	List<GKInstance> cPXmembers = (List<GKInstance>)pe.getAttributeValuesList(ReactomeJavaConstants.hasMember);
+		    		                                	for (GKInstance cPXmember : cPXmembers) {
+		    		                                		// is EWAS? get refEntity (RGP) identifier (Uniprot)
+		    		    	                                if (cPXmember.getSchemClass().getName().equals(ReactomeJavaConstants.EntityWithAccessionedSequence)) {
+		    				                                	GKInstance re = (GKInstance)cPXmember.getAttributeValue(ReactomeJavaConstants.referenceEntity);
+		    				                                	if (re != null) {
+		    				                                		String rgpIdentifier = re.getAttributeValue(ReactomeJavaConstants.identifier).toString();
+		    				                                		if (rgpIdentifier != null) {
+		    				        	                                System.out.println(rgpIdentifier + "\t" + curPathwayID + "\t" + curPathwayName);
+		    				                                			count++;
+		    				                                		}
+		    				                                	}
+		    		    	                                }
+		    		                                	}
+		    		                                }
+		                                		}
+		                                	}
+	                                	}
+	                                }
+	                            }
+	                    	}
+	                    }
+                    }
+            	}
+            }
+        }
+        System.out.println("Total RGPs: " + count);
+    }
+    
     // generate a tab-del index list of Pathway, Reaction, EWAS, and SE names and IDs found in Pathway diagrams 
     // for the Gramene Solr search index
     private void dumpPathwayDiagramTermsForGrameneSearchIndex() throws Exception {
@@ -1399,7 +1506,8 @@ public class CuratorUtilities
 	        //run_utilities.profileDupeSEs();
 	        //run_utilities.compareRefMols();
 	        //run_utilities.listNewRefMols();
-	        run_utilities.grameneSolrExporter();
+	        //run_utilities.grameneSolrExporter();
+	        run_utilities.dumpRGPsBinnedByPathway();
 	        //run_utilities.dumpPathwayDiagramTermsForGrameneSearchIndex();
 	        //run_utilities.dumpQuickSearchTermsForGrameneSearchIndex();
 	        // create and attach IE to changes; commit changes
