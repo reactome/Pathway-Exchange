@@ -1090,13 +1090,15 @@ public class CuratorUtilities
     private void grameneSolrExporter() throws Exception {
     	int count = 0;
     	StringBuilder sb = new StringBuilder(); 
+    	String object_search_type = "pathway_browser";
+    	String module = "reactome";
     	String pathwayEntry = "";
     	String reactionEntry = "";
     	String catalystEntry = "";
     	String reactantEntry = "";
     	
     	// header
-        System.out.println("id\tsearch_type\tplant_reactome_pathway_id\tpathway_name\tplant_reactome_class\tobject_id\ttaxon\tspecies\tplant_reactome_species_id\tname\tdescription\tcontent");
+        System.out.println("id\ttitle\tmodule\tobject\tspecies\ttaxonomy\tplant_reactome_species_id\tplant_reactome_pathway_id\tcontent");
         // set defaults
         String curSpeciesName = "";
         String curTaxonID = ""; // NCBI
@@ -1131,25 +1133,59 @@ public class CuratorUtilities
             } catch (Exception e) {}
         	*/	
             pathwayEntry = 
-        		curSpeciesName.toLowerCase().replace(' ', '_') + "-pathway-" + curObjectName.replace(' ', '_') + "\t" // Solr identifier
-            		+ "pathway_browser\t" // search_type
-    				+ curPathwayID.toString() + "\t" // plant_reactome_pathway_id
-    				+ curPathwayName + "\t" // pathway_name
-    				+ curP.getSchemClass().getName() + "\t" // plant_reactome_class
-    				+ curObjectID.toString() + "\t" // object_id
-    				+ curTaxonID + "\t" // taxon
-    				+ curSpeciesName + "\t" // species
+        		curSpeciesName.toLowerCase().replace(' ', '_') + "/reactome/" + curObjectID.toString() + "\t" // Solr identifier
+            		+ curSpeciesName + " pathway " + curObjectName + "\t" // title
+            		+ module + "\t" // module
+            		+ object_search_type + "\t" // object
+    				+ curSpeciesName.toLowerCase().replace(' ', '_') + "\t" // species
+    				+ curTaxonID + "\t" // taxonomy
     				+ curSpecies.getDBID().toString() + "\t" // plant_reactome_species_id
-    				+ curObjectName + "\t" // name
-    				+ curDescription + "\t"; // description
-    				// content field (all other human-readable and desired searchable attributes (GO bio process, litRefs, compartment, other names, basket of RGP ids), space-delimited)...
-	    				if (curGoPB != null)
-	    					pathwayEntry += curGoPB.getDisplayName() + " "
-								+ curGoPB.getAttributeValue(ReactomeJavaConstants.accession) + " ";
-	    				if (curLitRefs != null)
-	    					for (GKInstance litRef : curLitRefs)
-	    						pathwayEntry += litRef.getDisplayName() + " ";
-        			pathwayEntry += "\n";
+					+ curPathwayID.toString() + "\t"; // plant_reactome_pathway_id
+    				// content field (all other human-readable and desired searchable attributes
+            		// (GO bio process, litRefs, compartment, other names, basket of RGP ids), space-delimited)...
+    				pathwayEntry += curObjectName + " "; // current object name
+    				pathwayEntry += curP.getSchemClass().getName() + " "; // plant_reactome_class
+
+					// compartment
+    				if (curP.getAttributeValue(ReactomeJavaConstants.compartment) != null)
+    					pathwayEntry += ((GKInstance)curP.getAttributeValue(ReactomeJavaConstants.compartment)).getDisplayName() + " ";
+
+					// GO Bio Process
+    				if (curGoPB != null)
+    					pathwayEntry += curGoPB.getDisplayName() + " "
+							+ "GO:" + curGoPB.getAttributeValue(ReactomeJavaConstants.accession) + " ";
+
+    				// synonyms
+    				List<String> otherNames = (List<String>)curP.getAttributeValuesList(ReactomeJavaConstants.name);
+    				if (otherNames != null) {
+    					count = 0;
+    					for (String name : otherNames) {
+    						count++;
+    						if (count == 1) continue; // skip the first name (redundant)
+    						if (!name.startsWith("pathway")) // hack to remove -Cyc internal ids
+    							pathwayEntry += name + " ";
+    					}
+    				}
+
+    				// gene ids
+                	Set<GKInstance> allPEs = InstanceUtilities.grepRefPepSeqsFromPathway(curP);
+                    if (allPEs != null) {
+                    	for (GKInstance curPE : allPEs) {
+                    		if (curPE.getAttributeValue(ReactomeJavaConstants.identifier) != null) {
+    	                		String rgpIdentifier = curPE.getAttributeValue(ReactomeJavaConstants.identifier).toString();
+    		            		if (rgpIdentifier != null) {
+    		            			pathwayEntry += rgpIdentifier + " ";
+    		            		}
+                    		}
+                    	}
+                    }
+
+    				if (curLitRefs != null)
+    					// literature references
+    					for (GKInstance litRef : curLitRefs)
+    						pathwayEntry += litRef.getDisplayName() + " ";
+    				pathwayEntry += "\n";
+			
 			sb.append(pathwayEntry);
 			
     		// get reactions
@@ -1171,20 +1207,35 @@ public class CuratorUtilities
                         curObjectName = curEvent.getDisplayName();
                         
                         reactionEntry = 
-                        		curSpeciesName.toLowerCase().replace(' ', '_') + "-reaction-" + curObjectName.replace(' ', '_') + "\t" // Solr identifier
-                        		+ "pathway_browser\t" // search_type
-                				+ curPathwayID.toString() + "\t" // plant_reactome_pathway_id
-                				+ curPathwayName + "\t" // pathway_name
-                				+ curEvent.getSchemClass().getName() + "\t" // plant_reactome_class
-                				+ curObjectID.toString() + "\t" // object_id
-                				+ curTaxonID + "\t" // taxon
-                				+ curSpeciesName + "\t" // species
+                    		curSpeciesName.toLowerCase().replace(' ', '_') + "/reactome/" + curObjectID.toString() + "\t" // Solr identifier
+                        		+ curSpeciesName + " reaction " + curObjectName + "\t" // title
+                        		+ module + "\t" // module
+                        		+ object_search_type + "\t" // object
+			    				+ curSpeciesName.toLowerCase().replace(' ', '_') + "\t" // species
+			    				+ curTaxonID + "\t" // taxonomy
                 				+ curSpecies.getDBID().toString() + "\t" // plant_reactome_species_id
-                				+ curObjectName + "\t" // name
-                				+ curDescription + "\t" // description
-                				// + content (all other human-readable attributes) // content
-                				+ "\n";
-            			//sb.append(reactionEntry);
+                				+ curPathwayID.toString() + "\t"; // plant_reactome_pathway_id
+                        
+        				// content (all other human-readable attributes) // content
+        				reactionEntry += curObjectName + " ";
+        				reactionEntry += curEvent.getSchemClass().getName() + " "; // plant_reactome_class
+        				
+    					// compartment
+        				if (curEvent.getAttributeValue(ReactomeJavaConstants.compartment) != null)
+        					reactionEntry += ((GKInstance)curEvent.getAttributeValue(ReactomeJavaConstants.compartment)).getDisplayName() + " ";
+
+        				// synonyms
+        				List<String> otherReactionNames = (List<String>)curEvent.getAttributeValuesList(ReactomeJavaConstants.name);
+        				if (otherReactionNames != null) {
+        					count = 0;
+        					for (String name : otherReactionNames) {
+        						count++;
+        						if (count == 1) continue; // skip the first name (redundant)
+        						if (!name.startsWith("biochemicalReaction")) // hack to remove -Cyc internal ids
+        							reactionEntry += name + " ";
+        					}
+        				}
+            			Set<GKInstance> RGPs = null;
 
                     	// get EWAS (via Catalystactivity.PhysicalEntity)
 	                    Collection<GKInstance> cas = curEvent.getAttributeValuesList(ReactomeJavaConstants.catalystActivity);
@@ -1192,30 +1243,60 @@ public class CuratorUtilities
 	                    	for (GKInstance curCA : cas) {
 	                            GKInstance pe = (GKInstance)curCA.getAttributeValue(ReactomeJavaConstants.physicalEntity);
 	                            if (pe != null) {
-	                                //System.out.println(pe.getAttributeValue(ReactomeJavaConstants.name) + "\t" + curPathwayID + "\t" + pe.getDBID());
-
+	                            	// get the RGPs for this catalyst 
+	                            	RGPs = InstanceUtilities.grepRefPepSeqsFromPhysicalEntity(pe);
+	                            	
 	                                curObjectID = pe.getDBID();
 	                                curObjectName = pe.getDisplayName();
+	                                if (curObjectName.matches(".*]")) {
+	                                	curObjectName = curObjectName.split("\\[")[0]; 
+	                                }
 	                                
 	                                catalystEntry = 
-	                                		curSpeciesName.toLowerCase().replace(' ', '_') + "-catalyst-" + curObjectName.replace(' ', '_') + "\t" // Solr identifier
-	                                		+ "pathway_browser\t" // search_type
-	                        				+ curPathwayID.toString() + "\t" // plant_reactome_pathway_id
-	                        				+ curPathwayName + "\t" // pathway_name
-	                        				+ pe.getSchemClass().getName() + "\t" // plant_reactome_class
-	                        				+ curObjectID.toString() + "\t" // object_id
-	                        				+ curTaxonID + "\t" // taxon
-	                        				+ curSpeciesName + "\t" // species
+                                		curSpeciesName.toLowerCase().replace(' ', '_') + "/reactome/" + curObjectID.toString() + "\t" // Solr identifier
+	                                		+ curSpeciesName + " catalyst " + curObjectName + "\t" // title
+	                                		+ module + "\t" // module
+	                                		+ object_search_type + "\t" // object
+						    				+ curSpeciesName.toLowerCase().replace(' ', '_') + "\t" // species
+						    				+ curTaxonID + "\t" // taxonomy
 	                        				+ curSpecies.getDBID().toString() + "\t" // plant_reactome_species_id
-	                        				+ curObjectName + "\t" // name
-	                        				+ curDescription + "\t" // description
+	                        				+ curPathwayID.toString() + "\t"; // plant_reactome_pathway_id
 	                        				// + content (all other human-readable attributes) // content
-	                        				+ "\n";
-	                    			//sb.append(catalystEntry);
-
+			                				catalystEntry += curObjectName + " ";
+			                				catalystEntry += pe.getSchemClass().getName() + " "; // plant_reactome_class
+/*
+			                				// synonyms
+			                				List<String> otherNames = (List<String>)curP.getAttributeValuesList(ReactomeJavaConstants.name);
+			                				if (otherNames != null) {
+			                					count = 0;
+			                					for (String name : otherNames) {
+			                						count++;
+			                						if (count == 1) continue; // skip the first name (redundant)
+			                						if (!name.startsWith("pathway")) // hack to remove -Cyc internal ids
+			                							pathwayEntry += name + " ";
+			                					}
+			                				}
+*/
 	                            }
 	                        }
 	                    }
+	                    // finally, append the reaction and catalystEntries, once it is determined whether RGPs are available
+	                    if (RGPs != null) {
+	                    	for (GKInstance RGP : RGPs) {
+	                    		if (RGP.getAttributeValue(ReactomeJavaConstants.identifier) != null) {
+	    	                		String rgpIdentifier = RGP.getAttributeValue(ReactomeJavaConstants.identifier).toString();
+	    		            		if (rgpIdentifier != null) {
+	    		            			reactionEntry += rgpIdentifier + " ";
+	    		            			catalystEntry += rgpIdentifier + " ";
+	    		            		}
+	                    		}
+	                    	}
+	                    }
+        				reactionEntry += "\n";
+                		catalystEntry += "\n";
+            			sb.append(reactionEntry);
+            			sb.append(catalystEntry.trim());
+	                    
 	                    // get SimpleEntities (or any and all Physical Entities acting as inputs and outputs)
 	                    Collection<GKInstance> inputs = curEvent.getAttributeValuesList(ReactomeJavaConstants.input);
 	                    Collection<GKInstance> outputs = curEvent.getAttributeValuesList(ReactomeJavaConstants.output);
@@ -1225,22 +1306,25 @@ public class CuratorUtilities
 		                    for (GKInstance entity : SEs) {
 	                                curObjectID = entity.getDBID();
 	                                curObjectName = entity.getDisplayName();
+	                                if (curObjectName.matches(".*]")) {
+	                                	curObjectName = curObjectName.split("\\[")[0]; 
+	                                }
 
 	                                reactantEntry = 
-	                                		curSpeciesName.toLowerCase().replace(' ', '_') + "-reactant-" + curObjectName.replace(' ', '_') + "\t" // Solr identifier
-	                                		+ "pathway_browser\t" // search_type
-	                        				+ curPathwayID.toString() + "\t" // plant_reactome_pathway_id
-	                        				+ curPathwayName + "\t" // pathway_name
-	                        				+ entity.getSchemClass().getName() + "\t" // plant_reactome_class
-	                        				+ curObjectID.toString() + "\t" // object_id
-	                        				+ curTaxonID + "\t" // taxon
-	                        				+ curSpeciesName + "\t" // species
+                                		curSpeciesName.toLowerCase().replace(' ', '_') + "/reactome/" + curObjectID.toString() + "\t" // Solr identifier
+	                                		+ curSpeciesName + " reactant " + curObjectName + "\t" // title
+	                                		+ module + "\t" // module
+	                                		+ object_search_type + "\t" // object
+						    				+ curSpeciesName.toLowerCase().replace(' ', '_') + "\t" // species
+						    				+ curTaxonID + "\t" // taxonomy
 	                        				+ curSpecies.getDBID().toString() + "\t" // plant_reactome_species_id
-	                        				+ curObjectName + "\t" // name
-	                        				+ curDescription + "\t" // description
+	                        				+ curPathwayID.toString() + "\t"; // plant_reactome_pathway_id
 	                        				// + content (all other human-readable attributes) // content
-	                        				+ "\n";
-	                    			//sb.append(reactantEntry);
+			                				reactantEntry += curObjectName + " ";
+			                				reactantEntry += entity.getSchemClass().getName() + " "; // plant_reactome_class
+	                                		reactantEntry += "\n";
+	                                		
+                            		sb.append(reactantEntry);
 		                    }
 	                    }
                     }
@@ -1250,7 +1334,7 @@ public class CuratorUtilities
         System.out.println(sb.toString());
     }
     
-    private void dumpRGPsBinnedByPathway() throws Exception {
+    private void dumpRGPsBinnedByPathwayOld() throws Exception {
     	int count = 0;
     	
     	// get pathways
@@ -1356,7 +1440,54 @@ public class CuratorUtilities
         }
         System.out.println("Total RGPs: " + count);
     }
-    
+
+    private void dumpRGPsBinnedByPathway() throws Exception {
+    	int count = 0;
+    	
+    	// get pathways
+        Collection<?> pathways = dbAdaptor.fetchInstancesByClass(ReactomeJavaConstants.Pathway);
+        for (Iterator<?> itP = pathways.iterator(); itP.hasNext();) {
+            GKInstance curP = (GKInstance) itP.next();
+            Long curPathwayID = curP.getDBID();
+            String curPathwayName = curP.getDisplayName();
+            Long curObjectID = curPathwayID;
+            String curObjectName = curPathwayName;
+    	    Long curMultiLevelPathwayParent = null;
+    	    // check the+ parents
+    	    Collection<GKInstance> parentRefs = curP.getReferers(ReactomeJavaConstants.hasEvent);
+            //System.out.println(curPathwayName + "\t" + curPathwayID);
+
+            Collection<GKInstance> events = curP.getAttributeValuesList(ReactomeJavaConstants.hasEvent);
+            if (events != null) {
+            	// check to make sure this isn't a super-pathway; we don't want to generate sub-instance data (rxns, etc.) from those
+            	boolean hasParent = false;
+            	for (GKInstance curEvent : events) {
+            		// if the pathway has a child pathway, it's a superpathway
+            		if (curEvent.getSchemClass().getName().equals(ReactomeJavaConstants.Pathway)) {
+            			hasParent = true;
+            			break;
+            		}
+            	}
+            	if (hasParent) continue; // don't bother getting reactions, etc from a superpathway
+
+        		// get all PhysicalEntities from this pathway
+            	Set<GKInstance> allPEs = InstanceUtilities.grepRefPepSeqsFromPathway(curP);
+                if (allPEs != null) {
+                	for (GKInstance curPE : allPEs) {
+                		if (curPE.getAttributeValue(ReactomeJavaConstants.identifier) != null) {
+	                		String rgpIdentifier = curPE.getAttributeValue(ReactomeJavaConstants.identifier).toString();
+		            		if (rgpIdentifier != null) {
+		                        System.out.println(rgpIdentifier + "\t" + curPathwayID + "\t" + curPathwayName);
+		            			count++;
+		            		}
+                		}
+                	}
+                }
+            }
+        }
+        System.out.println("Total RGPs: " + count);
+    }
+
     // generate a tab-del index list of Pathway, Reaction, EWAS, and SE names and IDs found in Pathway diagrams 
     // for the Gramene Solr search index
     private void dumpPathwayDiagramTermsForGrameneSearchIndex() throws Exception {
@@ -1506,8 +1637,9 @@ public class CuratorUtilities
 	        //run_utilities.profileDupeSEs();
 	        //run_utilities.compareRefMols();
 	        //run_utilities.listNewRefMols();
-	        //run_utilities.grameneSolrExporter();
-	        run_utilities.dumpRGPsBinnedByPathway();
+	        run_utilities.grameneSolrExporter();
+	        //run_utilities.dumpRGPsBinnedByPathwayOld();
+	        //run_utilities.dumpRGPsBinnedByPathway();
 	        //run_utilities.dumpPathwayDiagramTermsForGrameneSearchIndex();
 	        //run_utilities.dumpQuickSearchTermsForGrameneSearchIndex();
 	        // create and attach IE to changes; commit changes
