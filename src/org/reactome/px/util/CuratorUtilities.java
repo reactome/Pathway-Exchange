@@ -1100,7 +1100,8 @@ public class CuratorUtilities
     	String reactionEntry = "";
     	String catalystEntry = "";
     	String reactantEntry = "";
-    	
+    	String subspExp = " subsp.*";
+
     	// header
         System.out.println("id\ttitle\tmodule\tobject\tspecies\ttaxonomy\tcontent");
         // set defaults
@@ -1119,7 +1120,7 @@ public class CuratorUtilities
             
             GKInstance curSpecies = (GKInstance)curP.getAttributeValue(ReactomeJavaConstants.species);
 
-            curSpeciesName = curSpecies.getDisplayName();
+            curSpeciesName = curSpecies.getDisplayName().replaceAll(subspExp, "");
             // NOTE: had to modify sliced db to make sure projected Species and DatabaseIdentifier exists in db and was assigned;
             // It may be better to hard-code those NCBI ids (or provide a config listing) in the future to avoid this problem.
             curTaxonID = ((GKInstance)((List<GKInstance>)curSpecies
@@ -1129,13 +1130,13 @@ public class CuratorUtilities
 			List<GKInstance> curLitRefs = (List<GKInstance>)curP.getAttributeValuesList(ReactomeJavaConstants.literatureReference);
 
             pathwayEntry = 
-        		curSpeciesName.toLowerCase().replace(' ', '_') + "/reactome/" 
+            		module + "_" + curSpeciesName.toLowerCase().replace(' ', '_') + "/" + object_search_type + "/" 
         				+ curObjectID.toString() + "-" 
         				+ curPathwayID.toString() + "-" // plant_reactome_pathway_id
         				+ curSpecies.getDBID().toString() // plant_reactome_species_id
         				+ "\t" // Solr identifier
             		+ curSpeciesName + " pathway " + curObjectName + "\t" // title
-            		+ module + "\t" // module
+            		+ module + "_" + curSpeciesName.toLowerCase().replace(' ', '_') + "\t" // module
             		+ object_search_type + "\t" // object
     				+ curSpeciesName.toLowerCase().replace(' ', '_') + "\t" // species
     				+ curTaxonID + "\t" // taxonomy
@@ -1210,13 +1211,13 @@ public class CuratorUtilities
                         curObjectName = curEvent.getDisplayName();
                         
                         reactionEntry = 
-			        		curSpeciesName.toLowerCase().replace(' ', '_') + "/reactome/" 
+                    		module + "_" + curSpeciesName.toLowerCase().replace(' ', '_') + "/" + object_search_type + "/" 
 			        				+ curObjectID.toString() + "-" 
 			        				+ curPathwayID.toString() + "-" // plant_reactome_pathway_id
 			        				+ curSpecies.getDBID().toString() // plant_reactome_species_id
 			        				+ "\t" // Solr identifier
                     		+ curSpeciesName + " reaction " + curObjectName + "\t" // title
-                        		+ module + "\t" // module
+                    			+ module + "_" + curSpeciesName.toLowerCase().replace(' ', '_') + "\t" // module
                         		+ object_search_type + "\t" // object
 			    				+ curSpeciesName.toLowerCase().replace(' ', '_') + "\t" // species
 			    				+ curTaxonID + "\t" // taxonomy
@@ -1259,13 +1260,13 @@ public class CuratorUtilities
 	                                }
 	                                
 	                                catalystEntry = 
-						        		curSpeciesName.toLowerCase().replace(' ', '_') + "/reactome/" 
+                                		module + "_" + curSpeciesName.toLowerCase().replace(' ', '_') + "/" + object_search_type + "/" 
 						        				+ curObjectID.toString() + "-" 
 						        				+ curPathwayID.toString() + "-" // plant_reactome_pathway_id
 						        				+ curSpecies.getDBID().toString() // plant_reactome_species_id
 						        				+ "\t" // Solr identifier
 	                                		+ curSpeciesName + " catalyst " + curObjectName + "\t" // title
-	                                		+ module + "\t" // module
+	                                		+ module + "_" + curSpeciesName.toLowerCase().replace(' ', '_') + "\t" // module
 	                                		+ object_search_type + "\t" // object
 						    				+ curSpeciesName.toLowerCase().replace(' ', '_') + "\t" // species
 						    				+ curTaxonID + "\t" // taxonomy
@@ -1307,13 +1308,13 @@ public class CuratorUtilities
 	                                }
 
 	                                reactantEntry = 
-						        		curSpeciesName.toLowerCase().replace(' ', '_') + "/reactome/" 
+	                                		module + "_" + curSpeciesName.toLowerCase().replace(' ', '_') + "/" + object_search_type + "/" 
 						        				+ curObjectID.toString() + "-" 
 						        				+ curPathwayID.toString() + "-" // plant_reactome_pathway_id
 						        				+ curSpecies.getDBID().toString() // plant_reactome_species_id
 						        				+ "\t" // Solr identifier
 	                                		+ curSpeciesName + " reactant " + curObjectName + "\t" // title
-	                                		+ module + "\t" // module
+	                                		+ module + "_" + curSpeciesName.toLowerCase().replace(' ', '_') + "\t" // module
 	                                		+ object_search_type + "\t" // object
 						    				+ curSpeciesName.toLowerCase().replace(' ', '_') + "\t" // species
 						    				+ curTaxonID + "\t" // taxonomy
@@ -1382,7 +1383,7 @@ public class CuratorUtilities
 
                 try { // get a species if you can
 	                curSpecies = (GKInstance)curI.getAttributeValue(ReactomeJavaConstants.species);
-	                curSpeciesName = curSpecies.getDisplayName();
+	                curSpeciesName = curSpecies.getDisplayName().replaceAll(subspExp, "");
 	                curSpeciesID = curSpecies.getDBID().toString();
 	                // NOTE: had to modify sliced db to make sure projected Species and DatabaseIdentifier exists in db and was assigned;
 	                // It may be better to hard-code those NCBI ids (or provide a config listing) in the future to avoid this problem.
@@ -1406,9 +1407,10 @@ public class CuratorUtilities
             	}
 
                 instanceEntry = 
-		        		curSpeciesName.toLowerCase().replace(' ', '_') + "/reactome/" + curObjectID.toString() + "\t" // Solr identifier
+                		module + (curSpeciesName != "" ? "_" : "") + curSpeciesName.toLowerCase().replace(' ', '_') + "/" + object_search_type + "/" 
+                				+ curObjectID.toString() + "\t" // Solr identifier
                     		+ curSpeciesName + " " + curI.getSchemClass().getName().toLowerCase() + " " + curObjectName + "\t" // title
-                    		+ module + "\t" // module
+                    		+ module + (curSpeciesName.length() > 0 ? "_" + curSpeciesName.toLowerCase().replace(' ', '_') : "") + "\t" // module
                     		+ object_search_type + "\t" // object
             				+ curSpeciesName.toLowerCase().replace(' ', '_') + "\t" // species
             				+ curTaxonID + "\t" // taxonomy
