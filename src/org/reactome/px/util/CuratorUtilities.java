@@ -47,6 +47,7 @@ public class CuratorUtilities
 {
     private static final Logger logger = Logger.getLogger(CuratorUtilities.class);
     private List<GKInstance> target_taxa = new ArrayList<GKInstance>(); 
+	private Map<String,String> NCBI_map = new HashMap(); 
 	private GKInstance defaultPerson = new GKInstance(); 
     private List<GKInstance> changedInsts = new ArrayList<GKInstance>();
     private GKInstance target_instance_edit = new GKInstance();
@@ -172,6 +173,7 @@ public class CuratorUtilities
 					elm.getValue());
 			for (GKInstance curr_species : species)
 			{
+				this.NCBI_map.put(curr_species.getDisplayName(), elm.getAttributeValue("NCBI_id"));
 				this.target_taxa.add(curr_species);
 				break;
 			}
@@ -1094,7 +1096,7 @@ public class CuratorUtilities
     	*/
     	int count = 0;
     	StringBuilder sb = new StringBuilder(); 
-    	String object_search_type = "pathway_browser";
+    	String object_search_type = "plant_reactome_pathway";
     	String module = "reactome";
     	String pathwayEntry = "";
     	String reactionEntry = "";
@@ -1121,11 +1123,15 @@ public class CuratorUtilities
             GKInstance curSpecies = (GKInstance)curP.getAttributeValue(ReactomeJavaConstants.species);
 
             curSpeciesName = curSpecies.getDisplayName().replaceAll(subspExp, "");
+
             // NOTE: had to modify sliced db to make sure projected Species and DatabaseIdentifier exists in db and was assigned;
             // It may be better to hard-code those NCBI ids (or provide a config listing) in the future to avoid this problem.
-            curTaxonID = ((GKInstance)((List<GKInstance>)curSpecies
+            /*curTaxonID = ((GKInstance)((List<GKInstance>)curSpecies
             		.getAttributeValuesList(ReactomeJavaConstants.crossReference)).get(0))
-            		.getAttributeValue(ReactomeJavaConstants.identifier).toString();
+            		.getAttributeValue(ReactomeJavaConstants.identifier).toString();*/
+            // ...and so it is: NCBI ids for projected species now come from a hash via the curator config file
+            curTaxonID = this.NCBI_map.get(curSpeciesName);  
+		            
 			GKInstance curGoPB = (GKInstance)curP.getAttributeValue(ReactomeJavaConstants.goBiologicalProcess);
 			List<GKInstance> curLitRefs = (List<GKInstance>)curP.getAttributeValuesList(ReactomeJavaConstants.literatureReference);
 
@@ -1133,7 +1139,7 @@ public class CuratorUtilities
             		module + "_" + curSpeciesName.toLowerCase().replace(' ', '_') + "/" + object_search_type + "/" 
         				+ curObjectID.toString() + "-" 
         				+ curPathwayID.toString() + "-" // plant_reactome_pathway_id
-        				+ curSpecies.getDBID().toString() // plant_reactome_species_id
+    					+ curSpecies.getDBID().toString() // plant_reactome_species_id
         				+ "\t" // Solr identifier
             		+ curSpeciesName + " pathway " + curObjectName + "\t" // title
             		+ module + "_" + curSpeciesName.toLowerCase().replace(' ', '_') + "\t" // module
@@ -1214,7 +1220,7 @@ public class CuratorUtilities
                     		module + "_" + curSpeciesName.toLowerCase().replace(' ', '_') + "/" + object_search_type + "/" 
 			        				+ curObjectID.toString() + "-" 
 			        				+ curPathwayID.toString() + "-" // plant_reactome_pathway_id
-			        				+ curSpecies.getDBID().toString() // plant_reactome_species_id
+		        					+ curSpecies.getDBID().toString() // plant_reactome_species_id
 			        				+ "\t" // Solr identifier
                     		+ curSpeciesName + " reaction " + curObjectName + "\t" // title
                     			+ module + "_" + curSpeciesName.toLowerCase().replace(' ', '_') + "\t" // module
@@ -1263,7 +1269,7 @@ public class CuratorUtilities
                                 		module + "_" + curSpeciesName.toLowerCase().replace(' ', '_') + "/" + object_search_type + "/" 
 						        				+ curObjectID.toString() + "-" 
 						        				+ curPathwayID.toString() + "-" // plant_reactome_pathway_id
-						        				+ curSpecies.getDBID().toString() // plant_reactome_species_id
+					        					+ curSpecies.getDBID().toString() // plant_reactome_species_id
 						        				+ "\t" // Solr identifier
 	                                		+ curSpeciesName + " catalyst " + curObjectName + "\t" // title
 	                                		+ module + "_" + curSpeciesName.toLowerCase().replace(' ', '_') + "\t" // module
@@ -1311,7 +1317,7 @@ public class CuratorUtilities
 	                                		module + "_" + curSpeciesName.toLowerCase().replace(' ', '_') + "/" + object_search_type + "/" 
 						        				+ curObjectID.toString() + "-" 
 						        				+ curPathwayID.toString() + "-" // plant_reactome_pathway_id
-						        				+ curSpecies.getDBID().toString() // plant_reactome_species_id
+					        					+ curSpecies.getDBID().toString() // plant_reactome_species_id
 						        				+ "\t" // Solr identifier
 	                                		+ curSpeciesName + " reactant " + curObjectName + "\t" // title
 	                                		+ module + "_" + curSpeciesName.toLowerCase().replace(' ', '_') + "\t" // module
@@ -1347,6 +1353,7 @@ public class CuratorUtilities
         /* For quick_search (used for every indexed, searchable plant reactome data instance of interest):
 			Link Template: http://plantreactome.gramene.org/cgi-bin/search2?CATEGORY=everything&OPERATOR=all&QUERY=<final word in title field> 
          */
+/*
         String instanceEntry = "";
     	object_search_type = "quick_search";
         // id title module object species taxonomy content
@@ -1440,7 +1447,7 @@ public class CuratorUtilities
             }
         }
         System.out.println(sb.toString());
-    }
+  */  }
     
     private void dumpRGPsBinnedByPathwayOld() throws Exception {
     	int count = 0;
