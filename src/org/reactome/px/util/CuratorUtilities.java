@@ -6,6 +6,8 @@ package org.reactome.px.util;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -1095,9 +1097,10 @@ public class CuratorUtilities
     		Link Template: http://plantreactome.gramene.org/entitylevelview/PathwayBrowser.html#DB=<db_name>&FOCUS_SPECIES_ID=<plant_reactome_species_id>&FOCUS_PATHWAY_ID=<plant_reactome_pathway_id>&ID=<object_id (number at end of id field)>
     	*/
     	int count = 0;
-    	StringBuilder sb = new StringBuilder(); 
+    	StringBuilder sb = new StringBuilder();
     	String object_search_type = "plant_reactome_pathway";
     	String module = "reactome";
+    	String pathwayName = ""; // used to provide pathway context for non-pathway instances in Solr  
     	String pathwayEntry = "";
     	String reactionEntry = "";
     	String catalystEntry = "";
@@ -1119,9 +1122,9 @@ public class CuratorUtilities
             String curPathwayName = curP.getDisplayName();
             Long curObjectID = curPathwayID;
             String curObjectName = curP.getDisplayName();
+            pathwayName = curObjectName;
             
             GKInstance curSpecies = (GKInstance)curP.getAttributeValue(ReactomeJavaConstants.species);
-
             curSpeciesName = curSpecies.getDisplayName().replaceAll(subspExp, "");
 
             // NOTE: had to modify sliced db to make sure projected Species and DatabaseIdentifier exists in db and was assigned;
@@ -1136,13 +1139,13 @@ public class CuratorUtilities
 			List<GKInstance> curLitRefs = (List<GKInstance>)curP.getAttributeValuesList(ReactomeJavaConstants.literatureReference);
 
             pathwayEntry = 
-            		module + "_" + curSpeciesName.toLowerCase().replace(' ', '_') + "/" + object_search_type + "/" 
+            		module + "/" + object_search_type + "/" 
         				+ curObjectID.toString() + "-" 
         				+ curPathwayID.toString() + "-" // plant_reactome_pathway_id
     					+ curSpecies.getDBID().toString() // plant_reactome_species_id
         				+ "\t" // Solr identifier
             		+ curSpeciesName + " pathway " + curObjectName + "\t" // title
-            		+ module + "_" + curSpeciesName.toLowerCase().replace(' ', '_') + "\t" // module
+            		+ module + "\t" // module
             		+ object_search_type + "\t" // object
     				+ curSpeciesName.toLowerCase().replace(' ', '_') + "\t" // species
     				+ curTaxonID + "\t" // taxonomy
@@ -1217,13 +1220,13 @@ public class CuratorUtilities
                         curObjectName = curEvent.getDisplayName();
                         
                         reactionEntry = 
-                    		module + "_" + curSpeciesName.toLowerCase().replace(' ', '_') + "/" + object_search_type + "/" 
+                        		module + "/" + object_search_type + "/" 
 			        				+ curObjectID.toString() + "-" 
 			        				+ curPathwayID.toString() + "-" // plant_reactome_pathway_id
 		        					+ curSpecies.getDBID().toString() // plant_reactome_species_id
 			        				+ "\t" // Solr identifier
-                    		+ curSpeciesName + " reaction " + curObjectName + "\t" // title
-                    			+ module + "_" + curSpeciesName.toLowerCase().replace(' ', '_') + "\t" // module
+		        				+ curSpeciesName + " reaction " + curObjectName + "(pathway: " + pathwayName + ")\t" // title
+                    			+ module + "\t" // module
                         		+ object_search_type + "\t" // object
 			    				+ curSpeciesName.toLowerCase().replace(' ', '_') + "\t" // species
 			    				+ curTaxonID + "\t" // taxonomy
@@ -1266,13 +1269,13 @@ public class CuratorUtilities
 	                                }
 	                                
 	                                catalystEntry = 
-                                		module + "_" + curSpeciesName.toLowerCase().replace(' ', '_') + "/" + object_search_type + "/" 
+	                                		module + "/" + object_search_type + "/" 
 						        				+ curObjectID.toString() + "-" 
 						        				+ curPathwayID.toString() + "-" // plant_reactome_pathway_id
 					        					+ curSpecies.getDBID().toString() // plant_reactome_species_id
 						        				+ "\t" // Solr identifier
-	                                		+ curSpeciesName + " catalyst " + curObjectName + "\t" // title
-	                                		+ module + "_" + curSpeciesName.toLowerCase().replace(' ', '_') + "\t" // module
+	                                		+ curSpeciesName + " catalyst " + curObjectName + "(pathway: " + pathwayName + ")\t" // title
+	                                		+ module + "\t" // module
 	                                		+ object_search_type + "\t" // object
 						    				+ curSpeciesName.toLowerCase().replace(' ', '_') + "\t" // species
 						    				+ curTaxonID + "\t" // taxonomy
@@ -1314,13 +1317,13 @@ public class CuratorUtilities
 	                                }
 
 	                                reactantEntry = 
-	                                		module + "_" + curSpeciesName.toLowerCase().replace(' ', '_') + "/" + object_search_type + "/" 
+	                                		module + "/" + object_search_type + "/" 
 						        				+ curObjectID.toString() + "-" 
 						        				+ curPathwayID.toString() + "-" // plant_reactome_pathway_id
 					        					+ curSpecies.getDBID().toString() // plant_reactome_species_id
 						        				+ "\t" // Solr identifier
-	                                		+ curSpeciesName + " reactant " + curObjectName + "\t" // title
-	                                		+ module + "_" + curSpeciesName.toLowerCase().replace(' ', '_') + "\t" // module
+	                                		+ curSpeciesName + " reactant " + curObjectName + "(pathway: " + pathwayName + ")\t" // title
+	                                		+ module + "\t" // module
 	                                		+ object_search_type + "\t" // object
 						    				+ curSpeciesName.toLowerCase().replace(' ', '_') + "\t" // species
 						    				+ curTaxonID + "\t" // taxonomy
@@ -1565,6 +1568,7 @@ public class CuratorUtilities
             GKInstance curP = (GKInstance) itP.next();
             Long curPathwayID = curP.getDBID();
             String curPathwayName = curP.getDisplayName();
+            String curPathwaySpeciesName = ((GKInstance)curP.getAttributeValue(ReactomeJavaConstants.species)).getDisplayName();
             Long curObjectID = curPathwayID;
             String curObjectName = curPathwayName;
     	    Long curMultiLevelPathwayParent = null;
@@ -1592,7 +1596,7 @@ public class CuratorUtilities
                 		if (curPE.getAttributeValue(ReactomeJavaConstants.identifier) != null) {
 	                		String rgpIdentifier = curPE.getAttributeValue(ReactomeJavaConstants.identifier).toString();
 		            		if (rgpIdentifier != null) {
-		                        System.out.println(rgpIdentifier + "\t" + curPathwayID + "\t" + curPathwayName);
+	            				System.out.println(rgpIdentifier + "\t" + curPathwayID + "\t" + curPathwayName + "\t" + curPathwaySpeciesName);
 		            			count++;
 		            		}
                 		}
@@ -1717,6 +1721,57 @@ public class CuratorUtilities
         }
         logger.info("Number of indexed instances: " + count);
     }
+    
+    // generate raw HTML table containing aggregate projection counts by species
+    // format: Species Name, Pathways, Reactions, Gene Products
+    private void dumpProjectionStats() throws Exception {
+
+    	class speciesNameComparator implements Comparator<GKInstance>{
+    	    @Override
+    	    public int compare(GKInstance s1, GKInstance s2) {
+    	        return s1.getDisplayName().compareToIgnoreCase(s2.getDisplayName());
+    	    }
+    	} 
+    	StringBuilder sb = new StringBuilder();
+    	sb.append("<table border=1 cellpadding=3>"
+    				+ "\n" + "<tr bgcolor=\"#C2D998\"><td><b>Species</b></td><td><b>Pathways</b></td><td><b>Reactions</b></td><td><b>Gene Products</b></td></tr>"
+    			);
+    	// get list of species, sort it, place Oryza at the top
+        Collection<GKInstance> speciesColl = dbAdaptor.fetchInstancesByClass(ReactomeJavaConstants.Species);
+        List<GKInstance> speciesList = new ArrayList();
+        for (GKInstance speciesIns : speciesColl) {
+        	speciesList.add(speciesIns);
+        }
+        Collections.sort(speciesList, new speciesNameComparator());
+
+    	// iterate through species
+        for (Iterator<?> itS = speciesList.iterator(); itS.hasNext();) {
+            GKInstance curS = (GKInstance) itS.next();
+    		// gather count of pathways
+            Collection<?> pathways = dbAdaptor.fetchInstanceByAttribute(
+            		ReactomeJavaConstants.Pathway, 
+            		ReactomeJavaConstants.species, 
+					"=",
+					curS);
+    		// gather count of reactions
+            Collection<?> reactions = dbAdaptor.fetchInstanceByAttribute(
+            		ReactomeJavaConstants.Reaction, 
+            		ReactomeJavaConstants.species, 
+					"=",
+					curS);
+    		// gather count of gene products (RGPs)
+            Collection<?> RGPs = dbAdaptor.fetchInstanceByAttribute(
+            		ReactomeJavaConstants.ReferenceGeneProduct, 
+            		ReactomeJavaConstants.species, 
+					"=",
+					curS);
+            // format this species' stats for printing
+            if (pathways.size() > 0) 
+            	sb.append("\n" + "<tr><td>" + curS.getDisplayName() + "</td><td>" + pathways.size() + "</td><td>" + reactions.size() + "</td><td>" + RGPs.size() + "</td></tr>");
+        }
+        sb.append("\n" + "</table>");
+    	System.out.println(sb.toString());
+    }
 
 	/**
 	 * Constructor: Establish logger and configs.
@@ -1752,11 +1807,12 @@ public class CuratorUtilities
 	        //run_utilities.profileDupeSEs();
 	        //run_utilities.compareRefMols();
 	        //run_utilities.listNewRefMols();
-	        run_utilities.grameneSolrExporter();
+	        //run_utilities.grameneSolrExporter();
 	        //run_utilities.dumpRGPsBinnedByPathwayOld();
 	        //run_utilities.dumpRGPsBinnedByPathway();
 	        //run_utilities.dumpPathwayDiagramTermsForGrameneSearchIndex();
 	        //run_utilities.dumpQuickSearchTermsForGrameneSearchIndex();
+	        run_utilities.dumpProjectionStats();
 	        // create and attach IE to changes; commit changes
     		//run_utilities.commitChanges();
         }
