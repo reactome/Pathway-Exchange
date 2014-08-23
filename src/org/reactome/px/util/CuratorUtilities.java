@@ -1731,7 +1731,8 @@ public class CuratorUtilities
     	    public int compare(GKInstance s1, GKInstance s2) {
     	        return s1.getDisplayName().compareToIgnoreCase(s2.getDisplayName());
     	    }
-    	} 
+    	}
+    	
     	StringBuilder sb = new StringBuilder();
     	sb.append("<table border=1 cellpadding=3>"
     				+ "\n" + "<tr bgcolor=\"#C2D998\"><td><b>Species</b></td><td><b>Pathways</b></td><td><b>Reactions</b></td><td><b>Gene Products</b></td></tr>"
