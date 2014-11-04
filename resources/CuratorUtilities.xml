@@ -1,12 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <utility_settings>
 	<!-- db_connection_info host="reactomecurator.oicr.on.ca" port="3306" name="gk_central" user="" pwd=""/-->
-	<db_connection_info host="floret.cgrb.oregonstate.edu" port="3306" name="test_slice_oryza_sativa_07_ortho_osat_all" user="react-app-user" pwd="react-app-user_pw"/>
+	<db_connection_info host="floret.cgrb.oregonstate.edu" port="3306" name="test_slice_oryza_sativa_10_ortho_osat_all" user="react-app-user" pwd="react-app-user_pw"/>
 	<!--data_file path="/home/preecej/Documents/projects/plant_reactome/aracyc_to_reactome_conversion/aracyc_data/aracyc_v11/" name="aracyc_v11_biopax-level2.rtpj.4.chebi-lessRefMolsReplaced"/-->
 	<target_taxa>
-		<!-->species>Oryza sativa</species>
-		<species>Oryza sativa subsp. japonica</species-->
-		<species>Arabidopsis thaliana</species>
+		<!--species NCBI_id="4530">Oryza sativa</species-->
+		<!--species NCBI_id="4530">Oryza sativa subsp. japonica</species--> <!-- spoofing the NCBI id -->
+		<!--species NCBI_id="4530">Oryza sativa subsp. indica</species--> <!-- spoofing the NCBI id -->
+		<species NCBI_id="5609939">Oryza kasalath</species>
+		<species NCBI_id="5610980">Oryza meridionalis</species>
+		<!--species>Oryza glaberrima</species-->
+		<!--species NCBI_id="37682">Aegilops tauschii</species>
+		<species NCBI_id="3702">Arabidopsis thaliana</species>
+		<species NCBI_id="15368">Brachypodium distachyon</species>
+		<species NCBI_id="3711">Brassica rapa</species>
+		<species NCBI_id="3847">Glycine max</species>
+		<species NCBI_id="4513">Hordeum vulgare</species>
+		<species NCBI_id="3880">Medicago truncatula</species>
+		<species NCBI_id="4641">Musa acuminata</species>
+		<species NCBI_id="3694">Populus trichocarpa</species>
+		<species NCBI_id="3760">Prunus persica</species>
+		<species NCBI_id="4555">Setaria italica</species>
+		<species NCBI_id="4081">Solanum lycopersicum</species>
+		<species NCBI_id="4113">Solanum tuberosum</species>
+		<species NCBI_id="4558">Sorghum bicolor</species>
+		<species NCBI_id="4565">Triticum aestivum</species>
+		<species NCBI_id="4572">Triticum urartu</species-->
+		<!--species NCBI_id="29760">Vitis vinifera</species-->
+		<!--species NCBI_id="4577">Zea mays</species-->
 	</target_taxa>
 	<!--designated_species>Oryza sativa</designated_species-->
 	<designated_species>Arabidopsis thaliana</designated_species>

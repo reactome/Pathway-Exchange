@@ -1774,6 +1774,73 @@ public class CuratorUtilities
     	System.out.println(sb.toString());
     }
 
+    // generate raw HTML table containing aggregate projection counts by species
+    // format: Species Name, Pathways, Reactions, Gene Products
+    private void dumpRiceProjectionReactionTable() throws Exception {
+
+    	class speciesNameComparator implements Comparator<GKInstance>{
+    	    @Override
+    	    public int compare(GKInstance s1, GKInstance s2) {
+    	        return s1.getDisplayName().compareToIgnoreCase(s2.getDisplayName());
+    	    }
+    	}
+    	
+    	StringBuilder sb = new StringBuilder();
+    	sb.append("Reaction\tOryza sativa");
+
+    	// build the list of rice species names
+    	// get list of species, sort it, place Oryza at the top
+        Collection<GKInstance> speciesColl = dbAdaptor.fetchInstancesByClass(ReactomeJavaConstants.Species);
+        List<GKInstance> speciesList = new ArrayList();
+        for (GKInstance speciesIns : speciesColl) {
+        	if (target_taxa.contains(speciesIns)) {
+	        	speciesList.add(speciesIns);
+        	}
+        }
+        Collections.sort(speciesList, new speciesNameComparator());
+
+        for (GKInstance species : speciesList) {
+        	sb.append("\t" + species.getDisplayName());
+        }
+        sb.append("\n");
+    	
+    	// iterate through O.sativa reactions
+        GKInstance Osativa = dbAdaptor.fetchInstance(186860L);
+        Collection<?> OSreactions = dbAdaptor.fetchInstanceByAttribute(
+        		ReactomeJavaConstants.Reaction, 
+        		ReactomeJavaConstants.species, 
+				"=",
+				Osativa);
+        for (Iterator<?> itR = OSreactions.iterator(); itR.hasNext();) {
+            GKInstance curR = (GKInstance) itR.next();
+            sb.append(curR.getDisplayName() + "\t1");
+            
+            // get orthologousEvents for current Reaction, look for a species match in each one
+            Collection<GKInstance> orthoEvents = curR.getAttributeValuesList(ReactomeJavaConstants.orthologousEvent);
+            if (orthoEvents.size() > 0) {
+	            for (Iterator<?> itOE = orthoEvents.iterator(); itOE.hasNext();) {
+	                GKInstance curOE = (GKInstance) itOE.next();
+	                GKInstance curOES = (GKInstance)curOE.getAttributeValue(ReactomeJavaConstants.species);
+	                // look in each projected species for each orthoEvent
+	                for (Iterator<?> itPS = speciesList.iterator(); itPS.hasNext();) {
+	                    GKInstance curPS = (GKInstance) itPS.next();
+	    				if (curPS.equals(curOES))
+	                    	sb.append("\t1");
+	                    else
+	                    	sb.append("\t0");
+	                }
+	            }
+            }
+            else {
+            	sb.append("\tNothin'");
+            }
+            sb.append("\n");
+        }            
+        sb.append("\n");
+    	System.out.println(sb.toString());
+    }
+
+    
 	/**
 	 * Constructor: Establish logger and configs.
 	 */
@@ -1813,7 +1880,8 @@ public class CuratorUtilities
 	        //run_utilities.dumpRGPsBinnedByPathway();
 	        //run_utilities.dumpPathwayDiagramTermsForGrameneSearchIndex();
 	        //run_utilities.dumpQuickSearchTermsForGrameneSearchIndex();
-	        run_utilities.dumpProjectionStats();
+	        //run_utilities.dumpProjectionStats();
+	        run_utilities.dumpRiceProjectionReactionTable();
 	        // create and attach IE to changes; commit changes
     		//run_utilities.commitChanges();
         }
