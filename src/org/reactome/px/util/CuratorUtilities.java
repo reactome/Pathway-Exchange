@@ -1789,7 +1789,6 @@ public class CuratorUtilities
     	sb.append("Reaction\tOryza sativa");
 
     	// build the list of rice species names
-    	// get list of species, sort it, place Oryza at the top
         Collection<GKInstance> speciesColl = dbAdaptor.fetchInstancesByClass(ReactomeJavaConstants.Species);
         List<GKInstance> speciesList = new ArrayList();
         for (GKInstance speciesIns : speciesColl) {
@@ -1818,21 +1817,24 @@ public class CuratorUtilities
             // get orthologousEvents for current Reaction, look for a species match in each one
             Collection<GKInstance> orthoEvents = curR.getAttributeValuesList(ReactomeJavaConstants.orthologousEvent);
             if (orthoEvents.size() > 0) {
-	            for (Iterator<?> itOE = orthoEvents.iterator(); itOE.hasNext();) {
-	                GKInstance curOE = (GKInstance) itOE.next();
-	                GKInstance curOES = (GKInstance)curOE.getAttributeValue(ReactomeJavaConstants.species);
-	                // look in each projected species for each orthoEvent
-	                for (Iterator<?> itPS = speciesList.iterator(); itPS.hasNext();) {
-	                    GKInstance curPS = (GKInstance) itPS.next();
+                for (GKInstance curPS : speciesList) {
+                	boolean isPresent = false;
+		            for (Iterator<?> itOE = orthoEvents.iterator(); itOE.hasNext();) {
+		                GKInstance curOE = (GKInstance) itOE.next();
+		                GKInstance curOES = (GKInstance)curOE.getAttributeValue(ReactomeJavaConstants.species);
+		                // look in each projected species for each orthoEvent
 	    				if (curPS.equals(curOES))
-	                    	sb.append("\t1");
-	                    else
-	                    	sb.append("\t0");
+	    					isPresent = true;
 	                }
+		            if (isPresent)
+                    	sb.append("\t1");
+                    else
+                    	sb.append("\t0");
 	            }
             }
-            else {
-            	sb.append("\tNothin'");
+            else { // fill out the non-projected species
+                for (GKInstance curPS : speciesList)
+                	sb.append("\t0");
             }
             sb.append("\n");
         }            
