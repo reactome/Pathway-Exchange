@@ -18,6 +18,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import org.apache.commons.codec.binary.Base64;
 import org.gk.graphEditor.PathwayEditor;
@@ -436,7 +437,8 @@ public class ReactomeToBioSystemsConverter extends AbstractConverterFromReactome
             if (!id.startsWith("EntrezGene:"))
                 continue;
             id = id.substring("EntrezGene:".length());
-            rtn.add(id);
+            if (Pattern.matches("\\A\\d+\\z", id))
+            	rtn.add(id);
         }
         return rtn;
     }
