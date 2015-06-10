@@ -355,7 +355,9 @@ public class PDExtractor {
 		double y = compartmentVertexLayout.getY() * MAGNIFICATION;
 		double width = compartmentVertexLayout.getWidth() * MAGNIFICATION;
 		double height = compartmentVertexLayout.getHeight() * MAGNIFICATION;
-		String title = compartmentVertexLayout.getTitle();
+		String title = compartmentVertexLayout.getTitle() != null ? 
+					   compartmentVertexLayout.getTitle() :
+					   "";
 
 		Glyph compartmentGlyph = new Glyph();
 		compartmentGlyph.setClazz(GlyphClazz.COMPARTMENT.toString());
