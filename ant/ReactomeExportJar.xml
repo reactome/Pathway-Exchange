@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!-- ====================================================================== 
+     June 11, 2015                                                         
+
+     project    Jar Reactome APIs
+     description Create a jar file from pathway exchange project to 
+                 allow SBGN and SBML.
+                   
+                                                                     
+     ====================================================================== -->
+<project name="ReactomeExportJar" default="jar" basedir=".." >
+	<property name="destDir" value="${basedir}" />
+	<property name="sourceClsDir" value="class" />
+		
+	<target name="jar">
+        <jar destfile="${destDir}/reactome_export.jar">
+            <fileset dir="${sourceClsDir}">
+            	    <include name="org/gk/convert/common/**.class" />
+            	    <include name="org/gk/layout/**.class" />
+            	    <include name="org/gk/psimixml/**.class" />
+            	    <include name="org/gk/sbgn/**.class" />
+            	    <include name="org/gk/sbml/**" />
+            </fileset>
+        </jar>
+    </target>
+
+</project>
