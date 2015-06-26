@@ -14,6 +14,7 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 
 import org.sbgn.bindings.Sbgn;
@@ -97,8 +98,10 @@ public class Dumper {
 	private static String nodeToString(Node node) {
 		StringWriter sw = new StringWriter();
 		try {
-			Transformer t = TransformerFactory.newInstance().newTransformer();
-			t.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+			Transformer t = SAXTransformerFactory.newInstance().newTransformer();
+			//t.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+			t.setOutputProperty(OutputKeys.INDENT, "yes");
+			t.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
 			t.transform(new DOMSource(node), new StreamResult(sw));
 		} catch (TransformerException e) {
     		System.err.println("LayoutGeneratorSBGNPD.nodeToString: WARNING - problem converting node to string");
