@@ -99,7 +99,7 @@ public class Dumper {
 		StringWriter sw = new StringWriter();
 		try {
 			Transformer t = SAXTransformerFactory.newInstance().newTransformer();
-			//t.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+			t.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
 			t.setOutputProperty(OutputKeys.INDENT, "yes");
 			t.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
 			t.transform(new DOMSource(node), new StreamResult(sw));
