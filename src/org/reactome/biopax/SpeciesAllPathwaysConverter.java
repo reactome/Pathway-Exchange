@@ -17,6 +17,7 @@ import org.gk.model.GKInstance;
 import org.gk.model.InstanceUtilities;
 import org.gk.model.ReactomeJavaConstants;
 import org.gk.persistence.MySQLAdaptor;
+import org.gk.schema.InvalidAttributeException;
 import org.jdom.Document;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
@@ -99,6 +100,11 @@ public class SpeciesAllPathwaysConverter  {
                                                              ReactomeJavaConstants.species});
             filterEventsForSpecies(events, species);
             events = InstanceUtilities.grepTopLevelEvents(events);
+            
+            if (events == null || events.isEmpty()) {
+            	continue;
+            }
+            
             Document biopaxModel = convert(events, idGenerator);
             XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
             String fileName = species.getDisplayName();
