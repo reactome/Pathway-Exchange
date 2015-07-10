@@ -34,7 +34,6 @@
 	<classpathentry kind="lib" path="lib/mysql/mysql-connector-java-5.0.8-bin.jar"/>
 	<classpathentry kind="lib" path="lib/sbgn/org.pathvisio.sbgn.jar"/>
 	<classpathentry kind="lib" path="lib/sbgn/org.sbgn.jar"/>
-	<classpathentry kind="lib" path="lib/sbml/jsbml.jar"/>
 	<classpathentry kind="lib" path="lib/sbml/libsbmlj.jar"/>
 	<classpathentry kind="lib" path="lib/commons-codec/commons-codec-1.3.jar"/>
 	<classpathentry kind="lib" path="lib/celldesigner/celldesigner.jar"/>
@@ -47,5 +46,8 @@
 	<classpathentry kind="lib" path="lib/ols-client/jaxrpc.jar"/>
 	<classpathentry kind="lib" path="lib/ols-client/saaj.jar"/>
 	<classpathentry kind="lib" path="lib/ols-client/wsdl4j-1.5.1.jar"/>
+	<classpathentry kind="lib" path="lib/sbml/jsbml-0.8-rc1-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="lib/psicquic/psi25-xml-1.7.9-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/commons-cli-1.3.jar"/>
 	<classpathentry kind="output" path="class"/>
 </classpath>
