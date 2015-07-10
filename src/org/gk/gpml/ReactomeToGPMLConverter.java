@@ -1049,9 +1049,9 @@ public class ReactomeToGPMLConverter extends AbstractConverterFromReactome {
     @Test
     public void testConvert() throws Exception {
         MySQLAdaptor dba = new MySQLAdaptor("localhost",
-                                            "gk_central_100509",
-                                            "root", 
-                                            "macmysql01",
+                                            "gk_current",
+                                            "test", 
+                                            "test",
                                             3306);
         setMySQLAdaptor(dba);
         // Get the list of files from Peter's list

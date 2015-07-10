@@ -8,7 +8,7 @@
      guanming                                                                
      ====================================================================== -->
 <project name="PathwayExchangeJar" default="jar" basedir="..">
-	<property name="destDir" value="/home/preecej/Documents/projects/plant_reactome/aracyc_to_reactome_conversion/aracyc_data/aracyc_v11/merge_exec" />
+	<property name="destDir" value="/Users/smckay" />
 	<property name="sourceClsDir" value="class" />
 		
 	<target name="jar">

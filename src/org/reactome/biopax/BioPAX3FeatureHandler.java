@@ -303,23 +303,25 @@ public class BioPAX3FeatureHandler {
     }
     
     protected void handleHasDomain(GKInstance rEntity, 
-                                   Element bpEntity,
-                                   String featurePropName) throws Exception {
-          List hasDomains = rEntity.getAttributeValuesList(ReactomeJavaConstants.hasDomain);
-          if (hasDomains == null || hasDomains.size() == 0)
-              return;
-          GKInstance domain = null;
-          for (Iterator it = hasDomains.iterator(); it.hasNext();) {
-              domain = (GKInstance) it.next();
-              // The allowed type might be not a Domain
-              if (!domain.getSchemClass().isa(ReactomeJavaConstants.SequenceDomain))
-                  continue;
-              // Only Domain can be converted to SequenceFeature instances in BioPAX
-              Element sequenceFeature = createEntityFeatureFromDomain(domain);
-              converter.createObjectPropElm(bpEntity, 
-                                            featurePropName, 
-                                            sequenceFeature);
-          }
+    		Element bpEntity,
+    		String featurePropName) throws Exception {
+    	if (!rEntity.getSchemClass().isValidAttribute(ReactomeJavaConstants.hasDomain))
+    		return;
+    	List hasDomains = rEntity.getAttributeValuesList(ReactomeJavaConstants.hasDomain);
+    	if (hasDomains == null || hasDomains.size() == 0)
+    		return;
+    	GKInstance domain = null;
+    	for (Iterator it = hasDomains.iterator(); it.hasNext();) {
+    		domain = (GKInstance) it.next();
+    		// The allowed type might be not a Domain
+    		if (!domain.getSchemClass().isa(ReactomeJavaConstants.SequenceDomain))
+    			continue;
+    		// Only Domain can be converted to SequenceFeature instances in BioPAX
+    		Element sequenceFeature = createEntityFeatureFromDomain(domain);
+    		converter.createObjectPropElm(bpEntity, 
+    				featurePropName, 
+    				sequenceFeature);
+    	}
     }
     
    /**

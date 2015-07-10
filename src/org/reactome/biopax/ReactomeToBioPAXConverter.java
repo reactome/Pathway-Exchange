@@ -848,22 +848,24 @@ public class ReactomeToBioPAXConverter {
         //rToBInstanceMap.put(rEntity, bpEntityParticipant);
         return bpEntityParticipant;
     }
-    
+
     private void handleHasDomain(GKInstance rEntity, OWLIndividual bpEntityParticipant) throws Exception {
-    		List hasDomains = rEntity.getAttributeValuesList("hasDomain");
-    		if (hasDomains == null || hasDomains.size() == 0)
-    			return;
-    		GKInstance domain = null;
-    		OWLProperty prop = biopaxFactory.getOWLProperty("SEQUENCE-FEATURE-LIST");
-    		for (Iterator it = hasDomains.iterator(); it.hasNext();) {
-    			domain = (GKInstance) it.next();
-    			// The allowed type might be not a Domain
-    			if (!domain.getSchemClass().isa("SequenceDomain"))
-    				continue;
-    			// Only Domain can be converted to SequenceFeature instances in BioPAX
-    			OWLIndividual sequenceFeature = createSequenceFeatureFromDomain(domain);
-    			bpEntityParticipant.addPropertyValue(prop, sequenceFeature);
-    		}
+    	if (!rEntity.getSchemClass().isValidAttribute("hasDomain"))
+    		return;
+    	List hasDomains = rEntity.getAttributeValuesList("hasDomain");
+    	if (hasDomains == null || hasDomains.size() == 0)
+    		return;
+    	GKInstance domain = null;
+    	OWLProperty prop = biopaxFactory.getOWLProperty("SEQUENCE-FEATURE-LIST");
+    	for (Iterator it = hasDomains.iterator(); it.hasNext();) {
+    		domain = (GKInstance) it.next();
+    		// The allowed type might be not a Domain
+    		if (!domain.getSchemClass().isa("SequenceDomain"))
+    			continue;
+    		// Only Domain can be converted to SequenceFeature instances in BioPAX
+    		OWLIndividual sequenceFeature = createSequenceFeatureFromDomain(domain);
+    		bpEntityParticipant.addPropertyValue(prop, sequenceFeature);
+    	}
     }
     
    /**
