@@ -124,14 +124,17 @@ public class SpeciesAllPathwaysConverter  {
      */
     private void filterEventsForSpecies(Collection events,
                                         GKInstance species) throws Exception {
-        
-        List<GKInstance> list = new ArrayList<GKInstance>();
         for (Iterator it = events.iterator(); it.hasNext();) {
             GKInstance event = (GKInstance) it.next();
-            // Get the first species only
-            GKInstance eventSpecies = (GKInstance) event.getAttributeValue(ReactomeJavaConstants.species);
-            if (eventSpecies != species)
-                it.remove();
+            // Don't show multi-species events 
+            List<GKInstance> eventSpecies = (List<GKInstance>) event.getAttributeValuesList(ReactomeJavaConstants.species);
+            
+            for (GKInstance spc : eventSpecies) {
+            	if (spc != species) {
+            		it.remove();
+            		break;
+            	}
+            }
         }
     }
     

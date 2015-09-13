@@ -219,6 +219,7 @@ public class ReactomeToBioPAXXMLConverter {
             GKInstance e = (GKInstance) ei.next();
             handleEvent(e);
         }
+        System.err.println("Hello event");
         handlePathwaySteps();
     }
     
