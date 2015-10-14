@@ -451,7 +451,8 @@ public abstract class SBMLBuilder {
 			if (entity.getSchemClass().isValidAttribute("crossReference")) {
 				List<GKInstance> crossReferences = entity.getAttributeValuesList("crossReference");
 				for (GKInstance crossReference: crossReferences) {
-					if (((GKInstance)(crossReference.getAttributeValue("referenceDatabase"))).getAttributeValue("name").equals("COMPOUND")) {
+					if (crossReference.getAttributeValue("referenceDatabase") != null &&
+						((GKInstance)(crossReference.getAttributeValue("referenceDatabase"))).getAttributeValue("name").equals("COMPOUND")) {
 						resources.add("urn:miriam:kegg.compound:" + crossReference.getAttributeValue("identifier"));
 						break;
 					}
