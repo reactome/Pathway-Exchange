@@ -2,8 +2,11 @@
 
 package org.gk.sbml;
 
+import java.nio.charset.StandardCharsets;
+import java.text.Normalizer;
 import java.util.List;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.gk.model.GKInstance;
 import org.gk.sbml.model.elements.SBase;
 
@@ -21,7 +24,7 @@ public class NotesBuilder {
 		String notes = extractNotesFromInstance(instance);
 		
 		if (notes != null && !notes.isEmpty()) {
-			String notesString = createNotesString(notes);
+			String notesString = createNotesString(notes, false);
 			if (notesString != null && !notesString.isEmpty()) {
 				try {
 					sbase.setNotes(notesString);
@@ -38,7 +41,7 @@ public class NotesBuilder {
 		String notes = extractNotesFromInstances(instances);
 		
 		if (notes != null && !notes.isEmpty()) {
-			String notesString = createNotesString(notes);
+			String notesString = createNotesString(notes, false);
 			if (notesString != null && !notesString.isEmpty()) {
 				try {
 					sbase.setNotes(notesString);
@@ -135,12 +138,15 @@ public class NotesBuilder {
 	
 	public static String extractNotesFromInstance(GKInstance instance) {
 		String notes = "";
-		
 		if (instance.getSchemClass().isValidAttribute("summation")) {
 			try {
 				GKInstance summation = (GKInstance) instance.getAttributeValue("summation");
 				if (summation != null) {
 					String text = summation.getAttributeValue("text").toString();
+					
+					byte[] textBytes = text.getBytes();
+					text = flattenToAscii(new String(textBytes, StandardCharsets.UTF_8));
+
 					if (text != null)
 						notes = text;
 				}
@@ -154,6 +160,10 @@ public class NotesBuilder {
 	}
 
 	public static String createNotesString(String notes) {
+		return createNotesString(notes, true);
+	}
+	
+	private static String createNotesString(String notes, boolean embedInXMLTag) {
 		// libSBML doesn't like really long notes strings
 		if (notes.length() > MAX_NOTES_LENGTH)
 			notes = notes.substring(0, MAX_NOTES_LENGTH);
@@ -169,7 +179,7 @@ public class NotesBuilder {
 					break;
 			}
 		
-		return "<notes>" + notesParagraphsString + "</notes>";
+		return embedInXMLTag ? "<notes>" + notesParagraphsString + "</notes>" : notesParagraphsString;
 	}
 
 	public static String cleanUpNotesString(String notes) {
@@ -184,6 +194,19 @@ public class NotesBuilder {
 		if (notes.length() > MAX_NOTES_LENGTH)
 			notes = notes.substring(0, MAX_NOTES_LENGTH);
 		
-		return notes;
+		return StringEscapeUtils.escapeXml(notes);
+	}
+	
+	// Method taken from http://stackoverflow.com/questions/3322152/is-there-a-way-to-get-rid-of-accents-and-convert-a-whole-string-to-regular-lette/15191508#15191508
+	public static String flattenToAscii(String text) {
+		StringBuilder flattenedText = new StringBuilder(text.length());
+		
+		String normalizedText = Normalizer.normalize(text, Normalizer.Form.NFD);
+		for (char c : normalizedText.toCharArray()) {
+			if (c <= '\u007F')
+				flattenedText.append(c);
+		}
+		
+		return flattenedText.toString();
 	}
 }
