@@ -172,14 +172,31 @@ public class NotesBuilder {
 		String notesParagraphsString = "";
 		for (String notesString: notesStrings)
 			if (!notesString.isEmpty() && !notesString.matches("^[\t  ]+$")) {
-				String newNotesParagraphsString = notesParagraphsString + "<p xmlns=\"http://www.w3.org/1999/xhtml\">" + cleanUpNotesString(notesString) + "</p>";
-				if (newNotesParagraphsString.length() <= MAX_NOTES_LENGTH)
+				String newNotesParagraphsString = notesParagraphsString + getParagraphString(notesString, MAX_NOTES_LENGTH - notesParagraphsString.length());
+				if (newNotesParagraphsString.length() <= MAX_NOTES_LENGTH && !newNotesParagraphsString.equals(notesParagraphsString))
 					notesParagraphsString = newNotesParagraphsString;
 				else
 					break;
 			}
 		
 		return embedInXMLTag ? "<notes>" + notesParagraphsString + "</notes>" : notesParagraphsString;
+	}
+	
+	public static String getParagraphString(String notes, int maxLength) {
+		final String START_TAG = "<p xmlns=\"http://www.w3.org/1999/xhtml\">";
+		final String END_TAG = "</p>";
+		final String ELLIPSIS = "...";
+		
+		int maxContentLength = maxLength - START_TAG.length() - END_TAG.length();
+		if (maxContentLength < ELLIPSIS.length())
+			return "";
+		
+		String cleanedNotes = cleanUpNotesString(notes);
+		if (cleanedNotes.length() > maxContentLength) {
+			cleanedNotes = cleanedNotes.substring(0, maxContentLength - ELLIPSIS.length()) + ELLIPSIS;
+		}
+		
+		return START_TAG + cleanedNotes + END_TAG;
 	}
 
 	public static String cleanUpNotesString(String notes) {
