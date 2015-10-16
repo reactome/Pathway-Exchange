@@ -173,7 +173,7 @@ public class NotesBuilder {
 		for (String notesString: notesStrings)
 			if (!notesString.isEmpty() && !notesString.matches("^[\t  ]+$")) {
 				String newNotesParagraphsString = notesParagraphsString + getParagraphString(notesString, MAX_NOTES_LENGTH - notesParagraphsString.length());
-				if (newNotesParagraphsString.length() <= MAX_NOTES_LENGTH && !newNotesParagraphsString.equals(notesParagraphsString))
+				if (newNotesParagraphsString.length() <= MAX_NOTES_LENGTH)
 					notesParagraphsString = newNotesParagraphsString;
 				else
 					break;
