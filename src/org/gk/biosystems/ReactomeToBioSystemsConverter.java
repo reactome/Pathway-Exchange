@@ -52,9 +52,9 @@ import org.reactome.convert.common.PathwayReferenceEntityHelper;
  *
  */
 public class ReactomeToBioSystemsConverter extends AbstractConverterFromReactome {
-    private String optionalPathwayUrl = "http://www.reactome.org/cgi-bin/eventbrowser?DB=gk_current&ID=";
+    private String optionalPathwayUrl = "http://www.reactome.org/content/detail/";
     // Default should use stable_id
-    private String pathwayUrl = "http://www.reactome.org/cgi-bin/eventbrowser_st_id?ST_ID=";
+    private String pathwayUrl = "http://www.reactome.org/content/detail/";
     private String sourceUrl = "http://www.reactome.org";
     // This is for chicken
     ///public String pathwayUrl = "http://gallus.reactome.org/cgi-bin/eventbrowser?DB=test_gallus_reactome_release_0&ID=";
@@ -238,11 +238,11 @@ public class ReactomeToBioSystemsConverter extends AbstractConverterFromReactome
     
     @Override
     protected String getReactomeId(GKInstance pathway) throws Exception {
-        GKInstance species = (GKInstance) pathway.getAttributeValue(ReactomeJavaConstants.species);
-        if (species != null && species.getDisplayName().equals("Homo sapiens")) {
+        //GKInstance species = (GKInstance) pathway.getAttributeValue(ReactomeJavaConstants.species);
+        //if (species != null && species.getDisplayName().equals("Homo sapiens")) {
             return super.getReactomeId(pathway);
-        }
-        return pathway.getDBID() + "";
+        //}
+        //return pathway.getDBID() + "";
     }
     
     private Element createLinkedSystemForOrthologousSource(GKInstance event) throws Exception {
