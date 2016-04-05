@@ -76,17 +76,17 @@ public class ControlMapper extends AbstractBioPAXToReactomeMapper {
         String type = (String) bpInstance.getPropertyValue(prop);
         if (type == null)
             return;
-        GKInstance gkType = null;
-        Collection collection = reactomeAdaptor.fetchInstanceByAttribute(ReactomeJavaConstants.RegulationType,
-                                                                         ReactomeJavaConstants.name,
-                                                                         "=",
-                                                                         type);
-        if (collection != null && collection.size() > 0) 
-            gkType = (GKInstance) collection.iterator().next();
-        else {
-            gkType = reactomeAdaptor.createNewInstance(ReactomeJavaConstants.RegulationType);
-            gkType.setAttributeValue(ReactomeJavaConstants.name, type);
-        }
+        GKInstance  gkType = null;
+//        Collection collection = reactomeAdaptor.fetchInstanceByAttribute(ReactomeJavaConstants.RegulationType,
+//                                                                         ReactomeJavaConstants.name,
+//                                                                         "=",
+//                                                                         type);
+//        if (collection != null && collection.size() > 0) 
+//            gkType = (GKInstance) collection.iterator().next();
+//        else {
+//            gkType = reactomeAdaptor.createNewInstance(ReactomeJavaConstants.RegulationType);
+//            gkType.setAttributeValue(ReactomeJavaConstants.name, type);
+//        }
     }
     
     private void mapControlled(OWLIndividual bpInstance, 
