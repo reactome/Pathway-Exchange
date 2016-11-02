@@ -1613,6 +1613,7 @@ public class CuratorUtilities
         for (Iterator<?> itP = pathways.iterator(); itP.hasNext();) {
             GKInstance curP = (GKInstance) itP.next();
             Long curPathwayID = curP.getDBID();
+			String curStableID = ((GKInstance)curP.getAttributeValue(ReactomeJavaConstants.stableIdentifier)).getDisplayName();
             String curPathwayName = curP.getDisplayName();
             String curPathwaySpeciesName = ((GKInstance)curP.getAttributeValue(ReactomeJavaConstants.species)).getDisplayName();
             Long curObjectID = curPathwayID;
@@ -1650,7 +1651,7 @@ public class CuratorUtilities
 		                		String rgpIdentifier = curPE.getAttributeValue(ReactomeJavaConstants.identifier).toString();
 			            		if (rgpIdentifier != null) {
 		            				//System.out.println(rgpIdentifier + "\t" + curPathwayID + "\t" + curPathwayName + "\t" + curPathwaySpeciesName);
-		            				System.out.println(curPathwayID + "\t" + curPathwayName + "\t" + curPathwaySpeciesName + "\t" + rgpIdentifier);
+		            				System.out.println(((curStableID != null) ? curStableID : curPathwayID) + "\t" + curPathwayName + "\t" + curPathwaySpeciesName + "\t" + rgpIdentifier);
 		            				//System.out.println(rgpIdentifier); // JP used to grep a specific pathway's RGPs
 			            			count++;
 			            		}
@@ -2188,7 +2189,7 @@ public class CuratorUtilities
 	        //run_utilities.testUpdate1();
 	        //run_utilities.testUpdate2(run_utilities.target_instances);
 	        //run_utilities.updateRGPsWithUniProtKBData();
-	        run_utilities.listRiceRGPs(true); // for PR data releases; pre-projection
+	        //run_utilities.listRiceRGPs(true); // for PR data releases; pre-projection
 	        //run_utilities.listAthRGPs();
 	        //run_utilities.deleteReactomeDataByInstanceEdit();
 	        //run_utilities.profileAthIsoforms();
@@ -2203,10 +2204,10 @@ public class CuratorUtilities
 	        //run_utilities.listNewRefMols();
 	        //run_utilities.grameneSolrExporter(); // for PR data releases - v2, obsolete
 	        //run_utilities.dumpRGPsBinnedByPathwayOld();
-	        //run_utilities.dumpRGPsBinnedByPathway(); // for PR data releases
+	        run_utilities.dumpRGPsBinnedByPathway(); // for PR data releases
 	        //run_utilities.dumpPathwayDiagramTermsForGrameneSearchIndex();
 	        //run_utilities.dumpQuickSearchTermsForGrameneSearchIndex();
-	        //run_utilities.dumpProjectionStats(false); // for PR data releases - stats page
+	        run_utilities.dumpProjectionStats(false); // for PR data releases - stats page
 	        //run_utilities.dumpRiceProjectionReactionTable();
 	        //run_utilities.exportReactionProjectionTable(); // for PR data releases - Gramoogle
 	        //run_utilities.removeStaleLOCs();
