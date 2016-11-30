@@ -1607,7 +1607,7 @@ public class CuratorUtilities
 
     private void dumpRGPsBinnedByPathway() throws Exception {
     	int count = 0;
-    	
+
     	// get pathways
         Collection<?> pathways = dbAdaptor.fetchInstancesByClass(ReactomeJavaConstants.Pathway);
         for (Iterator<?> itP = pathways.iterator(); itP.hasNext();) {
@@ -1651,7 +1651,8 @@ public class CuratorUtilities
 		                		String rgpIdentifier = curPE.getAttributeValue(ReactomeJavaConstants.identifier).toString();
 			            		if (rgpIdentifier != null) {
 		            				//System.out.println(rgpIdentifier + "\t" + curPathwayID + "\t" + curPathwayName + "\t" + curPathwaySpeciesName);
-		            				System.out.println(((curStableID != null) ? curStableID : curPathwayID) + "\t" + curPathwayName + "\t" + curPathwaySpeciesName + "\t" + rgpIdentifier);
+		            				System.out.println(curPathwayID + "\t" + curPathwayName + "\t" + curPathwaySpeciesName + "\t" + rgpIdentifier);
+									//System.out.println(((curStableID != null) ? curStableID : curPathwayID) + "\t" + curPathwayName + "\t" + curPathwaySpeciesName + "\t" + rgpIdentifier);
 		            				//System.out.println(rgpIdentifier); // JP used to grep a specific pathway's RGPs
 			            			count++;
 			            		}
@@ -1842,17 +1843,17 @@ public class CuratorUtilities
     		sb.append("\n");
     	System.out.println(sb.toString());
     }
-    
-    // generate raw binary table containing presence/absence of reaction by species
+
+	private class speciesNameComparator implements Comparator<GKInstance>{
+		@Override
+		public int compare(GKInstance s1, GKInstance s2) {
+			return s1.getDisplayName().compareToIgnoreCase(s2.getDisplayName());
+		}
+	}
+
+	// generate raw binary table containing presence/absence of reaction by species
     private void dumpRiceProjectionReactionTable() throws Exception {
 
-    	class speciesNameComparator implements Comparator<GKInstance>{
-    	    @Override
-    	    public int compare(GKInstance s1, GKInstance s2) {
-    	        return s1.getDisplayName().compareToIgnoreCase(s2.getDisplayName());
-    	    }
-    	}
-    	
     	StringBuilder sb = new StringBuilder();
     	sb.append("Reaction\tOryza sativa");
 
@@ -2167,7 +2168,95 @@ public class CuratorUtilities
         //System.out.println("Count: " + count); 
     }
 
-    
+	// generate raw table containing species-specific gene counts binned by pathway
+	private void dumpGeneCountsInPathwaysBySpecies() throws Exception {
+
+        System.out.print("Pathway\tPathwayID\tOryza sativa");
+
+		// build the list of rice species names
+		Collection<GKInstance> speciesColl = dbAdaptor.fetchInstancesByClass(ReactomeJavaConstants.Species);
+		List<GKInstance> speciesList = new ArrayList();
+		for (GKInstance speciesIns : speciesColl) {
+			//if (target_taxa.contains(speciesIns)) {
+			speciesList.add(speciesIns);
+			//}
+		}
+		Collections.sort(speciesList, new speciesNameComparator());
+
+		for (GKInstance species : speciesList) {
+            System.out.print("\t" + species.getDisplayName());
+		}
+        System.out.print("\n");
+
+		// collect the O.sativa pathways
+		GKInstance Osativa = dbAdaptor.fetchInstance(186860L);
+		Collection<?> OSpathways = dbAdaptor.fetchInstanceByAttribute(
+				ReactomeJavaConstants.Pathway,
+				ReactomeJavaConstants.species,
+				"=",
+				Osativa);
+
+        // iterate over the OS pathways; filtering for container pathways
+        int count = 0;
+        Set<GKInstance> nRGPs = null; // RGP container
+
+		for (Iterator<?> itP = OSpathways.iterator(); itP.hasNext();) {
+			GKInstance curP = (GKInstance) itP.next();
+
+            boolean hasChildPath = false;
+            // check for child pathways; if present, filter this pathway out. we only want terminal pathways
+            Collection<GKInstance> childEvents = curP.getAttributeValuesList(ReactomeJavaConstants.hasEvent);
+            if (childEvents != null) {
+                for (GKInstance event : childEvents) {
+                    if (event.getSchemClass() == curP.getSchemClass()) {
+                        hasChildPath = true;
+                        break;
+                    }
+                }
+            }
+            if (!hasChildPath) {
+                // write pathway info
+                System.out.print(curP.getDisplayName() + "\t" + ((GKInstance) curP.getAttributeValue(ReactomeJavaConstants.stableIdentifier)).getDisplayName() + "\t");
+                //count++;
+                // gather and write Os genes for this pathway
+                nRGPs = InstanceUtilities.grepRefPepSeqsFromPathway(curP);
+                System.out.print((nRGPs != null ? nRGPs.size() : "0") + "\t");
+                //System.out.print("\n");
+                nRGPs = null; // reset for use with projected species
+
+
+                // get orthologousEvents for current pathway, look for a species match in each one
+                Collection<GKInstance> orthoEvents = curP.getAttributeValuesList(ReactomeJavaConstants.orthologousEvent);
+                if (orthoEvents.size() > 0) {
+                    for (GKInstance curPS : speciesList) {
+                        boolean isPresent = false;
+                        for (Iterator<?> itOE = orthoEvents.iterator(); itOE.hasNext();) {
+                            isPresent = false;
+                            nRGPs = null;
+                            GKInstance curOE = (GKInstance) itOE.next();
+                            GKInstance curOES = (GKInstance)curOE.getAttributeValue(ReactomeJavaConstants.species);
+                            // look in each projected species for each orthoEvent
+                            if (curPS.equals(curOES)) {
+                                isPresent = true;
+                                // generate count of gene products in this species for this reaction
+                                nRGPs = InstanceUtilities.grepRefPepSeqsFromPathway(curOE);
+                            }
+                            if (isPresent)
+                                System.out.print("\t" + (nRGPs != null ? nRGPs.size() : ""));
+                        }
+                    }
+                    System.out.print("\n");
+                }
+                else { // placeholder for non-projected species
+                    for (GKInstance curPS : speciesList)
+                        System.out.print("\t0");
+                    System.out.print("\n");
+                }
+            }
+        }
+		//sb.append("Os Pathway count: " + count + "\n");
+	}
+
 	/**
 	 * Constructor: Establish logger and configs.
 	 */
@@ -2204,13 +2293,14 @@ public class CuratorUtilities
 	        //run_utilities.listNewRefMols();
 	        //run_utilities.grameneSolrExporter(); // for PR data releases - v2, obsolete
 	        //run_utilities.dumpRGPsBinnedByPathwayOld();
-	        run_utilities.dumpRGPsBinnedByPathway(); // for PR data releases
+	        //run_utilities.dumpRGPsBinnedByPathway(); // for PR data releases
 	        //run_utilities.dumpPathwayDiagramTermsForGrameneSearchIndex();
 	        //run_utilities.dumpQuickSearchTermsForGrameneSearchIndex();
-	        run_utilities.dumpProjectionStats(false); // for PR data releases - stats page
-	        //run_utilities.dumpRiceProjectionReactionTable();
+	        //run_utilities.dumpProjectionStats(false); // for PR data releases - stats page
 	        //run_utilities.exportReactionProjectionTable(); // for PR data releases - Gramoogle
 	        //run_utilities.removeStaleLOCs();
+			//run_utilities.dumpRiceProjectionReactionTable();
+			run_utilities.dumpGeneCountsInPathwaysBySpecies();
 	        // create and attach IE to changes; commit changes
     		//run_utilities.commitChanges();
         }
