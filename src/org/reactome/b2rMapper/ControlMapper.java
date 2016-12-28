@@ -4,7 +4,6 @@
  */
 package org.reactome.b2rMapper;
 
-import java.util.Collection;
 import java.util.Map;
 
 import org.biopax.model.BioPAXFactory;
@@ -62,32 +61,41 @@ public class ControlMapper extends AbstractBioPAXToReactomeMapper {
         GKInstance gkInstance = bpToRInstanceMap.get(bpInstance);
         if (gkInstance == null)
             throw new IllegalStateException(bpInstance.toString() + " has not been mapped.");
-        mapControlType(bpInstance, bpFactory, gkInstance, reactomeAdaptor, bpToRInstanceMap);
+//        mapControlType(bpInstance, bpFactory, gkInstance, reactomeAdaptor, bpToRInstanceMap);
         mapControlled(bpInstance, bpFactory, gkInstance, bpToRInstanceMap);
         mapController(bpInstance, bpFactory, bpToRInstanceMap, gkInstance);
     }
     
-    private void mapControlType(OWLIndividual bpInstance,
-                                BioPAXFactory bpFactory,
-                                GKInstance gkInstance, 
-                                XMLFileAdaptor reactomeAdaptor,
-                                Map<OWLIndividual, GKInstance> bpToRInstanceMap) throws Exception {
-        OWLProperty prop = bpFactory.getOWLProperty(BioPAXJavaConstants.CONTROL_TYPE);
-        String type = (String) bpInstance.getPropertyValue(prop);
-        if (type == null)
-            return;
-        GKInstance  gkType = null;
-//        Collection collection = reactomeAdaptor.fetchInstanceByAttribute(ReactomeJavaConstants.RegulationType,
-//                                                                         ReactomeJavaConstants.name,
-//                                                                         "=",
-//                                                                         type);
-//        if (collection != null && collection.size() > 0) 
-//            gkType = (GKInstance) collection.iterator().next();
-//        else {
-//            gkType = reactomeAdaptor.createNewInstance(ReactomeJavaConstants.RegulationType);
-//            gkType.setAttributeValue(ReactomeJavaConstants.name, type);
-//        }
-    }
+    /**
+     * RegulationType class in Reactome has been deleted. So there is no need to do what is
+     * implemented in this method.
+     * @param bpInstance
+     * @param bpFactory
+     * @param gkInstance
+     * @param bpToRInstanceMap
+     * @throws Exception
+     */
+//    private void mapControlType(OWLIndividual bpInstance,
+//                                BioPAXFactory bpFactory,
+//                                GKInstance gkInstance, 
+//                                XMLFileAdaptor reactomeAdaptor,
+//                                Map<OWLIndividual, GKInstance> bpToRInstanceMap) throws Exception {
+//        OWLProperty prop = bpFactory.getOWLProperty(BioPAXJavaConstants.CONTROL_TYPE);
+//        String type = (String) bpInstance.getPropertyValue(prop);
+//        if (type == null)
+//            return;
+//        GKInstance  gkType = null;
+////        Collection collection = reactomeAdaptor.fetchInstanceByAttribute(ReactomeJavaConstants.RegulationType,
+////                                                                         ReactomeJavaConstants.name,
+////                                                                         "=",
+////                                                                         type);
+////        if (collection != null && collection.size() > 0) 
+////            gkType = (GKInstance) collection.iterator().next();
+////        else {
+////            gkType = reactomeAdaptor.createNewInstance(ReactomeJavaConstants.RegulationType);
+////            gkType.setAttributeValue(ReactomeJavaConstants.name, type);
+////        }
+//    }
     
     private void mapControlled(OWLIndividual bpInstance, 
                                BioPAXFactory bpFactory,
