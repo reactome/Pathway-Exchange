@@ -135,8 +135,8 @@ public class AraCycPostProcessor implements BioPAXToReactomePostProcessor {
         logger.info("Cleaning DatabaseIdentifiers...");
         cleanUpDatabaseIdentifiers(fileAdaptor);
 
-        logger.info("Remove unused AraCyc RegulationTypes...");
-        removeRegulationTypes(fileAdaptor); // new
+//        logger.info("Remove unused AraCyc RegulationTypes...");
+//        removeRegulationTypes(fileAdaptor); // new
         logger.info("Remove unused KEGG-legacy Reference...");
         removeUnusedRefDBs(fileAdaptor); // new
         logger.info("Adapting Isoforms...");
@@ -1005,14 +1005,14 @@ public class AraCycPostProcessor implements BioPAXToReactomePostProcessor {
         }
     }
 
-    private void removeRegulationTypes(XMLFileAdaptor fileAdaptor) throws Exception {
-        Collection<?> reactions = fileAdaptor.fetchInstancesByClass(ReactomeJavaConstants.RegulationType);
-        for (Iterator<?> it = reactions.iterator(); it.hasNext();) {
-            GKInstance reaction = (GKInstance) it.next();
-            fileAdaptor.deleteInstance(reaction);
-    		logger.info(reaction.getDisplayName() + " deleted.");
-        }
-    }
+//    private void removeRegulationTypes(XMLFileAdaptor fileAdaptor) throws Exception {
+//        Collection<?> reactions = fileAdaptor.fetchInstancesByClass(ReactomeJavaConstants.RegulationType);
+//        for (Iterator<?> it = reactions.iterator(); it.hasNext();) {
+//            GKInstance reaction = (GKInstance) it.next();
+//            fileAdaptor.deleteInstance(reaction);
+//    		logger.info(reaction.getDisplayName() + " deleted.");
+//        }
+//    }
     
     private void assignReactionDisplayNameFromInputOutput(XMLFileAdaptor fileAdaptor) throws Exception {
         Collection<?> reactions = fileAdaptor.fetchInstancesByClass(ReactomeJavaConstants.ReactionlikeEvent);

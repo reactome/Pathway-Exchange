@@ -8,12 +8,12 @@
      guanming                                                                
      ====================================================================== -->
 <project name="PathwayExchangeJar" default="jar" basedir="..">
-	<property name="destDir" value="/Users/smckay" />
+	<property name="destDir" value="../RESTfulAPI/web/WEB-INF/lib/" />
 	<property name="sourceClsDir" value="class" />
 		
 	<target name="jar">
 		<mkdir dir="${destDir}" />
-        <jar destfile="${destDir}/Arabidopsis_merge.jar">
+        <jar destfile="${destDir}/pathwayExchange.jar">
             <fileset dir="${sourceClsDir}">
             	    <include name="**" />
             </fileset>
@@ -22,9 +22,9 @@
 				<attribute name="Class-Path" value="lib/mysql/mysql-connector-java-5.0.8-bin.jar lib/reactome/reactome.jar lib/jdom/jdom.jar lib/jdom/saxpath.jar lib/jdom/jaxen-core.jar lib/jdom/jaxen-jdom.jar lib/protege/log4j.jar lib/protege/protege-owl.jar lib/protege/protege.jar lib/owlsyntax.jar lib/ols-client/axis-1.4.jar lib/ols-client/wsdl4j-1.5.1.jar lib/ols-client/saaj.jar lib/ols-client/jaxrpc.jar lib/ols-client/commons-logging-1.0.4.jar lib/ols-client/commons-discovery-0.2.jar lib/ols-client/ols-client.jar" />
 			</manifest>
         </jar>
-		<java classname="Main-Class">
+<!--		<java classname="Main-Class">
 			<arg value="dumpToDatabase"/>
-		</java>
+		</java>-->
 		<mkdir dir="${destDir}/lib" />
 		<copy todir="${destDir}/lib">
 			<fileset dir="lib">

@@ -4,6 +4,7 @@
 package org.reactome.px.util;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -39,6 +40,7 @@ import org.jdom.input.SAXBuilder;
 import org.jdom.xpath.XPath;
 
 import com.hp.hpl.jena.query.junit.QueryTest;
+import com.sun.xml.internal.fastinfoset.util.StringArray;
 
 /**
  * @author preecej
@@ -175,7 +177,9 @@ public class CuratorUtilities
 					elm.getValue());
 			for (GKInstance curr_species : species)
 			{
-				this.NCBI_map.put(curr_species.getDisplayName(), elm.getAttributeValue("NCBI_id"));
+				if (elm.getAttributeValue("NCBI_id") != null)
+					if (!elm.getAttributeValue("NCBI_id").isEmpty())
+						this.NCBI_map.put(curr_species.getDisplayName(), elm.getAttributeValue("NCBI_id"));
 				this.target_taxa.add(curr_species);
 				break;
 			}
@@ -259,7 +263,48 @@ public class CuratorUtilities
     private void listRiceRGPs(boolean hasUniProt) throws Exception
     {
     	if (hasUniProt) {
-	    	logger.info("Collecting RGP identifiers matching refDB UniProt and geneName includes 'LOC*'...");
+	    	logger.info("Collecting RGP identifiers matching refDB UniProt");
+	    	
+	    	Collection<GKInstance> c = uniAdaptor.fetchInstanceByAttribute(ReactomeJavaConstants.ReferenceGeneProduct, 
+	    			ReactomeJavaConstants.referenceDatabase, 
+	    			"=", 
+	    			2L);  // UniProt
+	    	logger.info("raw size: " + c.size());
+	    	String refDb = new String();
+	    	String uniprot_id = new String();
+	    	String gene_id = new String();
+	    	int count = 0;
+	        for (GKInstance rgp : c) {
+	        	
+	        	if (rgp.getAttributeValue(ReactomeJavaConstants.referenceDatabase) != null)
+	        		refDb = ((GKInstance)rgp.getAttributeValue(ReactomeJavaConstants.referenceDatabase)).getDisplayName();
+	        	if (rgp.getAttributeValue(ReactomeJavaConstants.identifier) != null)
+	        		uniprot_id = rgp.getAttributeValue(ReactomeJavaConstants.identifier).toString();
+	        	if (rgp.getAttributeValuesList(ReactomeJavaConstants.geneName) != null) {
+	        		List<String> geneNames = rgp.getAttributeValuesList(ReactomeJavaConstants.geneName);
+	    			for (Iterator<String> it = geneNames.iterator(); it.hasNext();) {
+	    	            String currName = (String)it.next().toUpperCase();
+	    	            // grab the curated rice RGPs with LOC identifiers for mapping (majority)  
+	    	            if (currName.startsWith("LOC_")) {
+	    	            	gene_id = currName;
+	        				break;
+	        			}
+	    	            // and more recently curated rice RGPs with OS ids and no LOC (minority)   
+	        			if (currName.toUpperCase().startsWith("OS") && currName.length() == 12) {
+	        				gene_id = currName;
+	        			}
+	        		}
+	        	}
+	        	if (gene_id.length() > 0) {
+		        	count++;
+		        	System.out.println(rgp.getDBID() + "\t" + refDb + ":" + uniprot_id + "\t" + gene_id);
+	        	}
+	        	gene_id = "";
+	        }
+	    	logger.info("filtered size: " + count);
+
+/*    		
+    		logger.info("Collecting RGP identifiers matching refDB UniProt and geneName includes 'LOC*'...");
 	
 	    	Collection<GKInstance> c = uniAdaptor.fetchInstanceByAttribute(ReactomeJavaConstants.ReferenceGeneProduct, 
 	    			ReactomeJavaConstants.geneName, 
@@ -286,6 +331,7 @@ public class CuratorUtilities
 	        	}
 	        	System.out.println(rgp.getDBID() + "\t" + refDb + ":" + uniprot + "\t" + loc);
 	        }
+*/      
     	} else {
 	    	logger.info("Collecting RGP instances with designated species or subspecies ('Oryza sativa*') and referenceDatabase != UniProt");
 
@@ -1561,12 +1607,13 @@ public class CuratorUtilities
 
     private void dumpRGPsBinnedByPathway() throws Exception {
     	int count = 0;
-    	
+
     	// get pathways
         Collection<?> pathways = dbAdaptor.fetchInstancesByClass(ReactomeJavaConstants.Pathway);
         for (Iterator<?> itP = pathways.iterator(); itP.hasNext();) {
             GKInstance curP = (GKInstance) itP.next();
             Long curPathwayID = curP.getDBID();
+			String curStableID = ((GKInstance)curP.getAttributeValue(ReactomeJavaConstants.stableIdentifier)).getDisplayName();
             String curPathwayName = curP.getDisplayName();
             String curPathwaySpeciesName = ((GKInstance)curP.getAttributeValue(ReactomeJavaConstants.species)).getDisplayName();
             Long curObjectID = curPathwayID;
@@ -1588,20 +1635,31 @@ public class CuratorUtilities
             		}
             	}
             	if (hasParent) continue; // don't bother getting reactions, etc from a superpathway
-
-        		// get all PhysicalEntities from this pathway
-            	Set<GKInstance> allPEs = InstanceUtilities.grepRefPepSeqsFromPathway(curP);
-                if (allPEs != null) {
-                	for (GKInstance curPE : allPEs) {
-                		if (curPE.getAttributeValue(ReactomeJavaConstants.identifier) != null) {
-	                		String rgpIdentifier = curPE.getAttributeValue(ReactomeJavaConstants.identifier).toString();
-		            		if (rgpIdentifier != null) {
-	            				System.out.println(rgpIdentifier + "\t" + curPathwayID + "\t" + curPathwayName + "\t" + curPathwaySpeciesName);
-		            			count++;
-		            		}
-                		}
-                	}
-                }
+            	
+            	//ArrayList<Long> pFilter = new ArrayList<Long>(); // JP used to grab a specific pathway's RGPs
+            	//pFilter.add(3899351L);
+            	//pFilter.add(5225756L);
+            	//pFilter.add(5608118L);
+            	//pFilter.add(5632095L);
+            	
+            	//if (pFilter.contains(curPathwayID)) {
+	        		// get all PhysicalEntities from this pathway
+	            	Set<GKInstance> allPEs = InstanceUtilities.grepRefPepSeqsFromPathway(curP);
+	                if (allPEs != null) {
+	                	for (GKInstance curPE : allPEs) {
+	                		if (curPE.getAttributeValue(ReactomeJavaConstants.identifier) != null) {
+		                		String rgpIdentifier = curPE.getAttributeValue(ReactomeJavaConstants.identifier).toString();
+			            		if (rgpIdentifier != null) {
+		            				//System.out.println(rgpIdentifier + "\t" + curPathwayID + "\t" + curPathwayName + "\t" + curPathwaySpeciesName);
+		            				System.out.println(curPathwayID + "\t" + curPathwayName + "\t" + curPathwaySpeciesName + "\t" + rgpIdentifier);
+									//System.out.println(((curStableID != null) ? curStableID : curPathwayID) + "\t" + curPathwayName + "\t" + curPathwaySpeciesName + "\t" + rgpIdentifier);
+		            				//System.out.println(rgpIdentifier); // JP used to grep a specific pathway's RGPs
+			            			count++;
+			            		}
+	                		}
+	                	}
+	                }
+            	//}
             }
         }
         System.out.println("Total RGPs: " + count);
@@ -1724,7 +1782,7 @@ public class CuratorUtilities
     
     // generate raw HTML table containing aggregate projection counts by species
     // format: Species Name, Pathways, Reactions, Gene Products
-    private void dumpProjectionStats() throws Exception {
+    private void dumpProjectionStats(boolean outputHTML) throws Exception {
 
     	class speciesNameComparator implements Comparator<GKInstance>{
     	    @Override
@@ -1734,13 +1792,19 @@ public class CuratorUtilities
     	}
     	
     	StringBuilder sb = new StringBuilder();
-    	sb.append("<table border=1 cellpadding=3>"
+    	
+    	if (outputHTML)
+    		sb.append("<table border=1 cellpadding=3>"
     				+ "\n" + "<tr bgcolor=\"#C2D998\"><td><b>Species</b></td><td><b>Pathways</b></td><td><b>Reactions</b></td><td><b>Gene Products</b></td></tr>"
-    			);
+    				);
+    	else
+    		sb.append("Species\tPathways\tReactions\tGene Products");
+    	
     	// get list of species, sort it, place Oryza at the top
         Collection<GKInstance> speciesColl = dbAdaptor.fetchInstancesByClass(ReactomeJavaConstants.Species);
         List<GKInstance> speciesList = new ArrayList();
         for (GKInstance speciesIns : speciesColl) {
+        	//if (speciesIns.getDBID() != ""
         	speciesList.add(speciesIns);
         }
         Collections.sort(speciesList, new speciesNameComparator());
@@ -1768,23 +1832,28 @@ public class CuratorUtilities
 					curS);
             // format this species' stats for printing
             if (pathways.size() > 0) 
-            	sb.append("\n" + "<tr><td>" + curS.getDisplayName() + "</td><td>" + pathways.size() + "</td><td>" + reactions.size() + "</td><td>" + RGPs.size() + "</td></tr>");
+            	if (outputHTML)
+            		sb.append("\n" + "<tr><td>" + curS.getDisplayName() + "</td><td>" + pathways.size() + "</td><td>" + reactions.size() + "</td><td>" + RGPs.size() + "</td></tr>");
+            	else
+            		sb.append("\n" + curS.getDisplayName() + "\t" + pathways.size() + "\t" + reactions.size() + "\t" + RGPs.size());
         }
-        sb.append("\n" + "</table>");
+    	if (outputHTML)
+    		sb.append("\n" + "</table>");
+    	else
+    		sb.append("\n");
     	System.out.println(sb.toString());
     }
 
-    // generate raw HTML table containing aggregate projection counts by species
-    // format: Species Name, Pathways, Reactions, Gene Products
+	private class speciesNameComparator implements Comparator<GKInstance>{
+		@Override
+		public int compare(GKInstance s1, GKInstance s2) {
+			return s1.getDisplayName().compareToIgnoreCase(s2.getDisplayName());
+		}
+	}
+
+	// generate raw binary table containing presence/absence of reaction by species
     private void dumpRiceProjectionReactionTable() throws Exception {
 
-    	class speciesNameComparator implements Comparator<GKInstance>{
-    	    @Override
-    	    public int compare(GKInstance s1, GKInstance s2) {
-    	        return s1.getDisplayName().compareToIgnoreCase(s2.getDisplayName());
-    	    }
-    	}
-    	
     	StringBuilder sb = new StringBuilder();
     	sb.append("Reaction\tOryza sativa");
 
@@ -1792,9 +1861,9 @@ public class CuratorUtilities
         Collection<GKInstance> speciesColl = dbAdaptor.fetchInstancesByClass(ReactomeJavaConstants.Species);
         List<GKInstance> speciesList = new ArrayList();
         for (GKInstance speciesIns : speciesColl) {
-        	if (target_taxa.contains(speciesIns)) {
+        	//if (target_taxa.contains(speciesIns)) {
 	        	speciesList.add(speciesIns);
-        	}
+        	//}
         }
         Collections.sort(speciesList, new speciesNameComparator());
 
@@ -1842,7 +1911,352 @@ public class CuratorUtilities
     	System.out.println(sb.toString());
     }
 
+    private String buildProjectedReactionsRow(Collection<GKInstance> curPathways, String OsRXNname, Long OsRXNid,
+    										Long PrjRxnID, 
+    										String speciesName, String speciesID, GKInstance physEnt) throws Exception {
+    	String refGeneDetails = "";
+
+    	GKInstance re = (GKInstance)physEnt.getAttributeValue(ReactomeJavaConstants.referenceEntity);
+    	if (re != null) {
+			String refGeneName = "";
+			String refRGPDBID = "";
+    		// get ref species EWAS, RGP id, and Os id
+    		GKInstance refEWAS = (GKInstance)physEnt.getAttributeValue(ReactomeJavaConstants.inferredFrom);
+    		if (refEWAS != null) {
+    			GKInstance refRGP = (GKInstance)refEWAS.getAttributeValue(ReactomeJavaConstants.referenceEntity);
+    			if (refRGP != null) {
+    				if (refRGP.getAttributeValue(ReactomeJavaConstants.geneName) != null) {
+        				List<String> refGeneNames = (List<String>)refRGP.getAttributeValuesList(ReactomeJavaConstants.geneName);
+        				if (refGeneNames != null) {
+            				for (String rGN : refGeneNames) {
+            					if (rGN.toUpperCase().startsWith("OS") && rGN.length() == 12) { 
+            						refGeneName = rGN;
+            						break;
+            					}
+            				}
+            				if (refGeneName.isEmpty())
+            					refGeneName = refGeneNames.get(0);
+        				}
+    				}
+        			refRGPDBID = refRGP.getDBID().toString();
+    			}
+    		}
+    		String rgpIdentifier = re.getAttributeValue(ReactomeJavaConstants.identifier).toString();
+
+    		// loop through pathways to generate all pathway-reaction-gene correlations 
+    		if (curPathways != null) { 
+	            for (Iterator<?> itP = curPathways.iterator(); itP.hasNext();) {
+	                GKInstance curP = (GKInstance) itP.next();
+	                
+	                if (curP != null) {
+	                	String OsPwyName = (curP.getDisplayName() != null ? curP.getDisplayName() : "no name");
+	                	String OsPwyID = (curP.getDBID() != null ? curP.getDBID().toString() : "no id");
+		
+			    		if (rgpIdentifier != null) {
+			    			refGeneDetails = OsPwyName + "\t" + OsPwyID + "\t"
+			    							+ OsRXNname + "\t" + OsRXNid + "\t" + PrjRxnID + "\t"
+											+ speciesName + "\t" + speciesID + "\t"
+											+ refGeneName + "\t" + refRGPDBID + "\t"
+											+ rgpIdentifier + "\t" + re.getDBID() + "\n";
+			    		}
+	                }
+	            }
+            }
+    	}
+    	//System.out.print(refGeneDetails);
+    	return refGeneDetails;
+    }
     
+    // generate table containing genes, RGP ids, projected reactions (IDs), and reference reactions (names and IDs)
+    private void exportReactionProjectionTable() throws Exception {
+
+    	class speciesNameComparator implements Comparator<GKInstance>{
+    	    @Override
+    	    public int compare(GKInstance s1, GKInstance s2) {
+    	        return s1.getDisplayName().compareToIgnoreCase(s2.getDisplayName());
+    	    }
+    	}
+    	
+    	StringBuilder sb = new StringBuilder();
+    	sb.append("Os Pathway Name\t"
+    			+ "Os Pathway DB ID\t"
+    			+ "Os Reaction Name\t"
+				+ "Os Reaction DB ID\t"
+				+ "Proj Reaction DB ID\t"
+				+ "Proj Reaction Species\t"
+				+ "Proj Reaction Species ID\t"
+				+ "Os Gene Product Locus ID\t"
+				+ "Os Gene Product DB ID\t"
+				+ "Proj Gene Product Locus ID\t"
+				+ "Proj Gene Product DB ID");
+
+    	// build the list of rice species names
+        Collection<GKInstance> speciesColl = dbAdaptor.fetchInstancesByClass(ReactomeJavaConstants.Species);
+        List<GKInstance> speciesList = new ArrayList();
+        for (GKInstance speciesIns : speciesColl) {
+        	if (target_taxa.contains(speciesIns)) {
+	        	speciesList.add(speciesIns);
+        	}
+        }
+        Collections.sort(speciesList, new speciesNameComparator());
+
+        //for (GKInstance species : speciesList) {
+        //	sb.append("\t" + species.getDisplayName());
+        //}
+        sb.append("\n");
+    	
+    	// iterate through O.sativa reactions
+        GKInstance Osativa = dbAdaptor.fetchInstance(186860L);
+        Collection<?> OSreactions = dbAdaptor.fetchInstanceByAttribute(
+        		ReactomeJavaConstants.Reaction, 
+        		ReactomeJavaConstants.species, 
+				"=",
+				Osativa);
+        for (Iterator<?> itR = OSreactions.iterator(); itR.hasNext();) {
+            GKInstance curR = (GKInstance) itR.next();
+
+            /*
+             * Grab all pathways for this reaction, pass to all calls to buildProjectedReactionsRow().
+             * This is designed for iterative efficiency, since we are starting with reactions and working in both
+             * directions (up to pathways and down to gene products). 
+             */
+            Collection<GKInstance> curPathways = curR.getReferers(ReactomeJavaConstants.hasEvent);
+
+       		// get orthologousEvents for current Reaction
+            Collection<GKInstance> orthoEvents = curR.getAttributeValuesList(ReactomeJavaConstants.orthologousEvent);
+            if (orthoEvents.size() > 0) {
+	            for (Iterator<?> itOE = orthoEvents.iterator(); itOE.hasNext();) {
+	                GKInstance curOE = (GKInstance) itOE.next();
+	                GKInstance curOES = (GKInstance)curOE.getAttributeValue(ReactomeJavaConstants.species);
+
+	                Long curObjectID;
+	                String curObjectName;
+	                //Integer count = 0;
+	                
+                	// get EWAS (via Catalystactivity.PhysicalEntity)
+                    Collection<GKInstance> cas = curOE.getAttributeValuesList(ReactomeJavaConstants.catalystActivity);
+                    if (cas != null) {
+                    	for (GKInstance curCA : cas) {
+                            GKInstance pe = (GKInstance)curCA.getAttributeValue(ReactomeJavaConstants.physicalEntity);
+                            if (pe != null) {
+                                //System.out.println(pe.getAttributeValue(ReactomeJavaConstants.name) + "\t" + curPathwayID + "\t" + curPathwayName);
+
+                                curObjectID = pe.getDBID();
+                                curObjectName = pe.getDisplayName();
+                                
+                                // is EWAS? get refEntity (RGP) identifier (Uniprot) and stop
+                                if (pe.getSchemClass().getName().equals(ReactomeJavaConstants.EntityWithAccessionedSequence)) {
+                                	sb.append(
+                               			buildProjectedReactionsRow(
+                               				curPathways,curR.getDisplayName(),curR.getDBID(),curOE.getDBID(),curOES.getDisplayName(),curOES.getDBID().toString(),pe));
+                                }
+                                // else, is DefinedSet?
+                                else {
+	                                if (pe.getSchemClass().getName().equals(ReactomeJavaConstants.DefinedSet)) {
+	                                	// get hasMember collection
+	                                	List<GKInstance> members = (List<GKInstance>)pe.getAttributeValuesList(ReactomeJavaConstants.hasMember);
+	                                	for (GKInstance member : members) {
+	                                		// is EWAS? get refEntity (RGP) identifier (Uniprot)
+	    	                                if (member.getSchemClass().getName().equals(ReactomeJavaConstants.EntityWithAccessionedSequence)) {
+	    	                                	sb.append(
+	                                				buildProjectedReactionsRow(
+	                                						curPathways,curR.getDisplayName(),curR.getDBID(),curOE.getDBID(),curOES.getDisplayName(),curOES.getDBID().toString(),member));
+	    	                                // is it a Complex?
+	    	                                } else {
+	    	                                	// get the EWAS
+	    		                                if (member.getSchemClass().getName().equals(ReactomeJavaConstants.Complex)) {
+	    		                                	// get hasMember collection
+	    		                                	List<GKInstance> cPXmembers = (List<GKInstance>)pe.getAttributeValuesList(ReactomeJavaConstants.hasMember);
+	    		                                	for (GKInstance cPXmember : cPXmembers) {
+	    		                                		// is EWAS? get refEntity (RGP) identifier (Uniprot)
+	    		    	                                if (cPXmember.getSchemClass().getName().equals(ReactomeJavaConstants.EntityWithAccessionedSequence)) {
+	    		    	                                	sb.append(
+		    		                                   			buildProjectedReactionsRow(
+		    		                                   					curPathways,curR.getDisplayName(),curR.getDBID(),curOE.getDBID(),curOES.getDisplayName(),curOES.getDBID().toString(),cPXmember));
+	    		    	                                }
+	    		                                	}
+	    		                                }
+	                                		}
+	                                	}
+                                	}
+                                }
+                            }
+                    	}
+                    }
+                }
+            }
+        }            
+        //sb.append("\n");
+    	System.out.println(sb.toString());
+    }
+    
+    // for UniProt-identified entities, displayNames and other attributes have stale LOCs from old, pre-UniProt settings
+    private void removeStaleLOCs() throws Exception {
+
+    	int count = 0;
+    	class speciesNameComparator implements Comparator<GKInstance>{
+    	    @Override
+    	    public int compare(GKInstance s1, GKInstance s2) {
+    	        return s1.getDisplayName().compareToIgnoreCase(s2.getDisplayName());
+    	    }
+    	}
+    	
+    	// build the list of rice species names
+        Collection<GKInstance> speciesColl = dbAdaptor.fetchInstancesByClass(ReactomeJavaConstants.Species);
+        List<GKInstance> speciesList = new ArrayList();
+        for (GKInstance speciesIns : speciesColl) {
+        	if (target_taxa.contains(speciesIns)) {
+	        	speciesList.add(speciesIns);
+        	}
+        }
+        Collections.sort(speciesList, new speciesNameComparator());
+        
+        // iterate through each species
+        for (GKInstance curSpecies : speciesList) { 
+	    	// gather rice EWAS with LOC in displayName (Os, Osj, or Osi)
+	        Collection<?> OsEWAS = dbAdaptor.fetchInstanceByAttribute(
+	        		ReactomeJavaConstants.EntityWithAccessionedSequence, 
+	        		ReactomeJavaConstants.species, 
+					"=",
+					curSpecies);
+	        for (Iterator<?> itEWAS = OsEWAS.iterator(); itEWAS.hasNext();) {
+	            GKInstance curEWAS = (GKInstance) itEWAS.next();
+	        	if (curEWAS.getDisplayName().contains(" (LOC")) {
+		        	System.out.println(curEWAS.getAttributeValue(ReactomeJavaConstants.species).toString() 
+		        			+ " " + curEWAS.getDisplayName());
+		        	//count++;
+			    	// remove LOC from .name(0), place in new, secondary .name slot
+		        	if (curEWAS.getAttributeValuesList(ReactomeJavaConstants.name) != null) {
+		        		List<String> names = curEWAS.getAttributeValuesList(ReactomeJavaConstants.name);
+		    			for (Iterator<String> it = names.iterator(); it.hasNext();) {
+		    	            String currName = (String)it.next();
+		    	            // grab the curated rice RGPs with LOC identifiers for mapping (majority)  
+		    	            if (currName.contains(" (LOC")) {
+		    	            	//System.out.println("\t" + currName.toString());
+		    	            	
+		    	            	String[] nameParts = currName.split(" ");
+		    	            	String trimmedName = new String();
+		    	            	int count_names = 0;
+		    	            	for (String namePart : nameParts) {
+		    	            		if (count_names < nameParts.length-1)
+		    	            			trimmedName += " " + namePart;
+		    	            		count_names++;
+		    	            	}
+		    	            	String LOCName = nameParts[nameParts.length-1].replace("(", "").replace(")", "");
+				    	        //System.out.println("\tTrimmed name: " + trimmedName);
+				    	        //System.out.println("\tLOC name: " + LOCName);
+		    	            	names.remove(0);
+		    	            	names.add(0, trimmedName.trim());
+		    	            	names.add(LOCName);
+
+			    	            // reset displayName
+					        	curEWAS.setDisplayName(trimmedName 
+					        			+ (curEWAS.getAttributeValue(ReactomeJavaConstants.compartment) != null ? " [" + ((GKInstance)curEWAS.getAttributeValue(ReactomeJavaConstants.compartment)).getDisplayName() + "]" : "")
+					        			);
+				    	        //InstanceDisplayNameGenerator.setDisplayName(curEWAS);
+
+					        	count_names = 0;
+		    	            	break;
+		        			}
+		        		}
+		        	}
+			    	// gather affected CAs and reset their displayName as well - HOLD
+	            	changedInsts.add(curEWAS);
+	        	}
+	        }
+        }
+        //System.out.println("Count: " + count); 
+    }
+
+	// generate raw table containing species-specific gene counts binned by pathway
+	private void dumpGeneCountsInPathwaysBySpecies() throws Exception {
+
+        System.out.print("Pathway\tPathwayID\tOryza sativa");
+
+		// build the list of rice species names
+		Collection<GKInstance> speciesColl = dbAdaptor.fetchInstancesByClass(ReactomeJavaConstants.Species);
+		List<GKInstance> speciesList = new ArrayList();
+		for (GKInstance speciesIns : speciesColl) {
+			//if (target_taxa.contains(speciesIns)) {
+			speciesList.add(speciesIns);
+			//}
+		}
+		Collections.sort(speciesList, new speciesNameComparator());
+
+		for (GKInstance species : speciesList) {
+            System.out.print("\t" + species.getDisplayName());
+		}
+        System.out.print("\n");
+
+		// collect the O.sativa pathways
+		GKInstance Osativa = dbAdaptor.fetchInstance(186860L);
+		Collection<?> OSpathways = dbAdaptor.fetchInstanceByAttribute(
+				ReactomeJavaConstants.Pathway,
+				ReactomeJavaConstants.species,
+				"=",
+				Osativa);
+
+        // iterate over the OS pathways; filtering for container pathways
+        int count = 0;
+        Set<GKInstance> nRGPs = null; // RGP container
+
+		for (Iterator<?> itP = OSpathways.iterator(); itP.hasNext();) {
+			GKInstance curP = (GKInstance) itP.next();
+
+            boolean hasChildPath = false;
+            // check for child pathways; if present, filter this pathway out. we only want terminal pathways
+            Collection<GKInstance> childEvents = curP.getAttributeValuesList(ReactomeJavaConstants.hasEvent);
+            if (childEvents != null) {
+                for (GKInstance event : childEvents) {
+                    if (event.getSchemClass() == curP.getSchemClass()) {
+                        hasChildPath = true;
+                        break;
+                    }
+                }
+            }
+            if (!hasChildPath) {
+                // write pathway info
+                System.out.print(curP.getDisplayName() + "\t" + ((GKInstance) curP.getAttributeValue(ReactomeJavaConstants.stableIdentifier)).getDisplayName() + "\t");
+                //count++;
+                // gather and write Os genes for this pathway
+                nRGPs = InstanceUtilities.grepRefPepSeqsFromPathway(curP);
+                System.out.print((nRGPs != null ? nRGPs.size() : "0") + "\t");
+                //System.out.print("\n");
+                nRGPs = null; // reset for use with projected species
+
+
+                // get orthologousEvents for current pathway, look for a species match in each one
+                Collection<GKInstance> orthoEvents = curP.getAttributeValuesList(ReactomeJavaConstants.orthologousEvent);
+                if (orthoEvents.size() > 0) {
+                    for (GKInstance curPS : speciesList) {
+                        boolean isPresent = false;
+                        for (Iterator<?> itOE = orthoEvents.iterator(); itOE.hasNext();) {
+                            isPresent = false;
+                            nRGPs = null;
+                            GKInstance curOE = (GKInstance) itOE.next();
+                            GKInstance curOES = (GKInstance)curOE.getAttributeValue(ReactomeJavaConstants.species);
+                            // look in each projected species for each orthoEvent
+                            if (curPS.equals(curOES)) {
+                                isPresent = true;
+                                // generate count of gene products in this species for this reaction
+                                nRGPs = InstanceUtilities.grepRefPepSeqsFromPathway(curOE);
+                            }
+                            if (isPresent)
+                                System.out.print("\t" + (nRGPs != null ? nRGPs.size() : ""));
+                        }
+                    }
+                    System.out.print("\n");
+                }
+                else { // placeholder for non-projected species
+                    for (GKInstance curPS : speciesList)
+                        System.out.print("\t0");
+                    System.out.print("\n");
+                }
+            }
+        }
+		//sb.append("Os Pathway count: " + count + "\n");
+	}
+
 	/**
 	 * Constructor: Establish logger and configs.
 	 */
@@ -1864,7 +2278,7 @@ public class CuratorUtilities
 	        //run_utilities.testUpdate1();
 	        //run_utilities.testUpdate2(run_utilities.target_instances);
 	        //run_utilities.updateRGPsWithUniProtKBData();
-	        //run_utilities.listRiceRGPs(true);
+	        //run_utilities.listRiceRGPs(true); // for PR data releases; pre-projection
 	        //run_utilities.listAthRGPs();
 	        //run_utilities.deleteReactomeDataByInstanceEdit();
 	        //run_utilities.profileAthIsoforms();
@@ -1877,13 +2291,16 @@ public class CuratorUtilities
 	        //run_utilities.profileDupeSEs();
 	        //run_utilities.compareRefMols();
 	        //run_utilities.listNewRefMols();
-	        //run_utilities.grameneSolrExporter();
+	        //run_utilities.grameneSolrExporter(); // for PR data releases - v2, obsolete
 	        //run_utilities.dumpRGPsBinnedByPathwayOld();
-	        //run_utilities.dumpRGPsBinnedByPathway();
+	        //run_utilities.dumpRGPsBinnedByPathway(); // for PR data releases
 	        //run_utilities.dumpPathwayDiagramTermsForGrameneSearchIndex();
 	        //run_utilities.dumpQuickSearchTermsForGrameneSearchIndex();
-	        //run_utilities.dumpProjectionStats();
-	        run_utilities.dumpRiceProjectionReactionTable();
+	        //run_utilities.dumpProjectionStats(false); // for PR data releases - stats page
+	        //run_utilities.exportReactionProjectionTable(); // for PR data releases - Gramoogle
+	        //run_utilities.removeStaleLOCs();
+			//run_utilities.dumpRiceProjectionReactionTable();
+			run_utilities.dumpGeneCountsInPathwaysBySpecies();
 	        // create and attach IE to changes; commit changes
     		//run_utilities.commitChanges();
         }

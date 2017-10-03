@@ -219,7 +219,6 @@ public class ReactomeToBioPAXXMLConverter {
             GKInstance e = (GKInstance) ei.next();
             handleEvent(e);
         }
-        System.err.println("Hello event");
         handlePathwaySteps();
     }
     
@@ -323,19 +322,7 @@ public class ReactomeToBioPAXXMLConverter {
      * @throws Exception
      */
     private String getControlTypeFromRegulation(GKInstance regulation) throws Exception {
-        GKInstance regulationType = (GKInstance) regulation.getAttributeValue(ReactomeJavaConstants.regulationType);
-        if (regulationType != null) {
-            String displayName = regulationType.getDisplayName();
-            if (displayName.equalsIgnoreCase("allosteric activation")) {
-                return "ACTIVATION-ALLOSTERIC";
-            }
-            else if (displayName.equalsIgnoreCase("allosteric inhibition"))
-                return "INHIBITION-ALLOSTERIC";
-            else if (displayName.equalsIgnoreCase("competitive inhibition"))
-                return "INHIBITION-COMPETITIVE";
-            else if (displayName.equalsIgnoreCase("non-competitive inhibition"))
-                return "INHIBITION-NONCOMPETITIVE";
-        }
+
         if (regulation.getSchemClass().isa(ReactomeJavaConstants.PositiveRegulation))
             return "ACTIVATION";
         else if (regulation.getSchemClass().isa(ReactomeJavaConstants.NegativeRegulation))

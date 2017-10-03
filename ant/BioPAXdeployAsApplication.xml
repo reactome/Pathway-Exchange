@@ -8,7 +8,7 @@
      guanming                                                                
      ====================================================================== -->
 <project name="deployAsApplication" default="copy" >
-	<property name="destDir" value="/Users/gwu/Documents/EclipseWorkspace/biopaxexporter" />
+	<property name="destDir" value="/Users/smckay/git/Pathway-Exchange" />
 	
 	<target name="clean">
 		<delete dir="${destDir}" />
@@ -18,8 +18,8 @@
 	<target name="copy">
 		<copy todir="${destDir}">
 			<fileset dir="..">
-				<include name="classes/org/reactome/biopax/*.class" />
-				<include name="classes/org/reactome/model/*.class" />
+				<include name="class/org/reactome/biopax/*.class" />
+				<include name="class/org/reactome/model/*.class" />
 			</fileset>
 			<!-- fileset dir="..">
 				<include name="resources/biopax-level2.owl" />
