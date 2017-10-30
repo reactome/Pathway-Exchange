@@ -155,9 +155,7 @@ public class ReactomeToMsigDBExport {
             List<String> names = pathwayToNames.get(pathway);
             if (names == null || names.size() == 0)
                 continue;
-            builder.append(pathway.getDisplayName().trim() + "\t" +
-            				identifier + "\t" +
-                           "Reactome Pathway"); // As description
+            builder.append(pathway.getDisplayName().trim() + "\t" + identifier); // As description
             for (String name : names)
                 builder.append("\t").append(name);
 //            System.out.println(pathway.getDisplayName() + ": " + names.size());
@@ -183,7 +181,7 @@ public class ReactomeToMsigDBExport {
         
         OutputStreamWriter osWriter = new OutputStreamWriter(os);
         PrintWriter writer = new PrintWriter(osWriter);
-        writer.println("Gene_Set_Name\tBrief_Description\tExternal_Link\tEntrez Gene IDs");
+        writer.println("Gene_Set_Name\tBrief_Description\tExternal_Link\tNCBI Gene IDs");
         StringBuilder builder = new StringBuilder();
         for (String stableId : stableIdList) {
             GKInstance pathway = stableIdToPathway.get(stableId);
