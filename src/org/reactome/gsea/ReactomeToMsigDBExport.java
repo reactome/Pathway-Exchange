@@ -145,24 +145,25 @@ public class ReactomeToMsigDBExport {
         Set<String> exported = new HashSet<String>();
         int count = 0;
         for (GKInstance pathway : pathwayList) {
-            GKInstance stableId = (GKInstance) pathway.getAttributeValue(ReactomeJavaConstants.stableIdentifier);
-            String identifier = (String) stableId.getAttributeValue(ReactomeJavaConstants.identifier);
-            
-        	if (exported.contains(identifier)) {
+        	if (exported.contains(pathway.getDisplayName())) {
                 System.out.println(pathway + " has been exported already!");
                 continue;
             }
             List<String> names = pathwayToNames.get(pathway);
             if (names == null || names.size() == 0)
                 continue;
-            builder.append(pathway.getDisplayName().trim() + "\t" + identifier); // As description
+
+            GKInstance stableId = (GKInstance) pathway.getAttributeValue(ReactomeJavaConstants.stableIdentifier);
+            String identifier = (String) stableId.getAttributeValue(ReactomeJavaConstants.identifier);    
+            builder.append(pathway.getDisplayName().trim() + "\t" + identifier); // As description  
+            
             for (String name : names)
                 builder.append("\t").append(name);
 //            System.out.println(pathway.getDisplayName() + ": " + names.size());
             writer.println(builder.toString());
             builder.setLength(0);
             count ++;
-            exported.add(identifier);
+            exported.add(pathway.getDisplayName());
         }
         writer.close();
         osWriter.close();
