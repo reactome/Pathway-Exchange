@@ -40,7 +40,11 @@ public class HistoryBuilder {
 					if (!authorDbidHash.containsKey(authorDbid)) {
 						GKInstance affiliation = (GKInstance)author.getAttributeValue("affiliation");
 						String organization = affiliation == null ? "": (String)affiliation.getAttributeValue("name");
-						String eMailAddress = (String)author.getAttributeValue("eMailAddress");
+//						String eMailAddress = (String)author.getAttributeValue("eMailAddress");
+						String eMailAddress = null;
+						if (author.getSchemClass().isValidAttribute("eMailAddress")) {
+						    eMailAddress = (String) author.getAttributeValue("eMailAddress");
+						}
 						String firstname = (String)author.getAttributeValue("firstname");
 						String surname = (String)author.getAttributeValue("surname");
 						

@@ -4,7 +4,6 @@
 package org.reactome.px.util;
 
 import java.io.File;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -38,9 +37,6 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
 import org.jdom.xpath.XPath;
-
-import com.hp.hpl.jena.query.junit.QueryTest;
-import com.sun.xml.internal.fastinfoset.util.StringArray;
 
 /**
  * @author preecej
