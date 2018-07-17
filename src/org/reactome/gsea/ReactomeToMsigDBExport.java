@@ -103,10 +103,7 @@ public class ReactomeToMsigDBExport {
         dba.loadInstanceAttributeValues(pathways, att);
         // Create pathway to gene ids map
         if (isForGMT) {
-            Map<GKInstance, List<String>> pathwayToNames = generatePathwayToGeneNamesMap(pathways);
-            exportInGMT(pathways,
-                        pathwayToNames,
-                        os);
+            exportInGMT(pathways, os);
 //            if (failedInstances.size() > 0) {
 //                System.out.println("ReferenceSequence instances don't have gene names: " + failedInstances.size());
 //                for (GKInstance inst : failedInstances)
@@ -119,6 +116,19 @@ public class ReactomeToMsigDBExport {
                    pathwayToGeneIds,
                    os);
         }
+    }
+    
+    /**
+     * Method to export a collection of pathways into an outputstream in the GMT format.
+     * @param pathways
+     * @param os
+     * @throws Exception
+     */
+    public void exportInGMT(Collection<GKInstance> pathways, OutputStream os) throws Exception {
+        Map<GKInstance, List<String>> pathwayToNames = generatePathwayToGeneNamesMap(pathways);
+        exportInGMT(pathways,
+                    pathwayToNames,
+                    os);
     }
     
     private Map<String, GKInstance> loadStableIdToPathway(Collection pathways) throws Exception{
