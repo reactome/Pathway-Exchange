@@ -17,14 +17,16 @@
             <fileset dir="${sourceClsDir}">
             	    <include name="**" />
             </fileset>
-			<manifest>
+			<!-- manifest>
 				<attribute name="Main-Class" value="org.reactome.px.util.AraCycPostProcessor" />
 				<attribute name="Class-Path" value="lib/mysql/mysql-connector-java-5.0.8-bin.jar lib/reactome/reactome.jar lib/jdom/jdom.jar lib/jdom/saxpath.jar lib/jdom/jaxen-core.jar lib/jdom/jaxen-jdom.jar lib/protege/log4j.jar lib/protege/protege-owl.jar lib/protege/protege.jar lib/owlsyntax.jar lib/ols-client/axis-1.4.jar lib/ols-client/wsdl4j-1.5.1.jar lib/ols-client/saaj.jar lib/ols-client/jaxrpc.jar lib/ols-client/commons-logging-1.0.4.jar lib/ols-client/commons-discovery-0.2.jar lib/ols-client/ols-client.jar" />
-			</manifest>
+			</manifest -->
         </jar>
 <!--		<java classname="Main-Class">
 			<arg value="dumpToDatabase"/>
 		</java>-->
+	</target>
+	<target name="copy">
 		<mkdir dir="${destDir}/lib" />
 		<copy todir="${destDir}/lib">
 			<fileset dir="lib">

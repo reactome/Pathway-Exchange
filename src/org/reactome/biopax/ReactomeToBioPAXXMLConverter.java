@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.gk.model.GKInstance;
+import org.gk.model.InstanceUtilities;
 import org.gk.model.ReactomeJavaConstants;
 import org.gk.persistence.MySQLAdaptor;
 import org.gk.schema.SchemaClass;
@@ -260,7 +261,7 @@ public class ReactomeToBioPAXXMLConverter {
      * @throws Exception
      */
     private void handleRegulation(GKInstance regulatedEntity, Element bpEvent) throws Exception {
-        Collection regulations = regulatedEntity.getReferers(ReactomeJavaConstants.regulatedEntity);
+        Collection regulations = InstanceUtilities.getRegulations(regulatedEntity);
         if (regulations == null || regulations.size() == 0)
             return;
         GKInstance regulation = null;
@@ -1865,7 +1866,7 @@ public class ReactomeToBioPAXXMLConverter {
     @Test
     public void testConvert() throws Exception {
         MySQLAdaptor dba = new MySQLAdaptor("localhost",
-                                            "gk_central_102312",
+                                            "test_slice_65",
                                             "root",
                                             "macmysql01",
                                             3306);
@@ -1896,8 +1897,11 @@ public class ReactomeToBioPAXXMLConverter {
         // A mutated pathway in FGFR
 //        GKInstance topEvent = dba.fetchInstance(1839094L);
         
-        // A reaction containing a deletion fragment
-        GKInstance topEvent = dba.fetchInstance(1248655L);
+//        // A reaction containing a deletion fragment
+//        GKInstance topEvent = dba.fetchInstance(1248655L);
+        
+        // Check regulation after data model change by moving regulations to RLEs
+        GKInstance topEvent = dba.fetchInstance(70221L);
         
         ReactomeToBioPAXXMLConverter converter = new ReactomeToBioPAXXMLConverter();
         converter.setReactomeEvent(topEvent);

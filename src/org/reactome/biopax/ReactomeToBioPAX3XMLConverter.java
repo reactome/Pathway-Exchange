@@ -244,6 +244,7 @@ public class ReactomeToBioPAX3XMLConverter {
     private void handleRegulationForCatalystActivity(GKInstance ca, 
                                                      Element bpCatalyst,
                                                      GKInstance rEvent) throws Exception {
+        // This should not be supported in the new data model after release 63.
         Collection regulations = ca.getReferers(ReactomeJavaConstants.regulatedEntity);
         if (regulations == null || regulations.size() == 0)
             return;
@@ -266,7 +267,7 @@ public class ReactomeToBioPAX3XMLConverter {
     
     private void handleRegulation(GKInstance regulatedEntity,
                                   Element bpEvent) throws Exception {
-        Collection regulations = regulatedEntity.getReferers(ReactomeJavaConstants.regulatedEntity);
+        Collection<GKInstance> regulations = InstanceUtilities.getRegulations(regulatedEntity);
         if (regulations == null || regulations.size() == 0)
             return;
         GKInstance regulation = null;
@@ -1807,7 +1808,7 @@ public class ReactomeToBioPAX3XMLConverter {
     @Test
     public void testConvert() throws Exception {
         MySQLAdaptor dba = new MySQLAdaptor("localhost",
-                                            "gk_current_ver44",
+                                            "test_slice_65",
                                             "root",
                                             "macmysql01",
                                             3306);
@@ -1856,7 +1857,9 @@ public class ReactomeToBioPAX3XMLConverter {
         // Check for a bug having one reaction exported twice
 //        GKInstance topEvent = dba.fetchInstance(162906L);
         // Test ecnumber in Degradation
-        GKInstance topEvent = dba.fetchInstance(2173793L);
+//        GKInstance topEvent = dba.fetchInstance(2173793L);
+        // Check regulation after data model change by moving regulations to RLEs
+        GKInstance topEvent = dba.fetchInstance(70221L);
         
         ReactomeToBioPAX3XMLConverter converter = new ReactomeToBioPAX3XMLConverter();
         converter.setReactomeEvent(topEvent);

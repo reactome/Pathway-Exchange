@@ -86,10 +86,6 @@ public class ReactomeToMsigDBExport {
         // Use all human pathways
         if (speciesId == null)
             speciesId = 48887L;
-        if (failedInstances == null)
-            failedInstances = new HashSet<GKInstance>();
-        else
-            failedInstances.clear();
         Collection pathways = dba.fetchInstanceByAttribute(ReactomeJavaConstants.Pathway, 
                                                            ReactomeJavaConstants.species,
                                                            "=",
@@ -111,6 +107,10 @@ public class ReactomeToMsigDBExport {
 //            }
         }
         else { // Export for MSigDB
+            if (failedInstances == null)
+                failedInstances = new HashSet<GKInstance>();
+            else
+                failedInstances.clear();
             Map<GKInstance, List<String>> pathwayToGeneIds = generatePathwayToGeneIdsMap(pathways);
             export(pathways,
                    pathwayToGeneIds,
@@ -125,6 +125,10 @@ public class ReactomeToMsigDBExport {
      * @throws Exception
      */
     public void exportInGMT(Collection<GKInstance> pathways, OutputStream os) throws Exception {
+        if (failedInstances == null)
+            failedInstances = new HashSet<GKInstance>();
+        else
+            failedInstances.clear();
         Map<GKInstance, List<String>> pathwayToNames = generatePathwayToGeneNamesMap(pathways);
         exportInGMT(pathways,
                     pathwayToNames,
@@ -302,6 +306,14 @@ public class ReactomeToMsigDBExport {
             pathwayToIds.put(pathway, geneNameList);
         }
         return pathwayToIds;
+    }
+    
+    /**
+     * Set the minimum size of pathways for export.
+     * @param cutoff
+     */
+    public void setSizeCutoff(int cutoff) {
+        this.SIZE_CUTOFF = cutoff;
     }
     
     public static void main(String[] args) {
