@@ -8,8 +8,9 @@
      guanming                                                                
      ====================================================================== -->
 <project name="deployAsApplication" default="copy" >
-	<property name="destDir" value="/Users/smckay/git/Pathway-Exchange" />
-	
+	<property name="destDir" value="${basedir}/out" />
+	<property name="gitDir" value="${basedir}/.." />
+	<property name="sourceClsDir" value="${gitDir}/class" />
 	<target name="clean">
 		<delete dir="${destDir}" />
 		<mkdir dir="${destDir}" />
@@ -42,6 +43,13 @@
 			</fileset>
 		</jar -->
 	</target>
-
+	<target name="jar">
+		<jar destfile="${destDir}/Pathway-Exchange.jar">
+			<fileset dir="${sourceClsDir}">
+				<include name="org/reactome/**/*.class" />
+				<include name="org/biopax/**/*.class" />
+				<include name="org/gk/**/*.class" />
+			</fileset>
+		</jar>
+	</target>
 </project>
-
