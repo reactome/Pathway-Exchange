@@ -288,7 +288,7 @@ public class ReactomeToBioPAXXMLConverter {
     private Element createModulationFromRegulation(GKInstance regulation,
                                                    String controlType) throws Exception {
         Element modulation = createIndividualElm(controlType);
-        handleNames(regulation, modulation);
+//        handleNames(regulation, modulation);
         String type = getControlTypeFromRegulation(regulation);
         if (type != null) {
             createDataPropElm(modulation, 

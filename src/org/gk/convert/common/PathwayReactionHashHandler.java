@@ -238,7 +238,8 @@ public class PathwayReactionHashHandler {
 			instructions.add(new ClassAttributeFollowingInstruction(ReactomeJavaConstants.Pathway, new String[] {ReactomeJavaConstants.hasEvent}, null));
 			instructions.add(new ClassAttributeFollowingInstruction(ReactomeJavaConstants.Reaction, new String[] {ReactomeJavaConstants.reverseReaction}, null));
 //			instructions.add(new ClassAttributeFollowingInstruction(ReactomeJavaConstants.ReactionlikeEvent, new String[] {ReactomeJavaConstants.hasMember}, null)); // As of release 41, ReactionlikeEvent does not have a hasMember attribute
-			instructions.add(new ClassAttributeFollowingInstruction(ReactomeJavaConstants.BlackBoxEvent, new String[] {ReactomeJavaConstants.hasEvent, "templateEvent"}, null));
+			// As of November, 2018, hasEvent is gone in BlackBoxEvent class
+			//			instructions.add(new ClassAttributeFollowingInstruction(ReactomeJavaConstants.BlackBoxEvent, new String[] {ReactomeJavaConstants.hasEvent, "templateEvent"}, null));
 			reactionlikEvents = InstanceUtilities.followInstanceAttributes(pathway, instructions, new String[]{ReactomeJavaConstants.ReactionlikeEvent});
 		} catch (Exception e) {
 			e.printStackTrace(System.err);

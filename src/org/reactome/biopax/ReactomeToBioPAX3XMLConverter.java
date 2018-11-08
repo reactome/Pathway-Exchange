@@ -304,7 +304,7 @@ public class ReactomeToBioPAX3XMLConverter {
 //        if (modulation != null)
 //            return modulation;
         Element modulation = createIndividualElm(controlType);
-        handleNames(regulation, modulation);
+//        handleNames(regulation, modulation);
         String type = getControlTypeFromRegulation(regulation);
         if (type != null) {
             createDataPropElm(modulation, 
