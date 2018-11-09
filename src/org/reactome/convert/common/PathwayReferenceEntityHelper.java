@@ -34,6 +34,9 @@ public class PathwayReferenceEntityHelper {
                                       Set<GKInstance> smallMolecules,
                                       Set<GKInstance> geneProducts) throws Exception {
         for (GKInstance ref : referenceEntities) {
+            // For the time being, escape drugs
+            if (ref.getSchemClass().isa(ReactomeJavaConstants.ReferenceTherapeutic))
+                continue;
             if (ref.getSchemClass().isa(ReactomeJavaConstants.ReferenceGroup) ||
                 ref.getSchemClass().isa(ReactomeJavaConstants.ReferenceMolecule) ||
                 ref.getSchemClass().isa(ReactomeJavaConstants.ReferenceMoleculeClass))
