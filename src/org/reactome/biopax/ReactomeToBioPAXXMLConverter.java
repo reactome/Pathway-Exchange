@@ -836,11 +836,7 @@ public class ReactomeToBioPAXXMLConverter {
                               BioPAXJavaConstants.XSD_STRING, 
                               currentDbName);
             createDataPropElm(xref, BioPAXJavaConstants.ID, BioPAXJavaConstants.XSD_STRING, DBID.toString());
-            String comment = "Database identifier. Use this URL to connect to the web page of this " +
-                             "instance in Reactome: " +
-                             "http://www.reactome.org/cgi-bin/eventbrowser?DB=gk_current&ID=" +
-                             DBID.toString();
-            createDataPropElm(xref, BioPAXJavaConstants.COMMENT, BioPAXJavaConstants.XSD_STRING, comment);
+            createDataPropElm(xref, BioPAXJavaConstants.COMMENT, BioPAXJavaConstants.XSD_STRING, getComment(DBID.toString()));
         }
         createObjectPropElm(bpInstance, BioPAXJavaConstants.XREF, xref);
         // These two can always stick together: DB_ID and stable id
@@ -875,13 +871,14 @@ public class ReactomeToBioPAXXMLConverter {
                               BioPAXJavaConstants.ID_VERSION,
                               BioPAXJavaConstants.XSD_STRING,
                               version);
-            String comment = "Reactome stable identifier. Use this URL to connect to the web page of this " +
-                             "instance in Reactome: " +
-                             "http://www.reactome.org/cgi-bin/eventbrowser_st_id?ST_ID=" +
-                             key;
-            createDataPropElm(xref, BioPAXJavaConstants.COMMENT, BioPAXJavaConstants.XSD_STRING, comment);
+            createDataPropElm(xref, BioPAXJavaConstants.COMMENT, BioPAXJavaConstants.XSD_STRING, getComment(key));
         }
         createObjectPropElm(bpInstance, BioPAXJavaConstants.XREF, xref);
+    }
+
+    private String getComment(String id) {
+        return "Database identifier. Use this URL to connect to the web page of this " +
+                "instance in Reactome: " + getReactomeInstanceURL(id);
     }
     
     private void handlePathwayComponents(List components, Element bpPathway) throws Exception {
@@ -1923,6 +1920,10 @@ public class ReactomeToBioPAXXMLConverter {
                                                 Integer.parseInt(args[4]));
         GKInstance event = adaptor.fetchInstance(new Long(args[5]));
         return event;
+    }
+
+    private String getReactomeInstanceURL(String id) {
+        return "http://www.reactome.org/content/detail/" + id;
     }
 }
 

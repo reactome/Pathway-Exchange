@@ -922,14 +922,10 @@ public class ReactomeToBioPAX3XMLConverter {
                               BioPAX3JavaConstants.id, 
                               BioPAX3JavaConstants.XSD_STRING, 
                               DBID.toString());
-            String comment = "Database identifier. Use this URL to connect to the web page of this " +
-                             "instance in Reactome: " +
-                             "http://www.reactome.org/cgi-bin/eventbrowser?DB=gk_current&ID=" +
-                             DBID.toString();
             createDataPropElm(xref, 
                               BioPAX3JavaConstants.comment,
                               BioPAX3JavaConstants.XSD_STRING,
-                              comment);
+                              getComment(DBID.toString()));
             if (relationshipType != null && xrefType.equals(BioPAX3JavaConstants.RelationshipXref)) {
                 createObjectPropElm(xref, 
                                     BioPAX3JavaConstants.relationshipType,
@@ -940,7 +936,7 @@ public class ReactomeToBioPAX3XMLConverter {
         // These two can always stick together: DB_ID and stable id
         attachReactomeStableIDAsXref(gkInstance, bpInstance);
     }
-    
+
     private void attachReactomeStableIDAsXref(GKInstance gkInstance,
                                               Element bpInstance) throws Exception {
         if (!gkInstance.getSchemClass().isValidAttribute(ReactomeJavaConstants.stableIdentifier))
@@ -969,13 +965,14 @@ public class ReactomeToBioPAX3XMLConverter {
                               BioPAX3JavaConstants.idVersion,
                               BioPAX3JavaConstants.XSD_STRING,
                               version);
-            String comment = "Reactome stable identifier. Use this URL to connect to the web page of this " +
-                             "instance in Reactome: " +
-                             "http://www.reactome.org/cgi-bin/eventbrowser_st_id?ST_ID=" +
-                             key;
-            createDataPropElm(xref, BioPAX3JavaConstants.comment, BioPAX3JavaConstants.XSD_STRING, comment);
+            createDataPropElm(xref, BioPAX3JavaConstants.comment, BioPAX3JavaConstants.XSD_STRING, getComment(key));
         }
         createObjectPropElm(bpInstance, BioPAX3JavaConstants.xref, xref);
+    }
+
+    private String getComment(String id) {
+        return "Database identifier. Use this URL to connect to the web page of this " +
+                "instance in Reactome: " + getReactomeInstanceURL(id);
     }
     
     private void handlePathwayComponents(List components, Element bpPathway) throws Exception {
@@ -1901,5 +1898,9 @@ public class ReactomeToBioPAX3XMLConverter {
                                                 Integer.parseInt(args[4]));
         GKInstance event = adaptor.fetchInstance(new Long(args[5]));
         return event;
+    }
+
+    private String getReactomeInstanceURL(String id) {
+        return "http://www.reactome.org/content/detail/" + id;
     }
 }
