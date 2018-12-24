@@ -43,7 +43,9 @@ public class B2RMapperUtilities {
     public static GKInstance createEntityCompartment(OWLIndividual bpLocation,
                                                      BioPAXFactory bpFactory,
                                                      XMLFileAdaptor reactomeAdaptor) throws Exception {
-        GKInstance gkInstance = reactomeAdaptor.createNewInstance(ReactomeJavaConstants.EntityCompartment);
+        // EntityCompartment is not a valid class any more
+//        GKInstance gkInstance = reactomeAdaptor.createNewInstance(ReactomeJavaConstants.EntityCompartment);
+        GKInstance gkInstance = reactomeAdaptor.createNewInstance(ReactomeJavaConstants.Compartment);
         // Get term as String
         OWLProperty prop = bpFactory.getOWLProperty(BioPAXJavaConstants.TERM);
         String term = (String) bpLocation.getPropertyValue(prop);

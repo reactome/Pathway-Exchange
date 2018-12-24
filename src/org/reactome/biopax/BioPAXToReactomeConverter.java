@@ -142,7 +142,7 @@ public class BioPAXToReactomeConverter {
     
     private void setDisplayNames() throws Exception {
         // Call this first sequence displayNames are used by others
-        setDisplayNames(ReactomeJavaConstants.EntityCompartment);
+        setDisplayNames(ReactomeJavaConstants.Compartment);
         setDisplayNames(ReactomeJavaConstants.ReferenceDatabase);
         Collection rInstances = reactomeAdaptor.fetchInstancesByClass(ReactomeJavaConstants.DatabaseObject);
         GKInstance rInstance;

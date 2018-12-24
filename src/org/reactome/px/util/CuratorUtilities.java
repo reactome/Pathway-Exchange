@@ -1753,7 +1753,7 @@ public class CuratorUtilities
 	            ReactomeJavaConstants.Reaction,
 	            ReactomeJavaConstants.GO_BiologicalProcess,
 	            ReactomeJavaConstants.GO_MolecularFunction,
-	            ReactomeJavaConstants.EntityCompartment,
+	            ReactomeJavaConstants.Compartment,
 	            ReactomeJavaConstants.Complex,
 	            ReactomeJavaConstants.DefinedSet,
 	            ReactomeJavaConstants.EntityWithAccessionedSequence,

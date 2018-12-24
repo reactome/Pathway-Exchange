@@ -1263,7 +1263,7 @@ public class AraCycPostProcessor implements BioPAXToReactomePostProcessor {
     }
     
     private GKInstance getUnknownCompartment(XMLFileAdaptor fileAdaptor) throws Exception {
-        Collection c = fileAdaptor.fetchInstanceByAttribute(ReactomeJavaConstants.EntityCompartment,
+        Collection c = fileAdaptor.fetchInstanceByAttribute(ReactomeJavaConstants.Compartment,
                                                             ReactomeJavaConstants.accession,
                                                             "=",
                                                             "0008372");
@@ -1825,9 +1825,9 @@ public class AraCycPostProcessor implements BioPAXToReactomePostProcessor {
         fu.close();
         // Switch types
         List<GKInstance> changedInsts = new ArrayList<GKInstance>();
-        GKSchemaClass entityCompartmentCls = (GKSchemaClass) fileAdaptor.getSchema().getClassByName(ReactomeJavaConstants.EntityCompartment);
+        GKSchemaClass entityCompartmentCls = (GKSchemaClass) fileAdaptor.getSchema().getClassByName(ReactomeJavaConstants.Compartment);
         for (GKInstance inst : instances) {
-            if (inst.getSchemClass().isa(ReactomeJavaConstants.EntityCompartment)) {
+            if (inst.getSchemClass().isa(ReactomeJavaConstants.Compartment)) {
                 continue;
             }
             fileAdaptor.switchType(inst, entityCompartmentCls);

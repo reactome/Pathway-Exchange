@@ -75,7 +75,7 @@ public abstract class PostProcessTemplate {
                                             XMLFileAdaptor fileAdaptor) throws Exception {
         // The Schema used for this project has been relaxed to use GO_CellularComponent
         // to accommodate these data sets.
-        Collection localList = fileAdaptor.fetchInstancesByClass(ReactomeJavaConstants.EntityCompartment);
+        Collection localList = fileAdaptor.fetchInstancesByClass(ReactomeJavaConstants.Compartment);
         GKInstance gkInstance = null;
         String attValue = null;
         Map<GKInstance, GKInstance> local2dbMap = new HashMap<GKInstance, GKInstance>();

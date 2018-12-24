@@ -109,9 +109,15 @@ public class ControlMapper extends AbstractBioPAXToReactomeMapper {
             GKInstance gkControlled = bpToRInstanceMap.get(controlled);
             if (gkControlled == null)
                 return;
-            SchemaAttribute att = gkInstance.getSchemClass().getAttribute(ReactomeJavaConstants.regulatedEntity);
-            if (att.isValidValue(gkControlled))
-                gkInstance.addAttributeValue(ReactomeJavaConstants.regulatedEntity, gkControlled);
+            // In 2018's Reactome data model, Regulation has been migrated to RLE
+            if (gkControlled.getSchemClass().isValidAttribute(ReactomeJavaConstants.regulatedBy)) {
+                SchemaAttribute att = gkControlled.getSchemClass().getAttribute(ReactomeJavaConstants.regulatedBy);
+                if (att.isValidValue(gkInstance))
+                    gkControlled.addAttributeValue(att, gkInstance);
+            }
+//            SchemaAttribute att = gkInstance.getSchemClass().getAttribute(ReactomeJavaConstants.regulatedEntity);
+//            if (att.isValidValue(gkControlled))
+//                gkInstance.addAttributeValue(ReactomeJavaConstants.regulatedEntity, gkControlled);
         }
     }
 

@@ -94,10 +94,10 @@ public class PhysicalEntityParticipantMapper extends
             
             // have to make sure gkLocation's type is EntityComponent. Otherwise, it cannot 
             // be used for PhysicalEntity's location
-            if (!gkLocation.getSchemClass().isa(ReactomeJavaConstants.EntityCompartment)) {
+            if (!gkLocation.getSchemClass().isa(ReactomeJavaConstants.Compartment)) {
                 // Need to switch type
                 GKSchemaClass entityComponentCls = 
-                    (GKSchemaClass) reactomeAdaptor.getSchema().getClassByName(ReactomeJavaConstants.EntityCompartment);
+                    (GKSchemaClass) reactomeAdaptor.getSchema().getClassByName(ReactomeJavaConstants.Compartment);
                 reactomeAdaptor.switchType(gkLocation, entityComponentCls);
             }
             gkInstance.setAttributeValue(ReactomeJavaConstants.compartment,
