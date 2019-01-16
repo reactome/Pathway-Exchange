@@ -32,7 +32,7 @@ import org.junit.Test;
  */
 public class SummaryTextForMartOutputForMsigDB {
     private String dirName = "/Users/wgm/Documents/gkteam/Robin/";
-    protected String url = "http://www.reactome.org/PathwayBrowser/#/";
+    protected String url = "https://reactome.org/PathwayBrowser/#/";
     
     public SummaryTextForMartOutputForMsigDB() {
     }
