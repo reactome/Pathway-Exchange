@@ -21,7 +21,7 @@
 
         <target name="compile">
                 <mkdir dir="${classDir}" />
-                <javac srcdir="${srcDir}" destdir="${classDir}" >
+                <javac includeantruntime="false" srcdir="${srcDir}" destdir="${classDir}" >
                         <classpath refid="class.path" />
                 </javac>
         </target>
