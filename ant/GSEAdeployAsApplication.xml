@@ -6,17 +6,33 @@
                    
      guanming                                                                
      ====================================================================== -->
-<project name="deployAsApplication" default="jar" >
-	<property name="destDir" value="/Users/wgm/Documents/EclipseWorkspace/WebELVTool" />
+<project name="deployAsApplication" default="jar" basedir=".." >
+	<!-- Defining a list of directory names to be used -->
+        <property name="targetDir" value="${basedir}" />
+        <property name="srcDir" value="${basedir}/src/org/reactome" />
+        <property name="classDir" value="${basedir}/classes" />
+        <property name="libDir" value="${basedir}/lib" />
 	
-	<target name="jar">
-		<jar destfile="${destDir}/GSEAExport.jar">
-			<fileset dir="../classes">
+	<path id="class.path">
+                <fileset dir="${libDir}">
+                        <include name="**/*.jar" />
+                </fileset>
+        </path>
+
+        <target name="compile">
+                <mkdir dir="${classDir}" />
+                <javac srcdir="${srcDir}" destdir="${classDir}" >
+                        <classpath refid="class.path" />
+                </javac>
+        </target>
+
+	<target name="jar" depends="compile">
+		<jar destfile="${targetDir}/GSEAExport.jar">
+			<fileset dir="${classDir}">
 				<include name="org/reactome/gsea/*.class" />
 				<include name="org/reactome/convert/common/*.class" />
 			</fileset>
 		</jar>
 	</target>
-
 </project>
 
