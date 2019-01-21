@@ -8,23 +8,28 @@
      ====================================================================== -->
 <project name="deployAsApplication" default="jar" basedir=".." >
 	<!-- Defining a list of directory names to be used -->
-        <property name="targetDir" value="${basedir}" />
-        <property name="srcDir" value="${basedir}/src/org/reactome" />
-        <property name="classDir" value="${basedir}/classes" />
-        <property name="libDir" value="${basedir}/lib" />
+	<property name="targetDir" value="${basedir}" />
+	<property name="srcDir" value="${basedir}/src/org/reactome" />
+	<property name="classDir" value="${basedir}/classes" />
+	<property name="libDir" value="${basedir}/lib" />
 	
 	<path id="class.path">
-                <fileset dir="${libDir}">
-                        <include name="**/*.jar" />
-                </fileset>
-        </path>
+		<fileset dir="${libDir}">
+			<include name="freemarker/*.jar" />
+			<include name="jdom/*.jar" />
+			<include name="protege/*.jar" />
+			<include name="reactome/*.jar" />
+			<include name="sbml/*.jar"/>
+		</fileset>
+	</path>
 
-        <target name="compile">
-                <mkdir dir="${classDir}" />
-                <javac includeantruntime="false" srcdir="${srcDir}" destdir="${classDir}" >
-                        <classpath refid="class.path" />
-                </javac>
-        </target>
+	
+	<target name="compile">
+		<mkdir dir="${classDir}" />
+		<javac includeantruntime="false" srcdir="${srcDir}" destdir="${classDir}">
+			<classpath refid="class.path" />
+		</javac>
+	</target>
 
 	<target name="jar" depends="compile">
 		<jar destfile="${targetDir}/GSEAExport.jar">
@@ -35,4 +40,3 @@
 		</jar>
 	</target>
 </project>
-
