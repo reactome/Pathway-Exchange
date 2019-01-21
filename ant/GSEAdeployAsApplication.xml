@@ -9,17 +9,14 @@
 <project name="deployAsApplication" default="jar" basedir=".." >
 	<!-- Defining a list of directory names to be used -->
 	<property name="targetDir" value="${basedir}" />
-	<property name="srcDir" value="${basedir}/src/org/reactome" />
+	<property name="srcDir" value="${basedir}/src/org/" />
 	<property name="classDir" value="${basedir}/classes" />
 	<property name="libDir" value="${basedir}/lib" />
 	
 	<path id="class.path">
 		<fileset dir="${libDir}">
-			<include name="freemarker/*.jar" />
-			<include name="jdom/*.jar" />
-			<include name="protege/*.jar" />
-			<include name="reactome/*.jar" />
-			<include name="sbml/*.jar"/>
+			<include name="reactome/reactome.jar" />
+			<include name="junit/*.jar"/>
 		</fileset>
 	</path>
 
@@ -27,10 +24,12 @@
 		<delete dir="${classDir}" />
 	</target>
 	
-	<target name="compile">
+	<target name="compile" depends="clean">
 		<mkdir dir="${classDir}" />
 		<javac includeantruntime="false" srcdir="${srcDir}" destdir="${classDir}">
 			<classpath refid="class.path" />
+			<include name="reactome/gsea/*" />
+			<include name="reactome/convert/common/PathwayReferenceEntityHelper.java" />
 		</javac>
 	</target>
 
