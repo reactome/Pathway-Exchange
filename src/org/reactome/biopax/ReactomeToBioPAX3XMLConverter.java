@@ -326,6 +326,7 @@ public class ReactomeToBioPAX3XMLConverter {
                 createObjectPropElm(modulation, BioPAX3JavaConstants.controller, entityParticipant);
             }
         }
+        handleActiveUnits(regulation, modulation);
         return modulation;
     }
     
@@ -1369,7 +1370,25 @@ public class ReactomeToBioPAX3XMLConverter {
                                sameCARelationship);
         attachReactomeDatasource(bpCatalyst);
 //        rToBInstanceMap.put(ca, bpCatalyst);
+        handleActiveUnits(ca, bpCatalyst);
         return bpCatalyst;
+    }
+
+    protected void handleActiveUnits(GKInstance ca, 
+                                     Element bpCatalyst) throws Exception {
+        // A hack to export activeUnit in the commonet
+        // activeUnit is a list
+        List<GKInstance> activeUnits = ca.getAttributeValuesList(ReactomeJavaConstants.activeUnit);
+        if (activeUnits != null && activeUnits.size() > 0) {
+            for (GKInstance activeUnit : activeUnits) {
+                Element bpActiveUnit = createPhysicalEntity(activeUnit);
+                String resourceID = bpActiveUnit.getAttributeValue("ID", rdfNS);
+                createDataPropElm(bpCatalyst, 
+                                  BioPAX3JavaConstants.comment, 
+                                  BioPAX3JavaConstants.XSD_STRING, 
+                                  "activeUnit: #" + resourceID);
+            }
+        }
     }
     
     private void handleEntitySetMember(GKInstance entitySet,
@@ -1808,7 +1827,7 @@ public class ReactomeToBioPAX3XMLConverter {
     @Test
     public void testConvert() throws Exception {
         MySQLAdaptor dba = new MySQLAdaptor("localhost",
-                                            "test_slice_65",
+                                            "reactome_67_plus_i",
                                             "root",
                                             "macmysql01",
                                             3306);
@@ -1859,7 +1878,11 @@ public class ReactomeToBioPAX3XMLConverter {
         // Test ecnumber in Degradation
 //        GKInstance topEvent = dba.fetchInstance(2173793L);
         // Check regulation after data model change by moving regulations to RLEs
-        GKInstance topEvent = dba.fetchInstance(70221L);
+//        GKInstance topEvent = dba.fetchInstance(70221L);
+        
+        // Check a hack for exporting activeUnit for Ben Good
+        // RAF-independent MAPK1/3 activation
+        GKInstance topEvent = dba.fetchInstance(112409L);
         
         ReactomeToBioPAX3XMLConverter converter = new ReactomeToBioPAX3XMLConverter();
         converter.setReactomeEvent(topEvent);
