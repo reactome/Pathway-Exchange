@@ -1433,6 +1433,10 @@ public class ReactomeToBioPAX3XMLConverter {
         if (reactomeType == null) { // For Polymer, OtherEntity and other entities which don't have referenceEntity values
             bpEntity = createIndividualElm(BioPAX3JavaConstants.PhysicalEntity);
         }
+        else if (rEntity.getSchemClass().isa(ReactomeJavaConstants.Drug)) {
+            String bpTypeName = getBPTypeForDrug(rEntity);
+            bpEntity = createIndividualElm(bpTypeName);
+        }
         else if (rEntity.getSchemClass().isa(ReactomeJavaConstants.Complex) ||
                  reactomeType.isa(ReactomeJavaConstants.Complex)) { // Special case
             bpEntity = createIndividualElm(BioPAX3JavaConstants.Complex);
@@ -1484,6 +1488,34 @@ public class ReactomeToBioPAX3XMLConverter {
         attachReactomeDatasource(bpEntity);
         rToBInstanceMap.put(rEntity, bpEntity);
         return bpEntity;
+    }
+
+    private String getBPTypeForDrug(GKInstance rEntity) throws InvalidAttributeException, Exception {
+        // For release 67 only
+        String bpTypeName = null;
+        if (rEntity.getSchemClass().isValidAttribute(ReactomeJavaConstants.drugType)) {
+            GKInstance drugType = (GKInstance) rEntity.getAttributeValue(ReactomeJavaConstants.drugType);
+            if (drugType != null) {
+                String name = drugType.getDisplayName();
+                if (name.equals("ProteinDrug"))
+                    bpTypeName = BioPAX3JavaConstants.Protein;
+                else if (name.equals("ChemicalDrug"))
+                    bpTypeName = BioPAX3JavaConstants.SmallMolecule;
+                else if (name.equals("RNADrug"))
+                    bpTypeName = BioPAX3JavaConstants.Rna;
+            }
+        }
+        else {
+            if (rEntity.getSchemClass().isa(ReactomeJavaConstants.ProteinDrug))
+                bpTypeName = BioPAX3JavaConstants.Protein;
+            else if (rEntity.getSchemClass().isa(ReactomeJavaConstants.ChemicalDrug))
+                bpTypeName = BioPAX3JavaConstants.SmallMolecule;
+            else if (rEntity.getSchemClass().isa(ReactomeJavaConstants.RNADrug))
+                bpTypeName = BioPAX3JavaConstants.Rna;
+        }
+        if (bpTypeName == null)
+            bpTypeName = BioPAX3JavaConstants.PhysicalEntity;
+        return bpTypeName;
     }
     
     private void exportDbIdAsComment(GKInstance rEntity,
@@ -1634,6 +1666,9 @@ public class ReactomeToBioPAX3XMLConverter {
              rEntity.getAttributeValue(ReactomeJavaConstants.referenceEntity) == null) {
             return; // Cannot do anything here: maybe a set
         }
+        // If this is a generic PE, we cannot add entityReference
+        if (bpEntity.getName().equals(BioPAX3JavaConstants.PhysicalEntity))
+            return;
         GKInstance rRefEntity = (GKInstance) rEntity.getAttributeValue(ReactomeJavaConstants.referenceEntity);
         Element bpEntityReference = createBpEntityRefFromRRefEntity(rRefEntity);
         if (bpEntityReference != null) {
@@ -1827,7 +1862,7 @@ public class ReactomeToBioPAX3XMLConverter {
     @Test
     public void testConvert() throws Exception {
         MySQLAdaptor dba = new MySQLAdaptor("localhost",
-                                            "reactome_67_plus_i",
+                                            "gk_central_122118",
                                             "root",
                                             "macmysql01",
                                             3306);
@@ -1882,7 +1917,10 @@ public class ReactomeToBioPAX3XMLConverter {
         
         // Check a hack for exporting activeUnit for Ben Good
         // RAF-independent MAPK1/3 activation
-        GKInstance topEvent = dba.fetchInstance(112409L);
+//        GKInstance topEvent = dba.fetchInstance(112409L);
+        
+        // A pathway has some drugs: Nitric oxide stimulates guanylate cyclase
+        GKInstance topEvent = dba.fetchInstance(392154L);
         
         ReactomeToBioPAX3XMLConverter converter = new ReactomeToBioPAX3XMLConverter();
         converter.setReactomeEvent(topEvent);
