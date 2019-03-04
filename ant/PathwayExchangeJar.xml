@@ -43,7 +43,7 @@
     <target name="jar" depends="compile">
         <mkdir dir="${destDir}" />
         <jar destfile="${destDir}/pathwayExchange.jar">
-            <fileset dir="${srcDir}">
+            <fileset dir="${classDir}">
                 <include name="**" />
             </fileset>
         </jar>
