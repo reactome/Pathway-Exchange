@@ -1577,12 +1577,13 @@ public class ReactomeToBioPAX3XMLConverter {
         return null;
     }
     
-    private Element createBpEntityRefFromRRefEntity(GKInstance rRefEntity) throws Exception {
+    private Element createBpEntityRefFromRRefEntity(GKInstance rRefEntity,
+                                                    GKInstance rEntity) throws Exception {
         Element bpEntityReference = (Element) rToBInstanceMap.get(rRefEntity);
         if (bpEntityReference != null ||
             rToBInstanceMap.containsKey(rRefEntity))
             return bpEntityReference;
-        bpEntityReference = _createBpEntityReference(rRefEntity, true);
+        bpEntityReference = _createBpEntityReference(rRefEntity, true, rEntity);
         rToBInstanceMap.put(rRefEntity,
                             bpEntityReference);
         return bpEntityReference;
@@ -1591,14 +1592,18 @@ public class ReactomeToBioPAX3XMLConverter {
     /**
      * A refactored method to create a
      * @param rRefEntity
+     * @param needProperties true if properties should be filled in
+     * @param rEntity used to determine type. Used in drugs since all drug types, proteins, chemicals, and
+     * RNAs, refer to the same IUPHAR. Therefore, we need the original drug type to determine the reference
+     * type.
      * @return
      * @throws Exception
      * @throws InvalidAttributeException
      */
     private Element _createBpEntityReference(GKInstance rRefEntity,
-                                             boolean needProperties)
-            throws Exception, InvalidAttributeException {
-        Element bpEntityReference;
+                                             boolean needProperties,
+                                             GKInstance rEntity) throws Exception {
+        Element bpEntityReference = null;
         SchemaClass reactomeType = rRefEntity.getSchemClass();
         if (reactomeType.isa(ReactomeJavaConstants.ReferenceGeneProduct) ||
             reactomeType.isa(ReactomeJavaConstants.ReferencePeptideSequence)) {
@@ -1616,9 +1621,18 @@ public class ReactomeToBioPAX3XMLConverter {
         else if (reactomeType.isa(ReactomeJavaConstants.ReferenceRNASequence)) {
             bpEntityReference = createIndividualElm(BioPAX3JavaConstants.RnaReference);
         }
-        else {
-            bpEntityReference = createIndividualElm(BioPAX3JavaConstants.EntityReference);
+        else if (reactomeType.isa(ReactomeJavaConstants.ReferenceTherapeutic)) {
+            if (rEntity.getSchemClass().isa(ReactomeJavaConstants.ProteinDrug))
+                bpEntityReference = createIndividualElm(BioPAX3JavaConstants.ProteinReference);
+            else if (rEntity.getSchemClass().isa(ReactomeJavaConstants.RNADrug))
+                bpEntityReference = createIndividualElm(BioPAX3JavaConstants.RnaReference);
+            else if (rEntity.getSchemClass().isa(ReactomeJavaConstants.ChemicalDrug)){ // Default for small molecule reference, which should be the most popular one.
+                bpEntityReference = createIndividualElm(BioPAX3JavaConstants.SmallMoleculeReference);
+            }
         }
+        // As the last resort
+        if (bpEntityReference == null)
+            bpEntityReference = createIndividualElm(BioPAX3JavaConstants.EntityReference);
         handleTaxon(rRefEntity, 
                     bpEntityReference, 
                     ReactomeJavaConstants.species);
@@ -1670,7 +1684,7 @@ public class ReactomeToBioPAX3XMLConverter {
         if (bpEntity.getName().equals(BioPAX3JavaConstants.PhysicalEntity))
             return;
         GKInstance rRefEntity = (GKInstance) rEntity.getAttributeValue(ReactomeJavaConstants.referenceEntity);
-        Element bpEntityReference = createBpEntityRefFromRRefEntity(rRefEntity);
+        Element bpEntityReference = createBpEntityRefFromRRefEntity(rRefEntity, rEntity);
         if (bpEntityReference != null) {
             createObjectPropElm(bpEntity,
                                 BioPAX3JavaConstants.entityReference,
@@ -1709,7 +1723,7 @@ public class ReactomeToBioPAX3XMLConverter {
                 break;
         }
         // Create an ProteinReference first
-        Element bpEntityRef = _createBpEntityReference(refEntity, false);
+        Element bpEntityRef = _createBpEntityReference(refEntity, false, entitySet);
         createObjectPropElm(bpEntity, 
                             BioPAX3JavaConstants.entityReference, 
                             bpEntityRef);
@@ -1718,7 +1732,7 @@ public class ReactomeToBioPAX3XMLConverter {
             refEntity = (GKInstance) member.getAttributeValue(ReactomeJavaConstants.referenceEntity);
             if (refEntity == null)
                 continue;
-            Element memberBpEntityRef = createBpEntityRefFromRRefEntity(refEntity);
+            Element memberBpEntityRef = createBpEntityRefFromRRefEntity(refEntity, entitySet);
             if (memberBpEntityRef != null)
                 memberRefs.add(memberBpEntityRef);
         }
