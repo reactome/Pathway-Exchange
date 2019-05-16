@@ -4,9 +4,10 @@
  */
 package org.reactome.biopax;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 import org.gk.model.GKInstance;
 
@@ -21,9 +22,11 @@ public class BioPAXOWLIDGenerator {
     private Set<String> idSet;
     // Used to limit the id search to speed up the performance
     private GKInstance species;
+    private Map<String, Long> clsToLargestId;
     
     public BioPAXOWLIDGenerator() {
         idSet = new HashSet<String>();
+        clsToLargestId = new HashMap<>();
     }
     
     public void setSpecies(GKInstance species) {
@@ -46,28 +49,14 @@ public class BioPAXOWLIDGenerator {
      * @param idTemplate the id template
      * @return
      */
-    public String generateOWLID(String idTemplate) {
-        //String tmp = id.replaceAll("[ :,\\(\\)\\[\\]\\\\/]", "_");
-        // Replace all non word character by "_"
-        String tmp = idTemplate.replaceAll("\\W", "_");
-        // Have to make sure digit should not be in the first place
-        Pattern pattern = Pattern.compile("^\\d");
-        if (pattern.matcher(tmp).find()) {
-            tmp = "_" + tmp;
-        }
-//        String speciesAbb = getSpeciesAbbreviation();
-//        if (speciesAbb != null)
-//            tmp = tmp + "_" + speciesAbb + "_";
-        int c = 1;
-        String rtn = tmp + c; // Start with the first one
-        // To keep the returned id unique.
-        while (idSet.contains(rtn)) {
-            // Have to find a new id
-            c ++;
-            rtn = tmp + c;
-        }
-        idSet.add(rtn);
-        return rtn;        
+    public String generateOWLID(String owlClsName) {
+        Long id = clsToLargestId.get(owlClsName);
+        if (id == null)
+            id = 1l;
+        else
+            id += 1;
+        clsToLargestId.put(owlClsName, id);
+        return owlClsName + id;
     }
     
 //    private String getSpeciesAbbreviation() {
