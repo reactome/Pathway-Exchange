@@ -673,6 +673,8 @@ public class ReactomeToBioPAX3XMLConverter {
             termId = "MI:0355";
         else if (relationshipType.equals(BioPAX3JavaConstants.GO_BIOLOGICAL_PROCESS))
             termId = "MI:0359";
+        else if (relationshipType.equals(BioPAX3JavaConstants.ADDITIONAL_INFORMATION))
+            termId = "MI:0361";
         if (termId != null) {
             Element bpXref = createIndividualElm(BioPAX3JavaConstants.UnificationXref);
             createDataPropElm(bpXref,
@@ -1486,8 +1488,49 @@ public class ReactomeToBioPAX3XMLConverter {
         exportDbIdAsComment(rEntity, bpEntity);
         attachReactomeIDAsXref(rEntity, bpEntity);
         attachReactomeDatasource(bpEntity);
+        handleCrossReferences(rEntity, bpEntity);
         rToBInstanceMap.put(rEntity, bpEntity);
         return bpEntity;
+    }
+    
+    private void handleCrossReferences(GKInstance rEntity, 
+                                       Element bpEntity) throws Exception {
+        if (!rEntity.getSchemClass().isValidAttribute(ReactomeJavaConstants.crossReference))
+            return; // Nothing to be done here
+        List<GKInstance> crossReferences = rEntity.getAttributeValuesList(ReactomeJavaConstants.crossReference);
+        if (crossReferences == null || crossReferences.size() == 0)
+            return;
+        for (GKInstance crossReference : crossReferences) {
+            Element relationXrefElm = rToBInstanceMap.get(crossReference);
+            if (relationXrefElm != null) {
+                createObjectPropElm(bpEntity,
+                                    BioPAX3JavaConstants.xref,
+                                    relationXrefElm);
+            }
+            relationXrefElm = createIndividualElm(BioPAX3JavaConstants.RelationshipXref);
+            rToBInstanceMap.put(crossReference, relationXrefElm);
+            Element relationshipType = getRelationTypeCV(BioPAX3JavaConstants.ADDITIONAL_INFORMATION);
+            createObjectPropElm(relationXrefElm,
+                                BioPAX3JavaConstants.relationshipType,
+                                relationshipType);
+            GKInstance referenceDB = (GKInstance) crossReference.getAttributeValue(ReactomeJavaConstants.referenceDatabase);
+            if (referenceDB != null) {
+                createDataPropElm(relationXrefElm,
+                                  BioPAX3JavaConstants.db,
+                                  BioPAX3JavaConstants.XSD_STRING,
+                                  referenceDB.getDisplayName());
+            }
+            String identifier = (String) crossReference.getAttributeValue(ReactomeJavaConstants.identifier);
+            if (identifier != null) {
+                createDataPropElm(relationXrefElm,
+                                  BioPAX3JavaConstants.id,
+                                  BioPAX3JavaConstants.XSD_STRING,
+                                  identifier);
+            }
+            createObjectPropElm(bpEntity,
+                                BioPAX3JavaConstants.xref,
+                                relationXrefElm);
+        }
     }
 
     private String getBPTypeForDrug(GKInstance rEntity) throws InvalidAttributeException, Exception {
@@ -1876,7 +1919,7 @@ public class ReactomeToBioPAX3XMLConverter {
     @Test
     public void testConvert() throws Exception {
         MySQLAdaptor dba = new MySQLAdaptor("localhost",
-                                            "gk_central_122118",
+                                            "gk_central_112219",
                                             "root",
                                             "macmysql01",
                                             3306);
@@ -1887,7 +1930,7 @@ public class ReactomeToBioPAX3XMLConverter {
         // MyD88 Cascade
         //GKInstance topEvent = dba.fetchInstance(166058L);
         // Human Apoptosis
-        //GKInstance topEvent = dba.fetchInstance(109581L);
+//        GKInstance topEvent = dba.fetchInstance(109581L);
         // Human Serotonin Neurotransmitter Release Cycle181429
         //        GKInstance topEvent = dba.fetchInstance(181429L);
         // Human mRNA processing
@@ -1898,7 +1941,7 @@ public class ReactomeToBioPAX3XMLConverter {
         // TemplateReactionREgulation
         //        GKInstance topEvent = dba.fetchInstance(69202L);
         // Glycolysis to test Book publication
-        //      GKInstance topEvent = dba.fetchInstance(70171L);
+//              GKInstance topEvent = dba.fetchInstance(70171L);
         // Alternative complement activation to test URL publication
         //      GKInstance topEvent = dba.fetchInstance(173736L);
         // Cdc20:Phospho-APC/C mediated degradation of Cyclin A
@@ -1934,7 +1977,14 @@ public class ReactomeToBioPAX3XMLConverter {
 //        GKInstance topEvent = dba.fetchInstance(112409L);
         
         // A pathway has some drugs: Nitric oxide stimulates guanylate cyclase
-        GKInstance topEvent = dba.fetchInstance(392154L);
+//        GKInstance topEvent = dba.fetchInstance(392154L);
+        
+        // A pathway has entities with cross-reference: Beta-catenin independent WNT signaling
+//        GKInstance topEvent = dba.fetchInstance(3858494L);
+        // For drug
+        GKInstance topEvent = dba.fetchInstance(1227986L);
+        // Test for sumoylation
+        topEvent = dba.fetchInstance(3232118L);
         
         ReactomeToBioPAX3XMLConverter converter = new ReactomeToBioPAX3XMLConverter();
         converter.setReactomeEvent(topEvent);
