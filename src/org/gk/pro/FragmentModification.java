@@ -6,6 +6,10 @@ public class FragmentModification extends GeneticallyModifiedResidue {
     public FragmentModification() {
     }
 
+    protected int getIndex() {
+        return index;
+    }
+
     protected static void resetIndex() {
         index = 0;
     }
