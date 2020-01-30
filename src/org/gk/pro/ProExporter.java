@@ -4,11 +4,15 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 import org.gk.model.GKInstance;
 import org.gk.model.ReactomeJavaConstants;
@@ -20,13 +24,12 @@ import org.gk.schema.SchemaClass;
  * Export modified residue data for all EWAS instances in a given database.
  */
 public class ProExporter {
-    private final String delimiter = "\t";
-    
+
     public ProExporter() {
     }
-    
+
     public String getDelimiter() {
-        return delimiter;
+        return ProExporterConstants.delimiter;
     }
 
     private String getIdentifier(GKInstance ewas) throws InvalidAttributeException, Exception {
@@ -67,7 +70,7 @@ public class ProExporter {
 
     /**
      * Return the modifications for a given EWAS (as referenced by the "hasModifiedResidue" attribute value).
-     * 
+     *
      * @param ewas
      * @param dba
      * @return String
@@ -80,7 +83,7 @@ public class ProExporter {
             return "";
 
         String output = "";
-        AbstractModifiedResidue mod = null;
+        AbstractModifiedResidue residueExporter = null;
         GKInstance modifiedResidue = null;
         // TODO Fix classpath and remove this.
         String pkg = this.getClass().getPackage().getName();
@@ -88,19 +91,80 @@ public class ProExporter {
         for (Object object : modifiedResidues) {
             modifiedResidue = (GKInstance) object;
             cls = modifiedResidue.getSchemClass().getName();
-            mod = (AbstractModifiedResidue) Class.forName(pkg + "." + cls).getConstructor().newInstance();
-            output += mod.export(modifiedResidue);
+            residueExporter = (AbstractModifiedResidue) Class.forName(pkg + "." + cls).getConstructor().newInstance();
+            output += residueExporter.exportModification(modifiedResidue);
         }
+
         FragmentInsertionModification.resetIndex();
         FragmentDeletionModification.resetIndex();
         FragmentReplacedModification.resetIndex();
-        
+
         return output;
     }
-    
+
+    private String getFreeText(GKInstance ewas) throws InvalidAttributeException, Exception {
+        List<Object> modifiedResidues = ewas.getAttributeValuesList(ReactomeJavaConstants.hasModifiedResidue);
+        if (modifiedResidues == null || modifiedResidues.size() == 0)
+            return "";
+
+        String output = "";
+        FragmentModification residueExporter = null;
+        GKInstance modifiedResidue = null;
+        String pkg = this.getClass().getPackage().getName();
+        String cls = null;
+        for (Object object : modifiedResidues) {
+            modifiedResidue = (GKInstance) object;
+            if (!modifiedResidue.getSchemClass().isa(ReactomeJavaConstants.FragmentModification))
+                continue;
+            if (output.length() > 0)
+                output += ProExporterConstants.freeTextDelimiter;
+
+            cls = modifiedResidue.getSchemClass().getName();
+            residueExporter = (FragmentModification) Class.forName(pkg + "." + cls).getConstructor().newInstance();
+            output += residueExporter.exportFreeText(modifiedResidue);
+        }
+
+        FragmentInsertionModification.resetIndex();
+        FragmentDeletionModification.resetIndex();
+        FragmentReplacedModification.resetIndex();
+
+        return output;
+    }
+
+    private String getExportString(GKInstance ewas, Function<GKInstance, String> exportMethod) throws InvalidAttributeException, Exception {
+        List<Object> modifiedResidues = ewas.getAttributeValuesList(ReactomeJavaConstants.hasModifiedResidue);
+        if (modifiedResidues == null || modifiedResidues.size() == 0)
+            return "";
+
+        String output = "";
+        FragmentModification residueExporter = null;
+        GKInstance modifiedResidue = null;
+        String pkg = this.getClass().getPackage().getName();
+        String cls = null;
+        for (Object object : modifiedResidues) {
+            modifiedResidue = (GKInstance) object;
+            if (!modifiedResidue.getSchemClass().isa(ReactomeJavaConstants.FragmentModification))
+                continue;
+            if (output.length() > 0)
+                output += ProExporterConstants.freeTextDelimiter;
+
+            cls = modifiedResidue.getSchemClass().getName();
+            residueExporter = (FragmentModification) Class.forName(pkg + "." + cls).getConstructor().newInstance();
+
+            output += exportMethod.apply(modifiedResidue);
+            output += residueExporter.exportFreeText(modifiedResidue);
+        }
+
+        FragmentInsertionModification.resetIndex();
+        FragmentDeletionModification.resetIndex();
+        FragmentReplacedModification.resetIndex();
+
+        return output;
+    }
+
     /**
      * Return collection of all human EWAS instances.
-     * 
+     *
      * @return List<GKInstance>
      * @throws Exception
      */
@@ -130,24 +194,6 @@ public class ProExporter {
         dba.loadInstanceAttributeValues(humanEwasCollection);
 
         return humanEwasCollection;
-    }
-    
-    /**
-     * 
-     * @param modifiedResidue
-     * @return
-     * @throws InvalidAttributeException
-     * @throws Exception
-     */
-    private String getCoordinate(GKInstance modifiedResidue) throws InvalidAttributeException, Exception {
-        if (modifiedResidue == null ||
-            !modifiedResidue.getSchemClass().isValidAttribute(ReactomeJavaConstants.coordinate))
-            return null;
-        Integer coordinate = (Integer) modifiedResidue.getAttributeValue(ReactomeJavaConstants.coordinate);
-        String modPosition = "";
-        if (coordinate != null)
-            modPosition = String.valueOf(coordinate);
-        return modPosition;
     }
 
     /**
@@ -241,9 +287,12 @@ public class ProExporter {
             writer.print(exporter.getDelimiter());
 
             // Modifications (see general and specific instructions below)
-            // Free text (where necessary; see specific instructions below)
             String modifications = exporter.getModifications(ewas);
             writer.print(modifications + exporter.getDelimiter());
+
+            // Free text (where necessary; see specific instructions below)
+            String freeText = exporter.getFreeText(ewas);
+            writer.print(freeText + exporter.getDelimiter());
 
             // ID used for debugging.
             writer.print(String.valueOf(ewas.getDBID()));

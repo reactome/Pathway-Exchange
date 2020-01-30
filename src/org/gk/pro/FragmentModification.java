@@ -1,17 +1,10 @@
 package org.gk.pro;
 
-public class FragmentModification extends GeneticallyModifiedResidue {
-    private static int index = 0;
+import org.gk.model.GKInstance;
 
+public abstract class FragmentModification extends GeneticallyModifiedResidue {
     public FragmentModification() {
     }
 
-    protected int getIndex() {
-        return index;
-    }
-
-    protected static void resetIndex() {
-        index = 0;
-    }
-
+    public abstract String exportFreeText(GKInstance modifiedResidue);
 }

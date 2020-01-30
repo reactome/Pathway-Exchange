@@ -8,11 +8,13 @@ public class AbstractModifiedResidue {
     public AbstractModifiedResidue() {
     }
 
-    public String export(GKInstance modifiedResidue) throws InvalidAttributeException, Exception {
+    public String exportModification(GKInstance modifiedResidue) throws InvalidAttributeException, Exception {
         if (modifiedResidue == null)
             return null;
 
-        Integer coordinate =  (Integer) modifiedResidue.getAttributeValue(ReactomeJavaConstants.coordinate);
+        Integer coordinate = null;
+        if (modifiedResidue.getSchemClass().isValidAttribute(ReactomeJavaConstants.coordinate))
+            coordinate = (Integer) modifiedResidue.getAttributeValue(ReactomeJavaConstants.coordinate);
 
         GKInstance psiMod = null;
         if (modifiedResidue.getSchemClass().isValidAttribute(ReactomeJavaConstants.psiMod))
