@@ -4,14 +4,14 @@ import org.gk.model.GKInstance;
 import org.gk.schema.InvalidAttributeException;
 
 public class FragmentReplacedModification extends FragmentModification {
-    private static int index = 0;
+    private static int index = 1;
     private final String modificationType = "REPLACED";
 
     public FragmentReplacedModification() {
     }
 
     public static void resetIndex() {
-        index = 0;
+        index = 1;
     }
 
     public String exportModification(GKInstance modifiedResidue) throws InvalidAttributeException, Exception {
