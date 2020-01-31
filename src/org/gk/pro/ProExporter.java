@@ -1,10 +1,13 @@
 package org.gk.pro;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -15,12 +18,14 @@ import org.gk.model.ReactomeJavaConstants;
 import org.gk.persistence.MySQLAdaptor;
 import org.gk.schema.InvalidAttributeException;
 import org.gk.schema.SchemaClass;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
  * Export modified residue data for all EWAS instances in a given database.
  */
 public class ProExporter {
+    private MySQLAdaptor dba;
 
     public ProExporter() {
     }
@@ -282,9 +287,64 @@ public class ProExporter {
         writer.close();
     }
 
-    @Test
-    public void testGetModification() {
+    @Before
+    public void initializeTestDBA() throws SQLException {
+    	dba =  new MySQLAdaptor("localhost",
+							"reactome",
+							"liam",
+							")8J7m]!%[<");
+    }
 
+    private MySQLAdaptor getTestDBA() {
+        return dba;
+    }
+
+    @Test
+    public void testGetModification() throws Exception {
+        MySQLAdaptor dba = getTestDBA();
+        GKInstance ewas;
+        String output;
+        List<Object> modifiedResidues = new ArrayList<Object>();
+
+        // General Modification
+        ewas = dba.fetchInstance(1L);
+        output = "";
+        modifiedResidues = ewas.getAttributeValuesList(ReactomeJavaConstants.hasModifiedResidue);
+        assertEquals(output, getModifications(ewas, modifiedResidues));
+
+        // FragmentInsertionModification
+        ewas = dba.fetchInstance(1839016L);
+        output = "+914=INSERTION1+766=MOD:00048+=MOD:00048";
+        modifiedResidues = ewas.getAttributeValuesList(ReactomeJavaConstants.hasModifiedResidue);
+        assertEquals(output, getModifications(ewas, modifiedResidues));
+
+        // InterChainCrosslinkedResidue
+        ewas = dba.fetchInstance(4551599L);
+        output = "+2592=MOD:01149+2592=CHEBI:24411+2592=UniProt:P63165[97]+2650=MOD:01149+2650=CHEBI:24411+2650=UniProt:P63165[97]+2723=MOD:01149+2723=CHEBI:24411+2723=UniProt:P63165[97]";
+        modifiedResidues = ewas.getAttributeValuesList(ReactomeJavaConstants.hasModifiedResidue);
+        assertEquals(output, getModifications(ewas, modifiedResidues));
+
+        // IntraChainCrosslinkedResidue
+        ewas = dba.fetchInstance(8874904L);
+        output = "+14=MOD:00798[CROSSLINK1@47]+24=MOD:00798[CROSSLINK2@37]+14=CHEBI:23514[CROSSLINK1@47]+24=CHEBI:23514[CROSSLINK1@47";
+        modifiedResidues = ewas.getAttributeValuesList(ReactomeJavaConstants.hasModifiedResidue);
+        assertEquals(output, getModifications(ewas, modifiedResidues));
+
+        ewas = dba.fetchInstance(6797422L);
+        output = "+14=MOD:00798[CROSSLINK1@47]+24=MOD:00798[CROSSLINK2@37]+14=CHEBI:23514[CROSSLINK1@47]+24=CHEBI:23514[CROSSLINK1@47";
+        modifiedResidues = ewas.getAttributeValuesList(ReactomeJavaConstants.hasModifiedResidue);
+        assertEquals(output, getModifications(ewas, modifiedResidues));
+
+        // GroupModifiedResidue
+        ewas = dba.fetchInstance(2046248L);
+        output = "+=MOD:00831+=CHEBI:63492";
+        modifiedResidues = ewas.getAttributeValuesList(ReactomeJavaConstants.hasModifiedResidue);
+        assertEquals(output, getModifications(ewas, modifiedResidues));
+
+        ewas = dba.fetchInstance(8952387L);
+        output = "+94=MOD:01148+94=Reactome:R-HSA-8939707+148=MOD:01148+148=Reactome:R-HSA-893970";
+        modifiedResidues = ewas.getAttributeValuesList(ReactomeJavaConstants.hasModifiedResidue);
+        assertEquals(output, getModifications(ewas, modifiedResidues));
     }
 
 }
