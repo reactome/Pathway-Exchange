@@ -10,6 +10,12 @@ public class ReplacedResidue extends GeneticallyModifiedResidue {
     public ReplacedResidue() {
     }
 
+    /**
+     * Return the modification value for a given replaced residue.
+     *
+     * @param modifiedResidue
+     * @return String
+     */
     public String exportModification(GKInstance modifiedResidue) throws InvalidAttributeException, Exception {
         if (modifiedResidue == null)
             return null;
@@ -22,7 +28,7 @@ public class ReplacedResidue extends GeneticallyModifiedResidue {
         for (Object object : psiMods) {
             psiMod = (GKInstance) object;
             identifier = safeString(psiMod.getAttributeValue(ReactomeJavaConstants.identifier));
-            output +=  "+" + coordinate + "=MOD:" + identifier;
+            output += ProExporterConstants.plus + coordinate + ProExporterConstants.mod + identifier;
         }
 
         return output;

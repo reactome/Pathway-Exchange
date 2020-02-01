@@ -8,27 +8,32 @@ public class InterChainCrosslinkedResidue extends CrosslinkedResidue {
     public InterChainCrosslinkedResidue() {
     }
 
+    /**
+     * Return the modification value for a given modifiedResidue, consisting of three parts:
+     * (1) MOD id
+     * (2) ChEBI id
+     * (3) UniProt id
+     *
+     * @param modifiedResidue
+     * @return String
+     */
     public String exportModification(GKInstance modifiedResidue) throws InvalidAttributeException, Exception {
-        if (modifiedResidue == null)
-            return null;
         String coordinate = safeString(getCoordinate(modifiedResidue));
-        String psiModIdentifier = getIdentifier(modifiedResidue);
-        GKInstance modification = (GKInstance) modifiedResidue.getAttributeValue(ReactomeJavaConstants.modification);
-        Object modIdentifier = modification.getAttributeValue(ReactomeJavaConstants.identifier);
         GKInstance secRefSeq = (GKInstance) modifiedResidue.getAttributeValue(ReactomeJavaConstants.secondReferenceSequence);
-        Object secRefSeqIdentifier = secRefSeq.getAttributeValue(ReactomeJavaConstants.identifier);
+        String secRefSeqIdentifier = safeString(secRefSeq.getAttributeValue(ReactomeJavaConstants.identifier));
         String secCoordinate = safeString(modifiedResidue.getAttributeValue(ReactomeJavaConstants.secondCoordinate));
-
         String output = "";
 
         // MOD (coordinate, psiMod.identifier)
-        output += "+" + coordinate + "=MOD:" + psiModIdentifier;
+        output += super.exportModification(modifiedResidue);
 
         // CHEBI (coordinate, modification.identifier)
-        output += "+" + coordinate + "=CHEBI:" + String.valueOf(modIdentifier);
+        output += getModIdentifier(modifiedResidue);
 
         // UniProt (coordinate, secondReferenceSequence.identifier, secondCoordinate)
-        output += "+" + coordinate + "=UniProt:" + String.valueOf(secRefSeqIdentifier) + "[" + secCoordinate + "]";
+        output += ProExporterConstants.plus + coordinate
+                + ProExporterConstants.uniprot + secRefSeqIdentifier
+                + ProExporterConstants.leftBracket + secCoordinate + ProExporterConstants.rightBracket;
 
         return output;
     }

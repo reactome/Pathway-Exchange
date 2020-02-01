@@ -5,7 +5,7 @@ import org.gk.schema.InvalidAttributeException;
 
 public class FragmentReplacedModification extends FragmentModification {
     private static int index = 1;
-    private final String modificationType = "REPLACED";
+    private final String modificationType = ProExporterConstants.replaced;
 
     public FragmentReplacedModification() {
     }
@@ -15,11 +15,11 @@ public class FragmentReplacedModification extends FragmentModification {
     }
 
     public String exportModification(GKInstance modifiedResidue) throws InvalidAttributeException, Exception {
-        return modificationType + (index++) + super.exportModification(modifiedResidue);
+        return super.exportModification(modifiedResidue, modificationType, index++);
     }
 
     public String exportFreeText(GKInstance modifiedResidue) {
-        return modificationType + (index++) + modifiedResidue.getDisplayName();
+        return super.exportFreeText(modifiedResidue, modificationType, index++);
     }
 
 }

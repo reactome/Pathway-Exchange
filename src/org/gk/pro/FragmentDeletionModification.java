@@ -5,7 +5,7 @@ import org.gk.schema.InvalidAttributeException;
 
 public class FragmentDeletionModification extends FragmentModification {
     private static int index = 1;
-    private final String modificationType = "DELETION";
+    private final String modificationType = ProExporterConstants.deletion;
 
     public FragmentDeletionModification() {
     }
@@ -15,10 +15,10 @@ public class FragmentDeletionModification extends FragmentModification {
     }
 
     public String exportModification(GKInstance modifiedResidue) throws InvalidAttributeException, Exception {
-        return super.exportModification(modifiedResidue) + modificationType + (index++);
+        return super.exportModification(modifiedResidue, modificationType, index++);
     }
 
     public String exportFreeText(GKInstance modifiedResidue) {
-        return modificationType + (index++) + "=" + modifiedResidue.getDisplayName();
+        return super.exportFreeText(modifiedResidue, modificationType, index++);
     }
 }

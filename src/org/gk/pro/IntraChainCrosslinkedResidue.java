@@ -6,7 +6,8 @@ import org.gk.schema.InvalidAttributeException;
 
 public class IntraChainCrosslinkedResidue extends CrosslinkedResidue {
     private static int index = 1;
-    private final String modificationType = "CROSSLINK";
+    private final String modificationType = ProExporterConstants.crosslink;
+
     public IntraChainCrosslinkedResidue() {
     }
 
@@ -14,26 +15,71 @@ public class IntraChainCrosslinkedResidue extends CrosslinkedResidue {
         index = 1;
     }
 
-    public String exportModification(GKInstance modifiedResidue, boolean isSecondResiduePresent) throws InvalidAttributeException, Exception {
-        String coordinate = safeString(getCoordinate(modifiedResidue));
-        String psiModIdentifier = getIdentifier(modifiedResidue);
-        GKInstance modification = (GKInstance) modifiedResidue.getAttributeValue(ReactomeJavaConstants.modification);
-        String modIdentifier = safeString(modification.getAttributeValue(ReactomeJavaConstants.identifier));
+    /**
+     * Return the PsiMod identifiers for a given modified residue.
+     *
+     * E.g. modifiedResidue with dbID 8874875 (Intra-chain Crosslink via half cystine at 14 and 47)
+     * would return "+14=MOD:00798[CROSSLINK1@47]".
+     *
+     * @param modifiedResidue
+     * @param isSecondResiduePresent
+     * @return String
+     * @throws InvalidAttributeException
+     * @throws Exception
+     */
+    public String exportPsiModIdentifier(GKInstance modifiedResidue, boolean isSecondResiduePresent) throws InvalidAttributeException, Exception {
+        String crosslink = getCrosslink(modifiedResidue, isSecondResiduePresent);
+        return super.exportModification(modifiedResidue) + crosslink;
+    }
 
+    /**
+     * Return the ChEBI or Reactome identifiers for a given modified residue.
+     *
+     * E.g. modifiedResidue with dbID 8874875 (Intra-chain Crosslink via half cystine at 14 and 47)
+     * would return "+14=CHEBI:23514[CROSSLINK1@47]".
+     *
+     * @param modifiedResidue
+     * @param isSecondResiduePresent
+     * @return String
+     * @throws InvalidAttributeException
+     * @throws Exception
+     */
+    public String exportModificationIdentifier(GKInstance modifiedResidue, boolean isSecondResiduePresent) throws InvalidAttributeException, Exception {
+        String crosslink = getCrosslink(modifiedResidue, isSecondResiduePresent);
+        return getModIdentifier(modifiedResidue) + crosslink;
+    }
+
+    /**
+     * Return the crosslink string for a given residue.
+     *
+     * E.g. modifiedResidue with dbID 8874875 (Intra-chain Crosslink via half cystine at 14 and 47)
+     * would return "[CROSSLINK1@47]".
+     *
+     * @param modifiedResidue
+     * @param isSecondResiduePresent
+     * @return String
+     * @throws InvalidAttributeException
+     * @throws Exception
+     */
+    private String getCrosslink(GKInstance modifiedResidue, boolean isSecondResiduePresent) throws InvalidAttributeException, Exception {
         String secCoordinate = "";
         if (isSecondResiduePresent)
             secCoordinate = safeString(modifiedResidue.getAttributeValue(ReactomeJavaConstants.secondCoordinate));
 
+        String crosslink = ProExporterConstants.leftBracket + modificationType +
+                (index++) + ProExporterConstants.at + secCoordinate + ProExporterConstants.rightBracket;
 
-        String crosslink = "[" + modificationType + index + "@" + secCoordinate + "]";
-        String mod = "+" + coordinate + "=MOD:" + psiModIdentifier + crosslink;
-        String chebi = "+" + coordinate + "=CHEBI:" + modIdentifier + crosslink;
-
-        index += 1;
-        return mod + chebi;
+        return crosslink;
     }
 
+    /**
+     * Return the free text value for a given modifiedResidue.
+     *
+     * @param modifiedResidue
+     * @param isSecondResiduePresent
+     * @return String
+     */
     public String exportFreeText(GKInstance modifiedResidue) {
-        return modificationType + (index++) + "=" + modifiedResidue.getDisplayName();
+        return modificationType + (index++) + ProExporterConstants.equals + modifiedResidue.getDisplayName();
     }
 }
