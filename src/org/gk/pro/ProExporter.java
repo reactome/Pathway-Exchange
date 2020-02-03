@@ -9,7 +9,6 @@ import java.io.PrintWriter;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
@@ -31,11 +30,27 @@ public class ProExporter {
     public ProExporter() {
     }
 
+    /**
+     * Return the Reactome identifier (R-HSA-) for a given EWAS instance.
+     *
+     * @param ewas
+     * @return String
+     * @throws InvalidAttributeException
+     * @throws Exception
+     */
     private String getIdentifier(GKInstance ewas) throws InvalidAttributeException, Exception {
         GKInstance stableIdentifier = (GKInstance) ewas.getAttributeValue(ReactomeJavaConstants.stableIdentifier);
         return (String) stableIdentifier.getAttributeValue(ReactomeJavaConstants.identifier);
     }
 
+    /**
+     * Return the  Subcellular location (GO:) of a given EWAS instance.
+     *
+     * @param ewas
+     * @return String
+     * @throws InvalidAttributeException
+     * @throws Exception
+     */
     private String getLocation(GKInstance ewas) throws InvalidAttributeException, Exception {
         GKInstance compartment = (GKInstance) ewas.getAttributeValue(ReactomeJavaConstants.compartment);
         // TODO Confirm if we should filter out non-GO databases.
@@ -47,6 +62,13 @@ public class ProExporter {
         return prefix + ProExporterConstants.colon + accession;
     }
 
+    /**
+     * Return the UniProtKB accession (with specific isoform, if indicated) for a given EWAS instance.
+     *
+     * @param ewas
+     * @return String
+     * @throws Exception
+     */
     private String getUniprotAccession(GKInstance ewas) throws Exception {
         GKInstance referenceEntity = (GKInstance) ewas.getAttributeValue(ReactomeJavaConstants.referenceEntity);
         if (referenceEntity == null)
@@ -54,6 +76,13 @@ public class ProExporter {
         return (String) referenceEntity.getAttributeValue(ReactomeJavaConstants.identifier);
     }
 
+    /**
+     * Return the start position of a given EWAS instance.
+     *
+     * @param ewas
+     * @return String
+     * @throws Exception
+     */
     private Integer getStartPosition(GKInstance ewas) throws Exception {
         Object startPosition = ewas.getAttributeValue(ReactomeJavaConstants.startCoordinate);
         if (startPosition == null)
@@ -61,6 +90,13 @@ public class ProExporter {
         return (Integer) startPosition;
     }
 
+    /**
+     * Return the end position of a given EWAS instance.
+     *
+     * @param ewas
+     * @return Integer
+     * @throws Exception
+     */
     private Integer getEndPosition(GKInstance ewas) throws Exception {
         Object endPosition = ewas.getAttributeValue(ReactomeJavaConstants.endCoordinate);
         if (endPosition == null)
@@ -222,7 +258,7 @@ public class ProExporter {
 
         // Subcellular location (GO:)
         String location = getLocation(ewas);
-        row.add(location);
+        row.add(location == null ? ProExporterConstants.unknown : location);
 
         // UniProtKB accession (with specific isoform, if indicated)
         String accession = getUniprotAccession(ewas);
