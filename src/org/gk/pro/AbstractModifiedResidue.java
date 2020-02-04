@@ -31,7 +31,7 @@ public class AbstractModifiedResidue {
                    safeString(psiMod.getAttributeValue(ReactomeJavaConstants.identifier));
         }
 
-        return "";
+        return null;
     }
 
     /**

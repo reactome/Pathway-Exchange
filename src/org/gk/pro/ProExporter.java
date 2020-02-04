@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
@@ -116,26 +117,29 @@ public class ProExporter {
             return null;
         String output = "";
         AbstractModifiedResidue residueExporter = null;
-        GKInstance modifiedResidue = null;
         List<Object> intraChainModifiedResidues = new ArrayList<Object>();
         List<Object> stdModifiedResidues = new ArrayList<Object>();
+        String modifications = null;
         String pkg = this.getClass().getPackage().getName();
         String cls = null;
 
-        for (Object object : modifiedResidues) {
-            modifiedResidue = (GKInstance) object;
-            if (modifiedResidue.getSchemClass().isa(ReactomeJavaConstants.IntraChainCrosslinkedResidue))
+        for (Object modifiedResidue : modifiedResidues) {
+            if (((GKInstance) modifiedResidue).getSchemClass().isa(ReactomeJavaConstants.IntraChainCrosslinkedResidue))
                 intraChainModifiedResidues.add(modifiedResidue);
             else
                 stdModifiedResidues.add(modifiedResidue);
         }
-        output += getIntraChainModifications(intraChainModifiedResidues);
 
-        for (Object object : stdModifiedResidues) {
-            modifiedResidue = (GKInstance) object;
-            cls = modifiedResidue.getSchemClass().getName();
+        if (intraChainModifiedResidues.size() > 0)
+            output += getIntraChainModifications(intraChainModifiedResidues);
+        resetIndices();
+
+        for (Object modifiedResidue : stdModifiedResidues) {
+            cls = ((GKInstance) modifiedResidue).getSchemClass().getName();
             residueExporter = (AbstractModifiedResidue) Class.forName(pkg + "." + cls).getConstructor().newInstance();
-            output += residueExporter.exportModification(modifiedResidue);
+            modifications = residueExporter.exportModification((GKInstance) modifiedResidue);
+            if (modifications != null)
+                output += modifications;
         }
         resetIndices();
 
@@ -143,25 +147,30 @@ public class ProExporter {
     }
 
     /**
-     * Return the modifications for a given EWAS that has IntraChainCrosslinkedResidue modifications.
+     * Return the modifications for a given IntraChainCrosslinkedResidue.
      *
      * Special case of {@link #getModifications(GKInstance, List)}
      *
-     * @param modifiedResidues
+     * @param modifiedResidue
      * @return String
      * @throws Exception
      */
     private String getIntraChainModifications(List<Object> modifiedResidues) throws Exception {
         String output = "";
+        String modification = null;
         IntraChainCrosslinkedResidue residueExporter = new IntraChainCrosslinkedResidue();
-        boolean isSecondResiduePresent = modifiedResidues.size() == 2;
-
-        for (Object object : modifiedResidues)
-            output += residueExporter.exportPsiModIdentifier((GKInstance) object, isSecondResiduePresent);
+        for (Object modifiedResidue : modifiedResidues) {
+            modification = residueExporter.exportPsiModIdentifier((GKInstance) modifiedResidue);
+            if (modification != null)
+                output += modification;
+        }
         resetIndices();
 
-        for (Object object : modifiedResidues)
-            output += residueExporter.exportModificationIdentifier((GKInstance) object, isSecondResiduePresent);
+        for (Object modifiedResidue : modifiedResidues) {
+            modification = residueExporter.exportModificationIdentifier((GKInstance) modifiedResidue);
+            if (modification != null)
+                output += modification;
+        }
         resetIndices();
 
         return output;
@@ -180,22 +189,23 @@ public class ProExporter {
             return null;
         String output = "";
         AbstractModifiedResidue residueExporter = null;
-        GKInstance modifiedResidue = null;
         String pkg = this.getClass().getPackage().getName();
         String cls = null;
-
-        for (Object object : modifiedResidues) {
-            modifiedResidue = (GKInstance) object;
-            if (!modifiedResidue.getSchemClass().isa(ReactomeJavaConstants.FragmentInsertionModification) &&
-                !modifiedResidue.getSchemClass().isa(ReactomeJavaConstants.IntraChainCrosslinkedResidue))
+        // Modification classes that have free text columns.
+        List<String> allowedClasses = Arrays.asList(ReactomeJavaConstants.FragmentInsertionModification,
+                                                    ReactomeJavaConstants.FragmentDeletionModification,
+                                                    ReactomeJavaConstants.FragmentReplacedModification, 
+                                                    ReactomeJavaConstants.IntraChainCrosslinkedResidue);
+        for (Object modifiedResidue : modifiedResidues) {
+            if (allowedClasses.stream().noneMatch(((GKInstance) modifiedResidue).getSchemClass()::isa))
                 continue;
 
             if (output.length() > 0)
                 output += ProExporterConstants.freeTextDelimiter;
 
-            cls = modifiedResidue.getSchemClass().getName();
+            cls = ((GKInstance) modifiedResidue).getSchemClass().getName();
             residueExporter = (AbstractModifiedResidue) Class.forName(pkg + "." + cls).getConstructor().newInstance();
-            output += residueExporter.exportFreeText(modifiedResidue);
+            output += residueExporter.exportFreeText((GKInstance) modifiedResidue);
         }
         resetIndices();
 
@@ -236,6 +246,7 @@ public class ProExporter {
             if (species.getDBID().equals(48887L))
                 humanEwasCollection.add(ewas);
         }
+        // Required EWAS instance attributes.
         String[] attributes = {ReactomeJavaConstants.compartment,
                                ReactomeJavaConstants.endCoordinate,
                                ReactomeJavaConstants.referenceEntity,
@@ -258,7 +269,7 @@ public class ProExporter {
         // Reactome identifier (R-HSA-)
         String identifier = getIdentifier(ewas);
         row.add(identifier);
-
+        
         // Subcellular location (GO:)
         String location = getLocation(ewas);
         row.add(location == null ? ProExporterConstants.unknown : location);
@@ -277,12 +288,15 @@ public class ProExporter {
 
         // Modifications (see general and specific instructions below)
         String modifications = getModifications(modifiedResidues);
-        row.add(modifications);
+        row.add(modifications == null ? "" : modifications);
 
         // Free text (where necessary; see specific instructions below)
         String freeText = getFreeText(modifiedResidues);
-        if (freeText != null && freeText.length() > 0)
-            row.add(freeText);
+        row.add(freeText == null ? "" : freeText);
+
+        // Display Name
+        String displayName = ewas.getDisplayName();
+        row.add(displayName);
 
         output += row.get(0);
         for (String cell : row.subList(1, row.size()))
@@ -290,6 +304,13 @@ public class ProExporter {
 
         return output;
    }
+
+    @SuppressWarnings("serial")
+    private static class MissingPropertyException extends IllegalStateException {
+        public MissingPropertyException(String errorMsg) {
+            super(errorMsg);
+        }
+    }
 
     /**
      * @param args
@@ -375,18 +396,12 @@ public class ProExporter {
         writer.close();
     }
 
-    private static class MissingPropertyException extends IllegalStateException {
-        public MissingPropertyException(String errorMsg) {
-            super(errorMsg);
-        }
-    }
-
     @Before
     public void initializeTestDBA() throws SQLException {
     	dba =  new MySQLAdaptor("localhost",
-							"reactome",
-							"liam",
-							")8J7m]!%[<");
+                            "reactome",
+                            "liam",
+                            ")8J7m]!%[<");
     }
 
     private MySQLAdaptor getTestDBA() {
@@ -402,21 +417,46 @@ public class ProExporter {
 
         // FragmentInsertionModification
         ewas = dba.fetchInstance(1839016L);
-        output = "EWAS	R-HSA-1839016	GO:0005829	Q9UBW7	1	913	+914=INSERTION1+766=MOD:00048+=MOD:00048	INSERTION1=Insertion of residues 429 to 822 at 914 from UniProt:P11362 FGFR1";
+        output = "EWAS	R-HSA-1839016	GO:0005829	Q9UBW7	1	913	+914=INSERTION1+766=MOD:00048+=MOD:00048	INSERTION1=Insertion of residues 429 to 822 at 914 from UniProt:P11362 FGFR1	ZMYM2-p-2Y-FGFR1 fusion [cytosol]";
+        modifiedResidues = ewas.getAttributeValuesList(ReactomeJavaConstants.hasModifiedResidue);
+        assertEquals(output, getRow(ewas, modifiedResidues));
+
+        // FragmentDeletionModification
+        ewas = dba.fetchInstance(5339694L);
+        output = "EWAS	R-HSA-5339694	GO:0005886	O75197	32	1615	+=DELETION1	DELETION1=Deletion of residues 666 to 809	LRP5 del666-809 [plasma membrane]";
+        modifiedResidues = ewas.getAttributeValuesList(ReactomeJavaConstants.hasModifiedResidue);
+        assertEquals(output, getRow(ewas, modifiedResidues));
+        
+        // FragmentDeletionModification
+        ewas = dba.fetchInstance(5604959L);
+        output = "EWAS	R-HSA-5604959	GO:0005789	P22309	26	533	+=DELETION1	DELETION1=Deletion of residues 294 to 297	UGT1A1 del294-297 [endoplasmic reticulum membrane]";
+        modifiedResidues = ewas.getAttributeValuesList(ReactomeJavaConstants.hasModifiedResidue);
+        assertEquals(output, getRow(ewas, modifiedResidues));
+        
+        // FragmentReplacedModification
+        ewas = dba.fetchInstance(5659656L);
+        output = "EWAS	R-HSA-5659656	GO:0005886	Q9UN76	1	642	+=REPLACED1	REPLACED1=Replacement of residues 20649 to 20469 by T	SLC6A14 20649C-T [plasma membrane]";
         modifiedResidues = ewas.getAttributeValuesList(ReactomeJavaConstants.hasModifiedResidue);
         assertEquals(output, getRow(ewas, modifiedResidues));
 
         // IntraChainCrosslinkedResidue #1
         ewas = dba.fetchInstance(8874904L);
-        output = "EWAS	R-HSA-8874904	GO:0005758	Q9NRP2	1	79	+14=MOD:00798[CROSSLINK1@47]+24=MOD:00798[CROSSLINK2@37]+14=CHEBI:23514[CROSSLINK1@47]+24=CHEBI:23514[CROSSLINK2@37]	CROSSLINK1=Intra-chain Crosslink via half cystine at 14 and 47^|^CROSSLINK2=Intra-chain Crosslink via half cystine at 24 and 37";
+        output = "EWAS	R-HSA-8874904	GO:0005758	Q9NRP2	1	79	+14=MOD:00798[CROSSLINK1@47]+24=MOD:00798[CROSSLINK2@37]+14=CHEBI:23514[CROSSLINK1@47]+24=CHEBI:23514[CROSSLINK2@37]	CROSSLINK1=Intra-chain Crosslink via half cystine at 14 and 47^|^CROSSLINK2=Intra-chain Crosslink via half cystine at 24 and 37	4xHC-CMC2 [mitochondrial intermembrane space]";
         modifiedResidues = ewas.getAttributeValuesList(ReactomeJavaConstants.hasModifiedResidue);
         assertEquals(output, getRow(ewas, modifiedResidues));
 
         // IntraChainCrosslinkedResidue #2
         ewas = dba.fetchInstance(6797422L);
-        output = "EWAS	R-HSA-6797422	GO:0005576	P09429	2	215	+23=MOD:00798[CROSSLINK1@]+23=CHEBI:30770[CROSSLINK1@]	CROSSLINK1=Intra-chain Crosslink via half cystine at 23 and 45";
+        output = "EWAS	R-HSA-6797422	GO:0005576	P09429	2	215	+23=MOD:00798[CROSSLINK1@45]+23=CHEBI:30770[CROSSLINK1@45]	CROSSLINK1=Intra-chain Crosslink via half cystine at 23 and 45	HC23,45-HMGB1 [extracellular region]";
         modifiedResidues = ewas.getAttributeValuesList(ReactomeJavaConstants.hasModifiedResidue);
         assertEquals(output, getRow(ewas, modifiedResidues));
+        
+        // IntraChainCrosslinkedResidue #3
+        ewas = dba.fetchInstance(8874912L);
+        output = "EWAS	R-HSA-8874912	GO:0005758	Q9BSY4	1	110	+58=MOD:00798[CROSSLINK1@89]+58=CHEBI:23514[CROSSLINK1@89]	CROSSLINK1=Intra-chain Crosslink via half cystine at 58 and 89	4xHC-CHCHD5 [mitochondrial intermembrane space]";
+        modifiedResidues = ewas.getAttributeValuesList(ReactomeJavaConstants.hasModifiedResidue);
+        assertEquals(output, getRow(ewas, modifiedResidues));
+        
     }
 
     @Test
@@ -485,7 +525,7 @@ public class ProExporter {
 
         // IntraChainCrosslinkedResidue #2
         ewas = dba.fetchInstance(6797422L);
-        output = "+23=MOD:00798[CROSSLINK1@]+23=CHEBI:30770[CROSSLINK1@]";
+        output = "+23=MOD:00798[CROSSLINK1@45]+23=CHEBI:30770[CROSSLINK1@45]";
         modifiedResidues = ewas.getAttributeValuesList(ReactomeJavaConstants.hasModifiedResidue);
         assertEquals(output, getModifications(modifiedResidues));
 

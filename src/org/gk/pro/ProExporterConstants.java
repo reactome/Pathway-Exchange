@@ -32,6 +32,7 @@ public class ProExporterConstants {
     public static final String endPosition = "End";
     public static final String modifications = "Modifications";
     public static final String freeText = "Free Text";
+    public static final String displayName = "Display Name";
 
     public static final List<String> COLUMNS = Arrays.asList(entityType,
                                                              identifier,
@@ -40,5 +41,6 @@ public class ProExporterConstants {
                                                              startPosition,
                                                              endPosition,
                                                              modifications,
-                                                             freeText);
+                                                             freeText,
+                                                             displayName);
 }

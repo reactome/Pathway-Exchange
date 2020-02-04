@@ -22,14 +22,15 @@ public class IntraChainCrosslinkedResidue extends CrosslinkedResidue {
      * would return "+14=MOD:00798[CROSSLINK1@47]".
      *
      * @param modifiedResidue
-     * @param isSecondResiduePresent
      * @return String
      * @throws InvalidAttributeException
      * @throws Exception
      */
-    public String exportPsiModIdentifier(GKInstance modifiedResidue, boolean isSecondResiduePresent) throws InvalidAttributeException, Exception {
-        String crosslink = getCrosslink(modifiedResidue, isSecondResiduePresent);
-        return super.exportModification(modifiedResidue) + crosslink;
+    public String exportPsiModIdentifier(GKInstance modifiedResidue) throws InvalidAttributeException, Exception {
+        String modification = super.exportModification(modifiedResidue);
+        if (modification == null || modification.length() == 0)
+            return null;
+        return modification + getCrosslink(modifiedResidue);
     }
 
     /**
@@ -39,16 +40,15 @@ public class IntraChainCrosslinkedResidue extends CrosslinkedResidue {
      * would return "+14=CHEBI:23514[CROSSLINK1@47]".
      *
      * @param modifiedResidue
-     * @param isSecondResiduePresent
      * @return String
      * @throws InvalidAttributeException
      * @throws Exception
      */
-    public String exportModificationIdentifier(GKInstance modifiedResidue, boolean isSecondResiduePresent) throws InvalidAttributeException, Exception {
+    public String exportModificationIdentifier(GKInstance modifiedResidue) throws InvalidAttributeException, Exception {
         String modIdentifier = getModIdentifier(modifiedResidue);
-        if (modIdentifier == "")
-            return "";
-        String crosslink = getCrosslink(modifiedResidue, isSecondResiduePresent);
+        if (modIdentifier == null || modIdentifier.length() == 0)
+            return null;
+        String crosslink = getCrosslink(modifiedResidue);
         return modIdentifier + crosslink;
     }
 
@@ -59,13 +59,13 @@ public class IntraChainCrosslinkedResidue extends CrosslinkedResidue {
      * would return "[CROSSLINK1@47]".
      *
      * @param modifiedResidue
-     * @param isSecondResiduePresent
      * @return String
      * @throws InvalidAttributeException
      * @throws Exception
      */
-    private String getCrosslink(GKInstance modifiedResidue, boolean isSecondResiduePresent) throws InvalidAttributeException, Exception {
+    private String getCrosslink(GKInstance modifiedResidue) throws InvalidAttributeException, Exception {
         String secCoordinate = "";
+        boolean isSecondResiduePresent = (modifiedResidue.getAttributeValue(ReactomeJavaConstants.secondCoordinate) != null);
         if (isSecondResiduePresent)
             secCoordinate = safeString(modifiedResidue.getAttributeValue(ReactomeJavaConstants.secondCoordinate));
 
