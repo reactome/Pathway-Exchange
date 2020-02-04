@@ -111,25 +111,27 @@ public class ProExporter {
      * @return String
      * @throws Exception
      */
-    private String getModifications(List<Object> allModifiedResidues) throws Exception {
+    private String getModifications(List<Object> modifiedResidues) throws Exception {
+        if (modifiedResidues == null || modifiedResidues.size() == 0)
+            return null;
         String output = "";
         AbstractModifiedResidue residueExporter = null;
         GKInstance modifiedResidue = null;
         List<Object> intraChainModifiedResidues = new ArrayList<Object>();
-        List<Object> modifiedResidues = new ArrayList<Object>();
+        List<Object> stdModifiedResidues = new ArrayList<Object>();
         String pkg = this.getClass().getPackage().getName();
         String cls = null;
 
-        for (Object object : allModifiedResidues) {
+        for (Object object : modifiedResidues) {
             modifiedResidue = (GKInstance) object;
             if (modifiedResidue.getSchemClass().isa(ReactomeJavaConstants.IntraChainCrosslinkedResidue))
                 intraChainModifiedResidues.add(modifiedResidue);
             else
-                modifiedResidues.add(modifiedResidue);
+                stdModifiedResidues.add(modifiedResidue);
         }
         output += getIntraChainModifications(intraChainModifiedResidues);
 
-        for (Object object : modifiedResidues) {
+        for (Object object : stdModifiedResidues) {
             modifiedResidue = (GKInstance) object;
             cls = modifiedResidue.getSchemClass().getName();
             residueExporter = (AbstractModifiedResidue) Class.forName(pkg + "." + cls).getConstructor().newInstance();
@@ -174,6 +176,8 @@ public class ProExporter {
      * @throws Exception
      */
     private String getFreeText(List<Object> modifiedResidues) throws InvalidAttributeException, Exception {
+        if (modifiedResidues == null || modifiedResidues.size() == 0)
+            return null;
         String output = "";
         AbstractModifiedResidue residueExporter = null;
         GKInstance modifiedResidue = null;
@@ -229,9 +233,8 @@ public class ProExporter {
             if (species == null)
                 continue;
             // Home Sapien (DBID: 48887)
-            if (species.getDBID().equals(48887L)) {
+            if (species.getDBID().equals(48887L))
                 humanEwasCollection.add(ewas);
-            }
         }
         String[] attributes = {ReactomeJavaConstants.compartment,
                                ReactomeJavaConstants.endCoordinate,
@@ -349,13 +352,17 @@ public class ProExporter {
         // Open export file.
         PrintWriter writer = new PrintWriter(new File(exportPath));
 
+        // Write column headers.
+        writer.print(ProExporterConstants.COLUMNS.get(0));
+        for (String column : ProExporterConstants.COLUMNS.subList(1, ProExporterConstants.COLUMNS.size()))
+            writer.write(ProExporterConstants.delimiter + column);
+        writer.println();
+
         List<Object> modifiedResidues = null;
         String row = null;
         for (GKInstance ewas : ewasCollection) {
             // Get all modified residues for the given EWAS.
             modifiedResidues = ewas.getAttributeValuesList(ReactomeJavaConstants.hasModifiedResidue);
-            if (modifiedResidues == null || modifiedResidues.size() == 0)
-                continue;
 
             // Get the export row for the given EWAS.
             row = exporter.getRow(ewas, modifiedResidues);

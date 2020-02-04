@@ -45,8 +45,11 @@ public class IntraChainCrosslinkedResidue extends CrosslinkedResidue {
      * @throws Exception
      */
     public String exportModificationIdentifier(GKInstance modifiedResidue, boolean isSecondResiduePresent) throws InvalidAttributeException, Exception {
+        String modIdentifier = getModIdentifier(modifiedResidue);
+        if (modIdentifier == "")
+            return "";
         String crosslink = getCrosslink(modifiedResidue, isSecondResiduePresent);
-        return getModIdentifier(modifiedResidue) + crosslink;
+        return modIdentifier + crosslink;
     }
 
     /**
