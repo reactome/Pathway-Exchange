@@ -194,7 +194,7 @@ public class ProExporter {
         // Modification classes that have free text columns.
         List<String> allowedClasses = Arrays.asList(ReactomeJavaConstants.FragmentInsertionModification,
                                                     ReactomeJavaConstants.FragmentDeletionModification,
-                                                    ReactomeJavaConstants.FragmentReplacedModification, 
+                                                    ReactomeJavaConstants.FragmentReplacedModification,
                                                     ReactomeJavaConstants.IntraChainCrosslinkedResidue);
         for (Object modifiedResidue : modifiedResidues) {
             if (allowedClasses.stream().noneMatch(((GKInstance) modifiedResidue).getSchemClass()::isa))
@@ -269,7 +269,7 @@ public class ProExporter {
         // Reactome identifier (R-HSA-)
         String identifier = getIdentifier(ewas);
         row.add(identifier);
-        
+
         // Subcellular location (GO:)
         String location = getLocation(ewas);
         row.add(location == null ? ProExporterConstants.unknown : location);
@@ -398,10 +398,10 @@ public class ProExporter {
 
     @Before
     public void initializeTestDBA() throws SQLException {
-    	dba =  new MySQLAdaptor("localhost",
-                            "reactome",
-                            "liam",
-                            ")8J7m]!%[<");
+        dba =  new MySQLAdaptor("localhost",
+                                "reactome",
+                                "liam",
+                                ")8J7m]!%[<");
     }
 
     private MySQLAdaptor getTestDBA() {
@@ -417,46 +417,46 @@ public class ProExporter {
 
         // FragmentInsertionModification
         ewas = dba.fetchInstance(1839016L);
-        output = "EWAS	R-HSA-1839016	GO:0005829	Q9UBW7	1	913	+914=INSERTION1+766=MOD:00048+=MOD:00048	INSERTION1=Insertion of residues 429 to 822 at 914 from UniProt:P11362 FGFR1	ZMYM2-p-2Y-FGFR1 fusion [cytosol]";
+        output = "EWAS  R-HSA-1839016   GO:0005829  Q9UBW7  1   913     +914=INSERTION1+766=MOD:00048+=MOD:00048    INSERTION1=Insertion of residues 429 to 822 at 914 from UniProt:P11362 FGFR1    ZMYM2-p-2Y-FGFR1 fusion [cytosol]";
         modifiedResidues = ewas.getAttributeValuesList(ReactomeJavaConstants.hasModifiedResidue);
         assertEquals(output, getRow(ewas, modifiedResidues));
 
         // FragmentDeletionModification
         ewas = dba.fetchInstance(5339694L);
-        output = "EWAS	R-HSA-5339694	GO:0005886	O75197	32	1615	+=DELETION1	DELETION1=Deletion of residues 666 to 809	LRP5 del666-809 [plasma membrane]";
+        output = "EWAS  R-HSA-5339694   GO:0005886  O75197  32  1615    +=DELETION1     DELETION1=Deletion of residues 666 to 809   LRP5 del666-809 [plasma membrane]";
         modifiedResidues = ewas.getAttributeValuesList(ReactomeJavaConstants.hasModifiedResidue);
         assertEquals(output, getRow(ewas, modifiedResidues));
-        
+
         // FragmentDeletionModification
         ewas = dba.fetchInstance(5604959L);
-        output = "EWAS	R-HSA-5604959	GO:0005789	P22309	26	533	+=DELETION1	DELETION1=Deletion of residues 294 to 297	UGT1A1 del294-297 [endoplasmic reticulum membrane]";
+        output = "EWAS  R-HSA-5604959   GO:0005789  P22309  26  533     +=DELETION1     DELETION1=Deletion of residues 294 to 297   UGT1A1 del294-297 [endoplasmic reticulum membrane]";
         modifiedResidues = ewas.getAttributeValuesList(ReactomeJavaConstants.hasModifiedResidue);
         assertEquals(output, getRow(ewas, modifiedResidues));
-        
+
         // FragmentReplacedModification
         ewas = dba.fetchInstance(5659656L);
-        output = "EWAS	R-HSA-5659656	GO:0005886	Q9UN76	1	642	+=REPLACED1	REPLACED1=Replacement of residues 20649 to 20469 by T	SLC6A14 20649C-T [plasma membrane]";
+        output = "EWAS  R-HSA-5659656   GO:0005886  Q9UN76  1   642     +=REPLACED1     REPLACED1=Replacement of residues 20649 to 20469 by T   SLC6A14 20649C-T [plasma membrane]";
         modifiedResidues = ewas.getAttributeValuesList(ReactomeJavaConstants.hasModifiedResidue);
         assertEquals(output, getRow(ewas, modifiedResidues));
 
         // IntraChainCrosslinkedResidue #1
         ewas = dba.fetchInstance(8874904L);
-        output = "EWAS	R-HSA-8874904	GO:0005758	Q9NRP2	1	79	+14=MOD:00798[CROSSLINK1@47]+24=MOD:00798[CROSSLINK2@37]+14=CHEBI:23514[CROSSLINK1@47]+24=CHEBI:23514[CROSSLINK2@37]	CROSSLINK1=Intra-chain Crosslink via half cystine at 14 and 47^|^CROSSLINK2=Intra-chain Crosslink via half cystine at 24 and 37	4xHC-CMC2 [mitochondrial intermembrane space]";
+        output = "EWAS  R-HSA-8874904   GO:0005758  Q9NRP2  1   79  +14=MOD:00798[CROSSLINK1@47]+24=MOD:00798[CROSSLINK2@37]+14=CHEBI:23514[CROSSLINK1@47]+24=CHEBI:23514[CROSSLINK2@37]    CROSSLINK1=Intra-chain Crosslink via half cystine at 14 and 47^|^CROSSLINK2=Intra-chain Crosslink via half cystine at 24 and 37     4xHC-CMC2 [mitochondrial intermembrane space]";
         modifiedResidues = ewas.getAttributeValuesList(ReactomeJavaConstants.hasModifiedResidue);
         assertEquals(output, getRow(ewas, modifiedResidues));
 
         // IntraChainCrosslinkedResidue #2
         ewas = dba.fetchInstance(6797422L);
-        output = "EWAS	R-HSA-6797422	GO:0005576	P09429	2	215	+23=MOD:00798[CROSSLINK1@45]+23=CHEBI:30770[CROSSLINK1@45]	CROSSLINK1=Intra-chain Crosslink via half cystine at 23 and 45	HC23,45-HMGB1 [extracellular region]";
+        output = "EWAS  R-HSA-6797422   GO:0005576  P09429  2   215     +23=MOD:00798[CROSSLINK1@45]+23=CHEBI:30770[CROSSLINK1@45]  CROSSLINK1=Intra-chain Crosslink via half cystine at 23 and 45  HC23,45-HMGB1 [extracellular region]";
         modifiedResidues = ewas.getAttributeValuesList(ReactomeJavaConstants.hasModifiedResidue);
         assertEquals(output, getRow(ewas, modifiedResidues));
-        
+
         // IntraChainCrosslinkedResidue #3
         ewas = dba.fetchInstance(8874912L);
-        output = "EWAS	R-HSA-8874912	GO:0005758	Q9BSY4	1	110	+58=MOD:00798[CROSSLINK1@89]+58=CHEBI:23514[CROSSLINK1@89]	CROSSLINK1=Intra-chain Crosslink via half cystine at 58 and 89	4xHC-CHCHD5 [mitochondrial intermembrane space]";
+        output = "EWAS  R-HSA-8874912   GO:0005758  Q9BSY4  1   110     +58=MOD:00798[CROSSLINK1@89]+58=CHEBI:23514[CROSSLINK1@89]  CROSSLINK1=Intra-chain Crosslink via half cystine at 58 and 89  4xHC-CHCHD5 [mitochondrial intermembrane space]";
         modifiedResidues = ewas.getAttributeValuesList(ReactomeJavaConstants.hasModifiedResidue);
         assertEquals(output, getRow(ewas, modifiedResidues));
-        
+
     }
 
     @Test
