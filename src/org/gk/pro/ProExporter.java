@@ -74,6 +74,8 @@ public class ProExporter {
         GKInstance referenceEntity = (GKInstance) ewas.getAttributeValue(ReactomeJavaConstants.referenceEntity);
         if (referenceEntity == null)
             return ProExporterConstants.unknown;
+        if (referenceEntity.getSchemClass().isa(ReactomeJavaConstants.ReferenceIsoform))
+            return (String) referenceEntity.getAttributeValue(ReactomeJavaConstants.variantIdentifier);
         return (String) referenceEntity.getAttributeValue(ReactomeJavaConstants.identifier);
     }
 
@@ -261,36 +263,35 @@ public class ProExporter {
         List<String> row = new ArrayList<String>();
         String output = "";
 
-        // Entity type (Protein, Complex, etc)
-        // TODO Confirm if anything other than "EWAS" will be Entity Type.
+        // Entity type (Protein, Complex, etc).
         final String entityType = ProExporterConstants.ewas;;
         row.add(entityType);
 
-        // Reactome identifier (R-HSA-)
+        // Reactome identifier (R-HSA-).
         String identifier = getIdentifier(ewas);
         row.add(identifier);
 
-        // Subcellular location (GO:)
+        // Subcellular location (GO:).
         String location = getLocation(ewas);
         row.add(location == null ? ProExporterConstants.unknown : location);
 
-        // UniProtKB accession (with specific isoform, if indicated)
+        // UniProtKB accession (with specific isoform, if indicated).
         String accession = getUniprotAccession(ewas);
         row.add(accession);
 
-        // Start position of the sequence (if unknown, use '?')
+        // Start position of the sequence (if unknown, use '?').
         Integer startPosition = getStartPosition(ewas);
         row.add(startPosition == null ? ProExporterConstants.unknown : String.valueOf(startPosition));
 
-        // End position of the sequence (if unknown, use '?')
+        // End position of the sequence (if unknown, use '?').
         Integer endPosition = getEndPosition(ewas);
         row.add(endPosition == null ? ProExporterConstants.unknown : String.valueOf(endPosition));
 
-        // Modifications (see general and specific instructions below)
+        // Modifications.
         String modifications = getModifications(modifiedResidues);
         row.add(modifications == null ? "" : modifications);
 
-        // Free text (where necessary; see specific instructions below)
+        // Free text (where necessary),
         String freeText = getFreeText(modifiedResidues);
         row.add(freeText == null ? "" : freeText);
 
@@ -408,52 +409,146 @@ public class ProExporter {
         return dba;
     }
 
+    /**
+     * Convert a collection of objects to a string output with the appropriate delimiter.
+     *
+     * @param fields
+     * @return String
+     */
+    private String getTestRow(Object... fields) {
+        String output = "";
+        for (Object field : fields)
+            output += field + ProExporterConstants.delimiter;
+        // Remove delimiter.
+        output = output.substring(0, output.length() - 1);
+        return output;
+    }
+
     @Test
     public void testGetRow() throws Exception {
         MySQLAdaptor dba = getTestDBA();
         GKInstance ewas;
         String output;
+        String type = ProExporterConstants.ewas;
+        String identifier;
+        String location;
+        String accession;
+        String modifications;
+        int start;
+        int end;
+        String freeText;
+        String displayName;
         List<Object> modifiedResidues = new ArrayList<Object>();
 
         // FragmentInsertionModification
         ewas = dba.fetchInstance(1839016L);
-        output = "EWAS  R-HSA-1839016   GO:0005829  Q9UBW7  1   913     +914=INSERTION1+766=MOD:00048+=MOD:00048    INSERTION1=Insertion of residues 429 to 822 at 914 from UniProt:P11362 FGFR1    ZMYM2-p-2Y-FGFR1 fusion [cytosol]";
+        identifier = "R-HSA-1839016";
+        location = "GO:0005829";
+        accession = "Q9UBW7";
+        start = 1;
+        end = 913;
+        modifications = "+914=INSERTION1+766=MOD:00048+=MOD:00048";
+        freeText = "INSERTION1=Insertion of residues 429 to 822 at 914 from UniProt:P11362 FGFR1";
+        displayName = "ZMYM2-p-2Y-FGFR1 fusion [cytosol]";
+        output = getTestRow(type, identifier, location, accession, start, end, modifications, freeText, displayName);
         modifiedResidues = ewas.getAttributeValuesList(ReactomeJavaConstants.hasModifiedResidue);
         assertEquals(output, getRow(ewas, modifiedResidues));
 
         // FragmentDeletionModification
         ewas = dba.fetchInstance(5339694L);
-        output = "EWAS  R-HSA-5339694   GO:0005886  O75197  32  1615    +=DELETION1     DELETION1=Deletion of residues 666 to 809   LRP5 del666-809 [plasma membrane]";
+        identifier = "R-HSA-5339694";
+        location = "GO:0005886";
+        accession = "O75197";
+        start = 32;
+        end = 1615;
+        modifications = "+=DELETION1";
+        freeText = "DELETION1=Deletion of residues 666 to 809";
+        displayName = "LRP5 del666-809 [plasma membrane]";
+        output = getTestRow(type, identifier, location, accession, start, end, modifications, freeText, displayName);
         modifiedResidues = ewas.getAttributeValuesList(ReactomeJavaConstants.hasModifiedResidue);
         assertEquals(output, getRow(ewas, modifiedResidues));
 
         // FragmentDeletionModification
         ewas = dba.fetchInstance(5604959L);
-        output = "EWAS  R-HSA-5604959   GO:0005789  P22309  26  533     +=DELETION1     DELETION1=Deletion of residues 294 to 297   UGT1A1 del294-297 [endoplasmic reticulum membrane]";
+        identifier = "R-HSA-5604959";
+        location = "GO:0005789";
+        accession = "P22309";
+        start = 26;
+        end = 533;
+        modifications = "+=DELETION1";
+        freeText = "DELETION1=Deletion of residues 294 to 297";
+        displayName = "UGT1A1 del294-297 [endoplasmic reticulum membrane]";
+        output = getTestRow(type, identifier, location, accession, start, end, modifications, freeText, displayName);
         modifiedResidues = ewas.getAttributeValuesList(ReactomeJavaConstants.hasModifiedResidue);
         assertEquals(output, getRow(ewas, modifiedResidues));
 
         // FragmentReplacedModification
         ewas = dba.fetchInstance(5659656L);
-        output = "EWAS  R-HSA-5659656   GO:0005886  Q9UN76  1   642     +=REPLACED1     REPLACED1=Replacement of residues 20649 to 20469 by T   SLC6A14 20649C-T [plasma membrane]";
+        identifier = "R-HSA-5659656";
+        location = "GO:0005886";
+        accession = "Q9UN76";
+        start = 1;
+        end = 642;
+        modifications = "+=REPLACED1";
+        freeText = "REPLACED1=Replacement of residues 20649 to 20469 by T";
+        displayName = "SLC6A14 20649C-T [plasma membrane]";
+        output = getTestRow(type, identifier, location, accession, start, end, modifications, freeText, displayName);
+        modifiedResidues = ewas.getAttributeValuesList(ReactomeJavaConstants.hasModifiedResidue);
+        assertEquals(output, getRow(ewas, modifiedResidues));
+
+        // ReplacedResidue
+        ewas = dba.fetchInstance(9606687L);
+        identifier = "R-HSA-9606687";
+        location = "GO:0005654";
+        accession = "Q9UIF7-6";
+        start = 1;
+        end = 521;
+        modifications = "+255=MOD:01643+255=MOD:00029";
+        freeText = "";
+        displayName = "MUTYH-6 M255V [nucleoplasm]";
+        output = getTestRow(type, identifier, location, accession, start, end, modifications, freeText, displayName);
         modifiedResidues = ewas.getAttributeValuesList(ReactomeJavaConstants.hasModifiedResidue);
         assertEquals(output, getRow(ewas, modifiedResidues));
 
         // IntraChainCrosslinkedResidue #1
         ewas = dba.fetchInstance(8874904L);
-        output = "EWAS  R-HSA-8874904   GO:0005758  Q9NRP2  1   79  +14=MOD:00798[CROSSLINK1@47]+24=MOD:00798[CROSSLINK2@37]+14=CHEBI:23514[CROSSLINK1@47]+24=CHEBI:23514[CROSSLINK2@37]    CROSSLINK1=Intra-chain Crosslink via half cystine at 14 and 47^|^CROSSLINK2=Intra-chain Crosslink via half cystine at 24 and 37     4xHC-CMC2 [mitochondrial intermembrane space]";
+        identifier = "R-HSA-8874904";
+        location = "GO:0005758";
+        accession = "Q9NRP2";
+        start = 1;
+        end = 79;
+        modifications = "+14=MOD:00798[CROSSLINK1@47]+24=MOD:00798[CROSSLINK2@37]+14=CHEBI:23514[CROSSLINK1@47]+24=CHEBI:23514[CROSSLINK2@37]";
+        freeText = "CROSSLINK1=Intra-chain Crosslink via half cystine at 14 and 47^|^CROSSLINK2=Intra-chain Crosslink via half cystine at 24 and 37";
+        displayName = "4xHC-CMC2 [mitochondrial intermembrane space]";
+        output = getTestRow(type, identifier, location, accession, start, end, modifications, freeText, displayName);
         modifiedResidues = ewas.getAttributeValuesList(ReactomeJavaConstants.hasModifiedResidue);
         assertEquals(output, getRow(ewas, modifiedResidues));
 
         // IntraChainCrosslinkedResidue #2
         ewas = dba.fetchInstance(6797422L);
-        output = "EWAS  R-HSA-6797422   GO:0005576  P09429  2   215     +23=MOD:00798[CROSSLINK1@45]+23=CHEBI:30770[CROSSLINK1@45]  CROSSLINK1=Intra-chain Crosslink via half cystine at 23 and 45  HC23,45-HMGB1 [extracellular region]";
+        identifier = "R-HSA-6797422";
+        location = "GO:0005576";
+        accession = "P09429";
+        start = 2;
+        end = 215;
+        modifications = "+23=MOD:00798[CROSSLINK1@45]+23=CHEBI:30770[CROSSLINK1@45]";
+        freeText = "CROSSLINK1=Intra-chain Crosslink via half cystine at 23 and 45";
+        displayName = "HC23,45-HMGB1 [extracellular region]";
+        output = getTestRow(type, identifier, location, accession, start, end, modifications, freeText, displayName);
         modifiedResidues = ewas.getAttributeValuesList(ReactomeJavaConstants.hasModifiedResidue);
         assertEquals(output, getRow(ewas, modifiedResidues));
 
         // IntraChainCrosslinkedResidue #3
         ewas = dba.fetchInstance(8874912L);
-        output = "EWAS  R-HSA-8874912   GO:0005758  Q9BSY4  1   110     +58=MOD:00798[CROSSLINK1@89]+58=CHEBI:23514[CROSSLINK1@89]  CROSSLINK1=Intra-chain Crosslink via half cystine at 58 and 89  4xHC-CHCHD5 [mitochondrial intermembrane space]";
+        identifier = "R-HSA-8874912";
+        location = "GO:0005758";
+        accession = "Q9BSY4";
+        start = 1;
+        end = 110;
+        modifications = "+58=MOD:00798[CROSSLINK1@89]+58=CHEBI:23514[CROSSLINK1@89]";
+        freeText = "CROSSLINK1=Intra-chain Crosslink via half cystine at 58 and 89";
+        displayName = "4xHC-CHCHD5 [mitochondrial intermembrane space]";
+        output = getTestRow(type, identifier, location, accession, start, end, modifications, freeText, displayName);
         modifiedResidues = ewas.getAttributeValuesList(ReactomeJavaConstants.hasModifiedResidue);
         assertEquals(output, getRow(ewas, modifiedResidues));
 
@@ -474,7 +569,8 @@ public class ProExporter {
 
         // IntraChainCrosslinkedResidue #1
         ewas = dba.fetchInstance(8874904L);
-        output = "CROSSLINK1=Intra-chain Crosslink via half cystine at 14 and 47^|^CROSSLINK2=Intra-chain Crosslink via half cystine at 24 and 37";
+        output = "CROSSLINK1=Intra-chain Crosslink via half cystine at 14 and 47^|^" +
+                 "CROSSLINK2=Intra-chain Crosslink via half cystine at 24 and 37";
         modifiedResidues = ewas.getAttributeValuesList(ReactomeJavaConstants.hasModifiedResidue);
         assertEquals(output, getFreeText(modifiedResidues));
 
@@ -512,14 +608,16 @@ public class ProExporter {
 
         // InterChainCrosslinkedResidue
         ewas = dba.fetchInstance(4551599L);
-        output = "+2592=MOD:01149+2592=CHEBI:24411+2592=UniProt:P63165[97]+2650=MOD:01149+2650=CHEBI:24411+2650=UniProt:P63165[97]+2723=MOD:01149+2723=CHEBI:24411+2723=UniProt:P63165[97]";
+        output = "+2592=MOD:01149+2592=CHEBI:24411+2592=UniProt:P63165[97]+2650=MOD:01149+2650" +
+                 "=CHEBI:24411+2650=UniProt:P63165[97]+2723=MOD:01149+2723=CHEBI:24411+2723=UniProt:P63165[97]";
         modifiedResidues = ewas.getAttributeValuesList(ReactomeJavaConstants.hasModifiedResidue);
         assertEquals(output, getModifications(modifiedResidues));
 
         // IntraChainCrosslinkedResidue #1
         ewas = dba.fetchInstance(8874904L);
         // TODO Check if last crosslink was mistaken in reactome_SN.how.
-        output = "+14=MOD:00798[CROSSLINK1@47]+24=MOD:00798[CROSSLINK2@37]+14=CHEBI:23514[CROSSLINK1@47]+24=CHEBI:23514[CROSSLINK2@37]";
+        output = "+14=MOD:00798[CROSSLINK1@47]+24=MOD:00798[CROSSLINK2@37]+14=CHEBI:23514[CROSSLINK1@47]" +
+                 "+24=CHEBI:23514[CROSSLINK2@37]";
         modifiedResidues = ewas.getAttributeValuesList(ReactomeJavaConstants.hasModifiedResidue);
         assertEquals(output, getModifications(modifiedResidues));
 
