@@ -25,22 +25,14 @@ public class AbstractModifiedResidue {
      * @throws InvalidAttributeException
      * @throws Exception
      */
-    public String exportModification(GKInstance modifiedResidue) {
+    public String exportModification(GKInstance modifiedResidue) throws InvalidAttributeException, Exception {
         if (modifiedResidue == null)
             return null;
-        String identifier = null;
-        String coordinate = null;
-        GKInstance psiMod = null;
 
         if (modifiedResidue.getSchemClass().isValidAttribute(ReactomeJavaConstants.psiMod)) {
-            try {
-                psiMod = (GKInstance) modifiedResidue.getAttributeValue(ReactomeJavaConstants.psiMod);
-                coordinate = safeString(getCoordinate(modifiedResidue));
-                identifier = safeString(psiMod.getAttributeValue(ReactomeJavaConstants.identifier));
-            } catch (Exception e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            GKInstance psiMod = (GKInstance) modifiedResidue.getAttributeValue(ReactomeJavaConstants.psiMod);
+            String coordinate = safeString(getCoordinate(modifiedResidue));
+            String identifier = safeString(psiMod.getAttributeValue(ReactomeJavaConstants.identifier));
 
             return ProExporterConstants.plus + coordinate + ProExporterConstants.mod + identifier;
         }

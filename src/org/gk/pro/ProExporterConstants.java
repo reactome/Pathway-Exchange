@@ -3,6 +3,8 @@ package org.gk.pro;
 import java.util.Arrays;
 import java.util.List;
 
+import org.gk.model.ReactomeJavaConstants;
+
 public class ProExporterConstants {
     public static final String plus = "+";
     public static final String equals = "=";
@@ -13,6 +15,7 @@ public class ProExporterConstants {
     public static final String rightBracket = "]";
     public static final String delimiter = "\t";
     public static final String freeTextDelimiter = "^|^";
+    public static final String indexPlaceholder = "~";
     public static final String ewas = "EWAS";
     public static final String mod = "=MOD:";
     public static final String chebi = "=CHEBI:";
@@ -34,7 +37,7 @@ public class ProExporterConstants {
     public static final String freeText = "Free Text";
     public static final String displayName = "Display Name";
 
-    public static final List<String> COLUMNS = Arrays.asList(entityType,
+    public static final List<String> columns = Arrays.asList(entityType,
                                                              identifier,
                                                              location,
                                                              accession,
@@ -43,4 +46,9 @@ public class ProExporterConstants {
                                                              modifications,
                                                              freeText,
                                                              displayName);
+    
+    public static final List<String> indexedClasses = Arrays.asList(ReactomeJavaConstants.FragmentInsertionModification,
+                                                                    ReactomeJavaConstants.FragmentDeletionModification,
+                                                                    ReactomeJavaConstants.FragmentReplacedModification,
+                                                                    ReactomeJavaConstants.IntraChainCrosslinkedResidue);
 }
