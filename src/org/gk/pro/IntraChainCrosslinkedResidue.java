@@ -5,14 +5,13 @@ import org.gk.model.ReactomeJavaConstants;
 import org.gk.schema.InvalidAttributeException;
 
 public class IntraChainCrosslinkedResidue extends CrosslinkedResidue {
-    private static int index = 1;
     private final String modificationType = ProExporterConstants.crosslink;
 
     public IntraChainCrosslinkedResidue() {
     }
-
-    public static void resetIndex() {
-        index = 1;
+    
+    public String exportModification(GKInstance modifiedResidue) throws InvalidAttributeException, Exception {
+        return exportPsiModIdentifier(modifiedResidue) + exportModificationIdentifier(modifiedResidue);
     }
 
     /**
@@ -51,7 +50,7 @@ public class IntraChainCrosslinkedResidue extends CrosslinkedResidue {
         String crosslink = getCrosslink(modifiedResidue);
         return modIdentifier + crosslink;
     }
-
+    
     /**
      * Return the crosslink string for a given residue.
      *
@@ -69,8 +68,8 @@ public class IntraChainCrosslinkedResidue extends CrosslinkedResidue {
         if (isSecondResiduePresent)
             secCoordinate = safeString(modifiedResidue.getAttributeValue(ReactomeJavaConstants.secondCoordinate));
 
-        String crosslink = ProExporterConstants.leftBracket + modificationType +
-                (index++) + ProExporterConstants.at + secCoordinate + ProExporterConstants.rightBracket;
+        String crosslink = ProExporterConstants.leftBracket + modificationType + ProExporterConstants.indexPlaceholder + 
+                           ProExporterConstants.at + secCoordinate + ProExporterConstants.rightBracket;
 
         return crosslink;
     }
@@ -82,7 +81,7 @@ public class IntraChainCrosslinkedResidue extends CrosslinkedResidue {
      * @param isSecondResiduePresent
      * @return String
      */
-    public String exportFreeText(GKInstance modifiedResidue) {
-        return modificationType + (index++) + ProExporterConstants.equals + modifiedResidue.getDisplayName();
+    public String exportFreeText(GKInstance modifiedResidue, int index) {
+        return modificationType + index + ProExporterConstants.equals + modifiedResidue.getDisplayName();
     }
 }

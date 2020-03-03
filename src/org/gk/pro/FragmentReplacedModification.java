@@ -4,22 +4,17 @@ import org.gk.model.GKInstance;
 import org.gk.schema.InvalidAttributeException;
 
 public class FragmentReplacedModification extends FragmentModification {
-    private static int index = 1;
     private final String modificationType = ProExporterConstants.replaced;
 
     public FragmentReplacedModification() {
     }
 
-    public static void resetIndex() {
-        index = 1;
+    public String exportModification(GKInstance modifiedResidue, int index) throws InvalidAttributeException, Exception {
+        return super.exportModification(modifiedResidue, modificationType, index);
     }
 
-    public String exportModification(GKInstance modifiedResidue) throws InvalidAttributeException, Exception {
-        return super.exportModification(modifiedResidue, modificationType, index++);
-    }
-
-    public String exportFreeText(GKInstance modifiedResidue) {
-        return super.exportFreeText(modifiedResidue, modificationType, index++);
+    public String exportFreeText(GKInstance modifiedResidue, int index) {
+        return super.exportFreeText(modifiedResidue, modificationType, index);
     }
 
 }

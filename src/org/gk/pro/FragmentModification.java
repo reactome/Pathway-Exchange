@@ -17,15 +17,15 @@ public class FragmentModification extends GeneticallyModifiedResidue {
      * @throws InvalidAttributeException
      * @throws Exception
      */
-    public String exportModification(GKInstance modifiedResidue, String type, int index) throws InvalidAttributeException, Exception {
+    public String exportModification(GKInstance modifiedResidue) throws InvalidAttributeException, Exception {
         if (modifiedResidue == null)
             return null;
         String coordinate = safeString(getCoordinate(modifiedResidue));
 
-        return ProExporterConstants.plus + coordinate + ProExporterConstants.equals + type + index;
+        return ProExporterConstants.plus + coordinate + ProExporterConstants.equals;
     }
 
-    public String exportFreeText(GKInstance modifiedResidue, String type, int index) {
-        return type + index + ProExporterConstants.equals + modifiedResidue.getDisplayName();
+    public String exportFreeText(GKInstance modifiedResidue) {
+        return ProExporterConstants.indexPlaceholder + ProExporterConstants.equals + modifiedResidue.getDisplayName();
     }
 }

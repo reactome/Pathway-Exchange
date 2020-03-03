@@ -5,6 +5,12 @@ import org.gk.model.ReactomeJavaConstants;
 import org.gk.schema.InvalidAttributeException;
 
 public class AbstractModifiedResidue {
+    public String modificationType;
+    
+    public String getModType() {
+        return modificationType;
+    }
+
     public AbstractModifiedResidue() {
     }
 
@@ -19,18 +25,31 @@ public class AbstractModifiedResidue {
      * @throws InvalidAttributeException
      * @throws Exception
      */
-    public String exportModification(GKInstance modifiedResidue) throws InvalidAttributeException, Exception {
+    public String exportModification(GKInstance modifiedResidue) {
         if (modifiedResidue == null)
             return null;
+        String identifier = null;
+        String coordinate = null;
         GKInstance psiMod = null;
-        if (modifiedResidue.getSchemClass().isValidAttribute(ReactomeJavaConstants.psiMod)) {
-            psiMod = (GKInstance) modifiedResidue.getAttributeValue(ReactomeJavaConstants.psiMod);
-            String coordinate = safeString(getCoordinate(modifiedResidue));
 
-            return ProExporterConstants.plus + coordinate + ProExporterConstants.mod +
-                   safeString(psiMod.getAttributeValue(ReactomeJavaConstants.identifier));
+        if (modifiedResidue.getSchemClass().isValidAttribute(ReactomeJavaConstants.psiMod)) {
+            try {
+                psiMod = (GKInstance) modifiedResidue.getAttributeValue(ReactomeJavaConstants.psiMod);
+                coordinate = safeString(getCoordinate(modifiedResidue));
+                identifier = safeString(psiMod.getAttributeValue(ReactomeJavaConstants.identifier));
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+            return ProExporterConstants.plus + coordinate + ProExporterConstants.mod + identifier;
         }
 
+        return null;
+    }
+
+    public String exportFreeText(GKInstance residue) {
+        // TODO Auto-generated method stub
         return null;
     }
 
@@ -58,16 +77,6 @@ public class AbstractModifiedResidue {
      */
     protected String safeString(Object input) {
         return (input == null ? "" : String.valueOf(input));
-    }
-
-    /**
-     * Dummy method used for reflection purposes in {@link ProExporter#getFreeText(List)}.
-     *
-     * @param residue
-     * @return String
-     */
-    public String exportFreeText(GKInstance residue) {
-        return null;
     }
 
 }
