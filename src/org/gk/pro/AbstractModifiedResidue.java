@@ -40,8 +40,13 @@ public class AbstractModifiedResidue {
         return null;
     }
 
+    /**
+     * Dummy method used for reflection purposes in {@link ProExporter#getFreeText(List)}. 
+     * 
+     * @param residue
+     * @return String
+     */
     public String exportFreeText(GKInstance residue) {
-        // TODO Auto-generated method stub
         return null;
     }
 

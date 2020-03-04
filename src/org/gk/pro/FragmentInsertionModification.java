@@ -4,10 +4,9 @@ import org.gk.model.GKInstance;
 import org.gk.schema.InvalidAttributeException;
 
 public class FragmentInsertionModification extends FragmentModification {
-    public String modificationType = ProExporterConstants.insertion;
+    private String modificationType = ProExporterConstants.insertion;
 
-    public String getModType() {
-        return modificationType;
+    public FragmentInsertionModification() {
     }
 
     public String exportModification(GKInstance modifiedResidue) throws InvalidAttributeException, Exception {

@@ -26,26 +26,6 @@ public class ProExporterConstants {
     public static final String deletion = "DELETION";
     public static final String replaced = "REPLACED";
     public static final String crosslink = "CROSSLINK";
-
-    public static final String entityType = "Type";
-    public static final String identifier = "Identifier";
-    public static final String location= "Location";
-    public static final String accession = "Accession";
-    public static final String startPosition = "Start";
-    public static final String endPosition = "End";
-    public static final String modifications = "Modifications";
-    public static final String freeText = "Free Text";
-    public static final String displayName = "Display Name";
-
-    public static final List<String> columns = Arrays.asList(entityType,
-                                                             identifier,
-                                                             location,
-                                                             accession,
-                                                             startPosition,
-                                                             endPosition,
-                                                             modifications,
-                                                             freeText,
-                                                             displayName);
     
     public static final List<String> indexedClasses = Arrays.asList(ReactomeJavaConstants.FragmentInsertionModification,
                                                                     ReactomeJavaConstants.FragmentDeletionModification,

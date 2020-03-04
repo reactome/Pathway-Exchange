@@ -81,7 +81,7 @@ public class IntraChainCrosslinkedResidue extends CrosslinkedResidue {
      * @param isSecondResiduePresent
      * @return String
      */
-    public String exportFreeText(GKInstance modifiedResidue, int index) {
-        return modificationType + index + ProExporterConstants.equals + modifiedResidue.getDisplayName();
+    public String exportFreeText(GKInstance modifiedResidue) {
+        return modificationType + ProExporterConstants.indexPlaceholder + ProExporterConstants.equals + modifiedResidue.getDisplayName();
     }
 }
