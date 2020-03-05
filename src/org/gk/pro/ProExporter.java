@@ -5,16 +5,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Properties;
-import java.util.Set;
 
 import org.gk.model.GKInstance;
 import org.gk.model.ReactomeJavaConstants;
@@ -56,7 +52,6 @@ public class ProExporter {
      */
     private String getLocation(GKInstance ewas) throws InvalidAttributeException, Exception {
         GKInstance compartment = (GKInstance) ewas.getAttributeValue(ReactomeJavaConstants.compartment);
-        // TODO Confirm if we should filter out non-GO databases.
         if (compartment == null)
             return null;
         GKInstance referenceDatabase = (GKInstance) compartment.getAttributeValue(ReactomeJavaConstants.referenceDatabase);
@@ -110,36 +105,41 @@ public class ProExporter {
     }
 
     /**
-     * Return the freeText values for a given EWAS.
+     * Set the modifications (and freeText if applicable) for a given row.
      *
      * @param ewas
-     * @return String
+     * @param row
      * @throws InvalidAttributeException
      * @throws Exception
      */
-    String getModifications(GKInstance ewas) throws InvalidAttributeException, Exception {
+    void setModifications(GKInstance ewas, ProExportRow row) throws InvalidAttributeException, Exception {
         // Get all modified residues for the given EWAS.
         List<GKInstance> modifiedResidues = ewas.getAttributeValuesList(ReactomeJavaConstants.hasModifiedResidue);
 
         if (modifiedResidues == null || modifiedResidues.size() == 0)
-            return null;
+            return;
 
         AbstractModifiedResidue residueExporter = null;
         Integer index;
         Map<SchemaClass, Integer> indices = new HashMap<SchemaClass, Integer>();
-        StringBuilder modifications = new StringBuilder();
-        String tmp = null;
+        String modification = null;
+        String freeText = null;
+        List<String> indexedClasses = Arrays.asList(ReactomeJavaConstants.FragmentInsertionModification,
+                                                    ReactomeJavaConstants.FragmentDeletionModification,
+                                                    ReactomeJavaConstants.FragmentReplacedModification,
+                                                    ReactomeJavaConstants.IntraChainCrosslinkedResidue);
 
-        if (residueClassMap.size() < 8)
+        // If the class map has less than 8 classes, try to add to it the EWAS's residue schemas.
+        if (residueClassMap.size() < ProExporterConstants.numResidueClasses)
             populateClassMap(ewas);
 
         for (GKInstance residue : modifiedResidues) {
             residueExporter = residueClassMap.get(residue.getSchemClass());
 
-            tmp = residueExporter.exportModification(residue);
+            modification = residueExporter.exportModification(residue);
 
-            if (!ProExporterConstants.indexedClasses.contains(residue.getSchemClass().getName())) {
-                modifications.append(tmp);
+            if (!indexedClasses.contains(residue.getSchemClass().getName())) {
+                row.addModification(modification);
                 continue;
             }
 
@@ -148,64 +148,21 @@ public class ProExporter {
             if (index == null)
                 index = 1;
 
-            modifications.append(tmp.replace(ProExporterConstants.indexPlaceholder, String.valueOf(index)));
+            modification = modification.replace(ProExporterConstants.indexPlaceholder, String.valueOf(index));
+            row.addModification(modification);
+
+            freeText = residueExporter.exportFreeText(residue);
+            freeText = freeText.replace(ProExporterConstants.indexPlaceholder, String.valueOf(index));
+            row.addFreeText(freeText);
 
             indices.put(residue.getSchemClass(), (index + 1));
         }
-
-        return modifications.toString();
-    }
-
-    /**
-     * Return the freeText values for a given EWAS.
-     *
-     * @param ewas
-     * @return String
-     * @throws InvalidAttributeException
-     * @throws Exception
-     */
-    String getFreeText(GKInstance ewas) throws InvalidAttributeException, Exception {
-        // Get all modified residues for the given EWAS.
-        List<GKInstance> modifiedResidues = ewas.getAttributeValuesList(ReactomeJavaConstants.hasModifiedResidue);
-
-        if (modifiedResidues == null || modifiedResidues.size() == 0)
-            return null;
-
-        AbstractModifiedResidue residueExporter = null;
-        Integer index;
-        Map<SchemaClass, Integer> indices = new HashMap<SchemaClass, Integer>();
-        StringBuilder freeText = new StringBuilder();
-        String tmp = null;
-
-        if (residueClassMap.size() < 8)
-            populateClassMap(ewas);
-
-        for (GKInstance residue : modifiedResidues) {
-            residueExporter = residueClassMap.get(residue.getSchemClass());
-
-            if (!ProExporterConstants.indexedClasses.contains(residue.getSchemClass().getName()))
-                continue;
-
-            // Handle indices for the indexed classes.
-            index = indices.get(residue.getSchemClass());
-            if (index == null)
-                index = 1;
-
-            tmp = residueExporter.exportFreeText(residue).replace(ProExporterConstants.indexPlaceholder, String.valueOf(index));
-            if (freeText.length() == 0)
-                freeText.append(tmp);
-            else
-                freeText.append(ProExporterConstants.freeTextDelimiter + tmp);
-
-            indices.put(residue.getSchemClass(), (index + 1));
-        }
-
-        return freeText.toString();
     }
 
     /**
      * Return collection of all human EWAS instances.
      *
+     * @param dba
      * @return Collection<GKInstance>
      * @throws Exception
      */
@@ -230,6 +187,7 @@ public class ProExporter {
     }
 
     /**
+     * Add the schema classes for all modified residues (of a given EWAS) to the class map for later retrieval.
      *
      * @param ewas
      * @throws InvalidAttributeException
@@ -251,7 +209,9 @@ public class ProExporter {
     }
 
     /**
-     * Retrieve a TSV row for a given EWAS instance.
+     * Retrieve an export row for a given EWAS instance.
+     *
+     * Order is defined in {@link ProExportRow#getRow}.
      *
      * @param ewas
      * @param modifiedResidues
@@ -260,49 +220,39 @@ public class ProExporter {
      * @throws Exception
      */
     String getRow(GKInstance ewas) throws InvalidAttributeException, Exception {
-        List<String> row = new ArrayList<String>();
-        StringBuilder output = new StringBuilder();
+        ProExportRow row = new ProExportRow();
 
         // Entity type (Protein, Complex, etc).
-        row.add(ProExporterConstants.ewas);
+        row.setEntityType(ProExporterConstants.ewas);
 
         // Reactome identifier (R-HSA-).
         String identifier = getIdentifier(ewas);
-        row.add(identifier);
+        row.setIdentifier(identifier);
 
         // Subcellular location (GO:).
         String location = getLocation(ewas);
-        row.add(location == null ? ProExporterConstants.unknown : location);
+        row.setLocation(location == null ? ProExporterConstants.unknown : location);
 
         // UniProtKB accession (with specific isoform, if indicated).
         String accession = getUniprotAccession(ewas);
-        row.add(accession);
+        row.setAccession(accession);
 
         // Start position of the sequence (if unknown, use '?').
         Integer startPosition = getStartPosition(ewas);
-        row.add(startPosition == null ? ProExporterConstants.unknown : String.valueOf(startPosition));
+        row.setStartPostion(startPosition == null ? ProExporterConstants.unknown : String.valueOf(startPosition));
 
         // End position of the sequence (if unknown, use '?').
         Integer endPosition = getEndPosition(ewas);
-        row.add(endPosition == null ? ProExporterConstants.unknown : String.valueOf(endPosition));
+        row.setEndPostion(endPosition == null ? ProExporterConstants.unknown : String.valueOf(endPosition));
 
-        // Modifications.
-        String modifications = getModifications(ewas);
-        row.add(modifications == null ? "" : modifications);
-
-        // Free text (where necessary).
-        String freeText = getFreeText(ewas);
-        row.add(freeText == null ? "" : freeText);
+        // Modifications and free text (where necessary).
+        setModifications(ewas, row);
 
         // Display Name
         String displayName = ewas.getDisplayName();
-        row.add(displayName);
+        row.setDisplayName(displayName);
 
-        output.append(row.get(0));
-        for (String cell : row.subList(1, row.size()))
-            output.append(ProExporterConstants.delimiter + cell);
-
-        return output.toString();
+        return row.getRow();
    }
 
     @SuppressWarnings("serial")
@@ -320,18 +270,10 @@ public class ProExporter {
         ProExporter exporter = new ProExporter();
         // Get property file.
         String propPath = null;
-        if (args.length == 0) {
-            // Default property file.
-            final String propertyFile = "proExport.prop";
-            URL pathURL = ProExporter.class.getResource(propertyFile);
-            if (pathURL == null)
-                throw new FileNotFoundException("Could not find file: " + propertyFile);
-            propPath = pathURL.getFile();
-        }
-        else {
-            // User passes in property file as argument.
+        if (args.length == 0)
+            propPath =  "proExport.prop";
+        else
             propPath = args[0];
-        }
 
         // Get database information from property file.
         Properties properties = new Properties();
@@ -374,27 +316,18 @@ public class ProExporter {
         PrintWriter writer = new PrintWriter(new File(exportPath));
 
         // Write column headers.
-        List<String> columns = Arrays.asList("Type",
-                                             "Identifier",
-                                             "Location",
-                                             "Accession",
-                                             "Start",
-                                             "End",
-                                             "Modifications",
-                                             "Free Text",
-                                             "Display Name");
-        writer.print(columns.get(0));
-        for (String column : columns.subList(1, columns.size()))
-            writer.println(ProExporterConstants.delimiter + column);
+        ProExportRow row = new ProExportRow();
+        List<String> columnHeaders = row.getColumnHeaders();
 
-        String row = null;
-        for (GKInstance ewas : ewasCollection) {
-            // Get the export row for the given EWAS.
-            row = exporter.getRow(ewas);
+        writer.print(columnHeaders.get(0));
+        for (String column : columnHeaders.subList(1, columnHeaders.size()))
+            writer.print(ProExporterConstants.delimiter + column);
 
-            // Write output to file.
-            writer.println(row);
-        }
+        writer.println();
+
+        // Write the export rows for all EWAS instances to file.
+        for (GKInstance ewas : ewasCollection)
+            writer.println(exporter.getRow(ewas));
 
         writer.close();
     }

@@ -1,10 +1,5 @@
 package org.gk.pro;
 
-import java.util.Arrays;
-import java.util.List;
-
-import org.gk.model.ReactomeJavaConstants;
-
 public class ProExporterConstants {
     public static final String plus = "+";
     public static final String equals = "=";
@@ -26,9 +21,5 @@ public class ProExporterConstants {
     public static final String deletion = "DELETION";
     public static final String replaced = "REPLACED";
     public static final String crosslink = "CROSSLINK";
-    
-    public static final List<String> indexedClasses = Arrays.asList(ReactomeJavaConstants.FragmentInsertionModification,
-                                                                    ReactomeJavaConstants.FragmentDeletionModification,
-                                                                    ReactomeJavaConstants.FragmentReplacedModification,
-                                                                    ReactomeJavaConstants.IntraChainCrosslinkedResidue);
+    public static final int numResidueClasses = 8;
 }
