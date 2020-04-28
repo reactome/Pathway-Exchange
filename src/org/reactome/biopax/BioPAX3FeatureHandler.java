@@ -169,30 +169,33 @@ public class BioPAX3FeatureHandler {
                                               seqSiteElm);
             }
         }
+        boolean isTypeDone = false;
         // As of Nov 10, 2009, since new PSI-MOD has been used, values in psiMod for ModifiedResidue
         // will be used as Feature_Type via openControlledVocabulary
         if (modifier.getSchemClass().isValidAttribute(ReactomeJavaConstants.psiMod)) {
             GKInstance psiMod = (GKInstance) modifier.getAttributeValue(ReactomeJavaConstants.psiMod);
-            if (psiMod != null) {
+            if (psiMod != null) { // We will use the first psiMod term only even though there are two terms for ReplacedResidue instances.
                 Element featureTypeElm = createModificationTypeFromPsiMod(psiMod);
                 converter.createObjectPropElm(bpEntityFeature,
                                               BioPAX3JavaConstants.modificationType,
                                               featureTypeElm);
+                isTypeDone = true;
                 // values in ChEBI from modification will be used as values for XREF
                 // There is no xref in the ModificationEntityFeature in level 3. Just discard information 
                 // for ChEBI
             }
-            else if (modifier.getSchemClass().isValidAttribute(ReactomeJavaConstants.modification)) {
-                // However, since feature type is required, if psiMod has not specified, the original ChEBI will
-                // be used for modification.
-                // Want to map ReferenceGroup or ReferenceMolecule as openControlledVocabulary back
-                // to ChEBI.
-                GKInstance modification = (GKInstance) modifier.getAttributeValue(ReactomeJavaConstants.modification);
-                Element modificationElm = createModificationType(modification);
-                converter.createObjectPropElm(bpEntityFeature, 
-                                              BioPAX3JavaConstants.modificationType, 
-                                              modificationElm);
-            }
+        }
+        if (!isTypeDone && modifier.getSchemClass().isValidAttribute(ReactomeJavaConstants.modification)) {
+         // However, since feature type is required, if psiMod has not specified, the original ChEBI will
+            // be used for modification.
+            // Want to map ReferenceGroup or ReferenceMolecule as openControlledVocabulary back
+            // to ChEBI.
+            GKInstance modification = (GKInstance) modifier.getAttributeValue(ReactomeJavaConstants.modification);
+            Element modificationElm = createModificationType(modification);
+            converter.createObjectPropElm(bpEntityFeature, 
+                                          BioPAX3JavaConstants.modificationType, 
+                                          modificationElm);
+            isTypeDone = true;
         }
         // For FragmentModification
         if (modifier.getSchemClass().isa(ReactomeJavaConstants.FragmentModification)) {
