@@ -4,7 +4,7 @@ import org.gk.model.GKInstance;
 import org.gk.model.ReactomeJavaConstants;
 import org.gk.schema.InvalidAttributeException;
 
-public class AbstractModifiedResidue {
+public abstract class AbstractModifiedResidue {
     public String modificationType;
     
     public String getModType() {
@@ -46,9 +46,7 @@ public class AbstractModifiedResidue {
      * @param residue
      * @return String
      */
-    public String exportFreeText(GKInstance residue) {
-        return null;
-    }
+    public abstract String exportFreeText(GKInstance residue);
 
     /**
      * Return the coordinate value for a given modifiedResidue.

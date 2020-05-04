@@ -2,9 +2,7 @@ package org.gk.pro;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.net.URL;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -20,10 +18,12 @@ import org.gk.schema.SchemaClass;
 
 /**
  * Export modified residue data for all human EWAS instances in a given database.
+ *
+ * Reads 'proExport.prop' file for configuration values.
+ * Writes exported data to 'exportPath' ('proExport.tsv' by default).
  */
 public class ProExporter {
     Map<SchemaClass, AbstractModifiedResidue> residueClassMap;
-
 
     public ProExporter() {
         residueClassMap = new HashMap<SchemaClass, AbstractModifiedResidue>();

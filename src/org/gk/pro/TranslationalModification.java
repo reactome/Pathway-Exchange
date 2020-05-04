@@ -37,4 +37,9 @@ public class TranslationalModification extends AbstractModifiedResidue {
         }
     }
 
+    @Override
+    public String exportFreeText(GKInstance residue) {
+        return null;
+    }
+
 }

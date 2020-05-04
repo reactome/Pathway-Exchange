@@ -3,6 +3,8 @@ package org.gk.pro;
 import static org.junit.Assert.assertEquals;
 
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
 
 import org.gk.model.GKInstance;
 import org.gk.persistence.MySQLAdaptor;
@@ -27,24 +29,9 @@ public class ProExporterTest {
         return dba;
     }
 
-    /**
-     * Convert varargs to a string output with the appropriate delimiter.
-     *
-     * @param fields
-     * @return String
-     */
-    private String getTestRow(Object... fields) {
-        String output = "";
-        for (Object field : fields)
-            output += field + ProExporterConstants.delimiter;
-
-        // Remove trailing delimiter.
-        output = output.substring(0, output.length() - 1);
-        return output;
-    }
-
     @Test
     public void testGetRow() throws Exception {
+        List<String> cells;
         String accession;
         String displayName;
         String freeText;
@@ -65,7 +52,9 @@ public class ProExporterTest {
         modifications = "+914=INSERTION1+766=MOD:00048+=MOD:00048";
         freeText = "INSERTION1=Insertion of residues 429 to 822 at 914 from UniProt:P11362 FGFR1";
         displayName = "ZMYM2-p-2Y-FGFR1 fusion [cytosol]";
-        expected = getTestRow(type, identifier, location, accession, start, end, modifications, freeText, displayName);
+        cells = Arrays.asList(type, identifier, location, accession, String.valueOf(start),
+                              String.valueOf(end), modifications, freeText, displayName);
+        expected = String.join(ProExporterConstants.delimiter, cells);
         assertEquals(expected, proExporter.getRow(ewas));
 
         // FragmentDeletionModification
@@ -78,7 +67,9 @@ public class ProExporterTest {
         modifications = "+=DELETION1";
         freeText = "DELETION1=Deletion of residues 666 to 809";
         displayName = "LRP5 del666-809 [plasma membrane]";
-        expected = getTestRow(type, identifier, location, accession, start, end, modifications, freeText, displayName);
+        cells = Arrays.asList(type, identifier, location, accession, String.valueOf(start),
+                              String.valueOf(end), modifications, freeText, displayName);
+        expected = String.join(ProExporterConstants.delimiter, cells);
         assertEquals(expected, proExporter.getRow(ewas));
 
         // FragmentDeletionModification
@@ -91,7 +82,9 @@ public class ProExporterTest {
         modifications = "+=DELETION1";
         freeText = "DELETION1=Deletion of residues 294 to 297";
         displayName = "UGT1A1 del294-297 [endoplasmic reticulum membrane]";
-        expected = getTestRow(type, identifier, location, accession, start, end, modifications, freeText, displayName);
+        cells = Arrays.asList(type, identifier, location, accession, String.valueOf(start),
+                              String.valueOf(end), modifications, freeText, displayName);
+        expected = String.join(ProExporterConstants.delimiter, cells);
         assertEquals(expected, proExporter.getRow(ewas));
 
         // FragmentReplacedModification
@@ -104,7 +97,9 @@ public class ProExporterTest {
         modifications = "+=REPLACED1";
         freeText = "REPLACED1=Replacement of residues 20649 to 20469 by T";
         displayName = "SLC6A14 20649C-T [plasma membrane]";
-        expected = getTestRow(type, identifier, location, accession, start, end, modifications, freeText, displayName);
+        cells = Arrays.asList(type, identifier, location, accession, String.valueOf(start),
+                              String.valueOf(end), modifications, freeText, displayName);
+        expected = String.join(ProExporterConstants.delimiter, cells);
         assertEquals(expected, proExporter.getRow(ewas));
 
         // ReplacedResidue
@@ -117,7 +112,9 @@ public class ProExporterTest {
         modifications = "+255=MOD:01643+255=MOD:00029";
         freeText = "";
         displayName = "MUTYH-6 M255V [nucleoplasm]";
-        expected = getTestRow(type, identifier, location, accession, start, end, modifications, freeText, displayName);
+        cells = Arrays.asList(type, identifier, location, accession, String.valueOf(start),
+                              String.valueOf(end), modifications, freeText, displayName);
+        expected = String.join(ProExporterConstants.delimiter, cells);
         assertEquals(expected, proExporter.getRow(ewas));
 
         // IntraChainCrosslinkedResidue #1
@@ -132,7 +129,9 @@ public class ProExporterTest {
         freeText = "CROSSLINK1=Intra-chain Crosslink via half cystine at 14 and 47^|^" +
                    "CROSSLINK2=Intra-chain Crosslink via half cystine at 24 and 37";
         displayName = "4xHC-CMC2 [mitochondrial intermembrane space]";
-        expected = getTestRow(type, identifier, location, accession, start, end, modifications, freeText, displayName);
+        cells = Arrays.asList(type, identifier, location, accession, String.valueOf(start),
+                              String.valueOf(end), modifications, freeText, displayName);
+        expected = String.join(ProExporterConstants.delimiter, cells);
         assertEquals(expected, proExporter.getRow(ewas));
 
         // IntraChainCrosslinkedResidue #2
@@ -145,7 +144,9 @@ public class ProExporterTest {
         modifications = "+23=MOD:00798[CROSSLINK1@45]+23=CHEBI:30770[CROSSLINK1@45]";
         freeText = "CROSSLINK1=Intra-chain Crosslink via half cystine at 23 and 45";
         displayName = "HC23,45-HMGB1 [extracellular region]";
-        expected = getTestRow(type, identifier, location, accession, start, end, modifications, freeText, displayName);
+        cells = Arrays.asList(type, identifier, location, accession, String.valueOf(start),
+                              String.valueOf(end), modifications, freeText, displayName);
+        expected = String.join(ProExporterConstants.delimiter, cells);
         assertEquals(expected, proExporter.getRow(ewas));
 
         // IntraChainCrosslinkedResidue #3
@@ -158,7 +159,9 @@ public class ProExporterTest {
         modifications = "+58=MOD:00798[CROSSLINK1@89]+58=CHEBI:23514[CROSSLINK1@89]";
         freeText = "CROSSLINK1=Intra-chain Crosslink via half cystine at 58 and 89";
         displayName = "4xHC-CHCHD5 [mitochondrial intermembrane space]";
-        expected = getTestRow(type, identifier, location, accession, start, end, modifications, freeText, displayName);
+        cells = Arrays.asList(type, identifier, location, accession, String.valueOf(start),
+                              String.valueOf(end), modifications, freeText, displayName);
+        expected = String.join(ProExporterConstants.delimiter, cells);
         assertEquals(expected, proExporter.getRow(ewas));
 
     }
