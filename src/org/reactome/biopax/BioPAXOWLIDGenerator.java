@@ -18,14 +18,11 @@ import org.gk.model.GKInstance;
  *
  */
 public class BioPAXOWLIDGenerator {
-    // Cache all ids to avoid any duplication
-    private Set<String> idSet;
     // Used to limit the id search to speed up the performance
     private GKInstance species;
     private Map<String, Long> clsToLargestId;
     
     public BioPAXOWLIDGenerator() {
-        idSet = new HashSet<String>();
         clsToLargestId = new HashMap<>();
     }
     
@@ -41,7 +38,7 @@ public class BioPAXOWLIDGenerator {
      * Reset all cached ids to empty.
      */
     public void reset() {
-        idSet.clear();
+        clsToLargestId.clear();
     }
     
     /**

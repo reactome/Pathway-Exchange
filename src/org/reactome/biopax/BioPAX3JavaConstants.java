@@ -189,6 +189,7 @@ public class BioPAX3JavaConstants {
     // used for relationships
     public static final String GO_BIOLOGICAL_PROCESS = "gene ontology term for cellular process";
     public static final String GO_MOLECULLAR_FUNCTION = "gene ontology term for cellular function";
+    public static final String ADDITIONAL_INFORMATION = "additional information";
     
     // A list of data type names
     public static final String XSD_STRING = XSD_NS + "string"; 
