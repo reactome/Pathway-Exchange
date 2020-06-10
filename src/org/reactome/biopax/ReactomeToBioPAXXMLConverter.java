@@ -613,6 +613,8 @@ public class ReactomeToBioPAXXMLConverter {
     }
     
     private void handleEventLiteratureReferences(GKInstance event, Element bpEvent) throws Exception {
+        if (!event.getSchemClass().isValidAttribute(ReactomeJavaConstants.literatureReference))
+            return;
         Set referencesSet = new HashSet();
         // LiteratureReference instances from summation in event are combined
         List references = event.getAttributeValuesList(ReactomeJavaConstants.literatureReference);
