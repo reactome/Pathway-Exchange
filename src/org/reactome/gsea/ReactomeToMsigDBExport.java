@@ -24,6 +24,7 @@ import org.gk.model.ReactomeJavaConstants;
 import org.gk.persistence.MySQLAdaptor;
 import org.gk.schema.SchemaAttribute;
 import org.gk.schema.SchemaClass;
+import org.junit.Test;
 import org.reactome.convert.common.PathwayReferenceEntityHelper;
 
 
@@ -81,6 +82,20 @@ public class ReactomeToMsigDBExport {
         export(new FileOutputStream(fileName));
     }
     
+    @Test
+    public void exportMouseGMT() throws Exception {
+        dba = new MySQLAdaptor("localhost",
+                               "gk_current_ver71",
+                               "",
+                               "");
+        speciesId = 48892L;
+        isForGMT = true;
+        useUniProt = true;
+        // For signaling transduction only
+        FileOutputStream fos = new FileOutputStream("ReactomeMousePathways_ST_Rel71.gmt");
+        export(fos);
+    }
+    
     public void export(OutputStream os) throws Exception {
         MySQLAdaptor dba = getDBA();
         // Use all human pathways
@@ -90,6 +105,10 @@ public class ReactomeToMsigDBExport {
                                                            ReactomeJavaConstants.species,
                                                            "=",
                                                            speciesId);
+//        
+//        Set<GKInstance> stPathways = new MousePathwaysHelper().grepSignalTransductionPathways(dba);
+//        pathways.retainAll(stPathways);
+//        
         // Load some attributes
         SchemaClass cls = dba.getSchema().getClassByName(ReactomeJavaConstants.Pathway);
         SchemaAttribute att = cls.getAttribute(ReactomeJavaConstants.stableIdentifier);
@@ -277,6 +296,10 @@ public class ReactomeToMsigDBExport {
     private Map<GKInstance, List<String>> generatePathwayToGeneNamesMap(Collection<GKInstance> pathways) throws Exception {
         Map<GKInstance, List<String>> pathwayToIds = new HashMap<GKInstance, List<String>>();
         PathwayReferenceEntityHelper helper = new PathwayReferenceEntityHelper();
+        Map<String, String> idToGene = null;
+        if (speciesId.equals(48892L)) {
+            idToGene = new MousePathwaysHelper().loadMap();
+        }
         for (Iterator it = pathways.iterator(); it.hasNext();) {
             GKInstance pathway = (GKInstance) it.next();
             Set<GKInstance> referenceEntities = helper.grepReferenceEntitiesInPathway(pathway);
@@ -287,7 +310,10 @@ public class ReactomeToMsigDBExport {
                         GKInstance refDb = (GKInstance) refEntity.getAttributeValue(ReactomeJavaConstants.referenceDatabase);
                         if (refDb.getDisplayName().equals("UniProt")) {
                             String identifier = (String) refEntity.getAttributeValue(ReactomeJavaConstants.identifier);
-                            geneNames.add(identifier);
+                            if (idToGene != null)
+                                identifier = idToGene.get(identifier);
+                            if (identifier != null)
+                                geneNames.add(identifier);
                         }
                     }
                     else {
