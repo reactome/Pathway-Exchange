@@ -8,22 +8,29 @@
             <li>A1a FragmentInsertionModification</li>
             <li>A1b FragmentDeletionModification</li>
             <li>A1c FragmentReplacedModification</li>
+          </ul></li>
+          <li>A2 ReplacedResidue
+            <ul>
+              <li>A2a NonsenseMutation</li>
+            </ul></li>
+      </ul></li>
+      <li>B TranscriptionalModification
+        <ul>
+          <li>B1 ModifiedNucleotide</li>
         </ul></li>
-        <li>A2 ReplacedResidue</li>
-    </ul></li>
-    <li>B TranslationalModification
-      <ul>
-        <li>B1 CrosslinkedResidue
+        <li>C TranslationalModification
           <ul>
-            <li>B1a InterChainCrosslinkedResidue</li>
-            <li>B1b IntraChainCrosslinkedResidue</li>
-        </ul></li>
-        <li>B2 GroupModifiedResidue</li>
-        <li>B3 ModifiedResidue</li>
-    </ul></li>
+            <li>C1 CrosslinkedResidue
+              <ul>
+                <li>C1a InterChainCrosslinkedResidue</li>
+                <li>C1b IntraChainCrosslinkedResidue</li>
+              </ul></li>
+              <li>C2 GroupModifiedResidue</li>
+              <li>C3 ModifiedResidue</li>
+          </ul></li>
   </ul>
   <h1 id="columns-tab-separated">Columns (tab-separated):</h1>
-  <ol>
+  <ol type="1">
     <li>Entity type (Protein, Complex, etc)</li>
     <li>Reactome identifier (R-HSA-)</li>
     <li>Subcellular location (GO:)</li>
@@ -39,19 +46,19 @@
     <li>Example 1: Single modification at unknown site
       <ul>
         <li>+=MOD:00048 (indicates phosphoserine at an unknown position)</li>
-    </ul></li>
-    <li>Example 2: Single modification at known site
-      <ul>
-        <li>+14=MOD:00047 (indicates phosphothreonine at position 14)</li>
-    </ul></li>
-    <li>Example 3: Multiple modifications
-      <ul>
-        <li>+=MOD:00048+14=MOD:00047 (indicates that both of the above are present)</li>
-    </ul></li>
-    <li>Example 4: Replaced residues
-      <ul>
-        <li>+1185=MOD:01631+1185=MOD:00016 (indicates removal of alanine and presence of glutamic acid, both at the same position)</li>
-    </ul></li>
+      </ul></li>
+      <li>Example 2: Single modification at known site
+        <ul>
+          <li>+14=MOD:00047 (indicates phosphothreonine at position 14)</li>
+        </ul></li>
+        <li>Example 3: Multiple modifications
+          <ul>
+            <li>+=MOD:00048+14=MOD:00047 (indicates that both of the above are present)</li>
+          </ul></li>
+          <li>Example 4: Replaced residues
+            <ul>
+              <li>+1185=MOD:01631+1185=MOD:00016 (indicates removal of alanine and presence of glutamic acid, both at the same position)</li>
+            </ul></li>
   </ul>
   <h2 id="specific-instructions-for-column-7-modifications">Specific instructions for column 7 (Modifications):</h2>
   <h3 id="a1a.-fragmentinsertionmodification">A1a. FragmentInsertionModification:</h3>
@@ -60,46 +67,48 @@
     <li>Example (R-HSA-1839016, aka ZMYM2-p-2Y-FGFR1 fusion [cytosol]):
       <ul>
         <li>EWAS&lt;tab&gt;R-HSA-1839016&lt;tab&gt;GO:0005829&lt;tab&gt;Q9UBW7&lt;tab&gt;1&lt;tab&gt;913&lt;tab&gt;+914=INSERTION1+766=MOD:00048+=MOD:00048&lt;tab&gt;INSERTION1=Insertion of residues 429 to 822 at 914 from UniProt:P11362 FGFR1</li>
-    </ul></li>
+      </ul></li>
   </ul>
   <h3 id="a1b.-fragmentdeletionmodification">A1b. FragmentDeletionModification:</h3>
   <p>As described for FragmentInsertionModification, except use DELETION instead.</p>
   <h3 id="a1c.-fragmentreplacedmodification">A1c. FragmentReplacedModification:</h3>
   <p>As described for FragmentInsertionModification, except use REPLACED instead.</p>
-  <h3 id="a2.-replacedresidue">A2. ReplacedResidue</h3>
+  <h3 id="a2.-replacedresidue-and-a2a.-nonsensemutation">A2. ReplacedResidue and A2a. NonsenseMutation</h3>
   <p>Simple 1-to-1 replacements in Reactome are indicated with two MOD identifiers, one for the residue being replaced and one for the residue doing the replacing. Other than ensuring that the same position is indicated for both, no special treatment is needed–it is basically the same as chaining two modifications, as described under the general instructions above.</p>
-  <h3 id="b1a.-interchaincrosslinkedresidue">B1a. InterChainCrosslinkedResidue</h3>
+  <h3 id="b1.-modifiednucleotide">B1. ModifiedNucleotide</h3>
+  <p>(see general instructions above)</p>
+  <h3 id="c1a.-interchaincrosslinkedresidue">C1a. InterChainCrosslinkedResidue</h3>
   <p>In a general sense these too can be treated the same as ReplacedResidue. For the ReplacedResidue case, the two 'parts' of the modification are given separately, but with the same position indicated. For InterChainCrosslinkedResidue, there are three parts: One MOD, one CHEBI, and one UniProt (as secondReferenceSequence). All three should be indicated at the same position. The secondReferenceSequence should also have its position of crosslink (secondCoordinate) indicated in square brackets (leave empty if unknown).</p>
   <ul>
     <li>Example (R-HSA-4551599, aka SUMO1-K2592,K2650,K2723-RANBP2 [nuclear envelope]):
       <ul>
         <li>+2592=MOD:01149+2592=CHEBI:24411+2592=UniProt:P63165[97]+2650=MOD:01149+2650=CHEBI:24411+2650=UniProt:P63165[97]+2723=MOD:01149+2723=CHEBI:24411+2723=UniProt:P63165[97]</li>
-    </ul></li>
+      </ul></li>
   </ul>
-  <h3 id="b1b.-intrachaincrosslinkedresidue">B1b. IntraChainCrosslinkedResidue</h3>
+  <h3 id="c1b.-intrachaincrosslinkedresidue">C1b. IntraChainCrosslinkedResidue</h3>
   <p>IntraChainCrosslinkedResidues do not appear to always be fully specified in a formal way (sometimes only one position is indicated). These will thus require the appropriate text in column 8 using 'CROSSLINK' plus an indexing number but in a different way from 'INSERTION' for FragmentInsertionModification. If the second residue is formally specified (as in Example 1), put the position in square brackets preceded by CROSSLINK, the indexing number, and an '@' symbol. Otherwise leave the position empty, as in Example 2. In both cases provide the free text. Separate multiple crosslinks (within the free text) using the umbrella separator. Note that these also have CHEBI indicated.</p>
   <ul>
     <li>Example 1 (fully specified, R-HSA-8874904, aka 4xHC-CMC2 [mitochondrial intermembrane space]):
       <ul>
         <li>EWAS&lt;tab&gt;R-HSA-8874904&lt;tab&gt;GO:0005758&lt;tab&gt;Q9NRP2&lt;tab&gt;1&lt;tab&gt;79&lt;tab&gt;+14=MOD:00798[CROSSLINK1@47]+24=MOD:00798[CROSSLINK2@37]+14=CHEBI:23514[CROSSLINK1@47]+24=CHEBI:23514[CROSSLINK1@47]&lt;tab&gt;CROSSLINK1=Intra-chain Crosslink via half cystine at 14 and 47^|<sup>CROSSLINK2</sup>=Intra-chain Crosslink via half cystine at 24 and 37</li>
-    </ul></li>
-    <li>Example 2 (partially specified, R-SCE-6797422-4, aka HC23,45-HMGB1 [extracellular region]):
-      <ul>
-        <li>EWAS&lt;tab&gt;R-SCE-6797422-4&lt;tab&gt;GO:0005576&lt;tab&gt;Q02486&lt;tab&gt;2&lt;tab&gt;215&lt;tab&gt;+23=MOD:00798[CROSSLINK1@]+23=CHEBI:30770[CROSSLINK1@]&lt;tab&gt;CROSSLINK1=Intra-chain Crosslink via half cystine at 23 and 45 (in Homo sapiens)</li>
-    </ul></li>
+      </ul></li>
+      <li>Example 2 (partially specified, R-SCE-6797422-4, aka HC23,45-HMGB1 [extracellular region]):
+        <ul>
+          <li>EWAS&lt;tab&gt;R-SCE-6797422-4&lt;tab&gt;GO:0005576&lt;tab&gt;Q02486&lt;tab&gt;2&lt;tab&gt;215&lt;tab&gt;+23=MOD:00798[CROSSLINK1@]+23=CHEBI:30770[CROSSLINK1@]&lt;tab&gt;CROSSLINK1=Intra-chain Crosslink via half cystine at 23 and 45 (in Homo sapiens)</li>
+        </ul></li>
   </ul>
-  <h3 id="b2.-groupmodifiedresidue">B2. GroupModifiedResidue</h3>
+  <h3 id="c2.-groupmodifiedresidue">C2. GroupModifiedResidue</h3>
   <p>In all cases these will have a MOD identifier indicating the residue and general type of modification, and either a CHEBI identifier indicating the precise side-chain modification, or a Reactome identifier indicating a polymer. As for ReplacedResidue, both should be indicated. The position indicator (between + and =) should be the same: either a number, or empty.</p>
   <ul>
     <li>Example 1 (R-HSA-2046248, aka Gal-glycan LUM [Golgi lumen]):
       <ul>
         <li>+=MOD:00831+=CHEBI:63492</li>
-    </ul></li>
-    <li>Example 2 (R-HSA-8952387, aka PolyUb-K94,K148-RUNX3 [nucleoplasm]):
-      <ul>
-        <li>+94=MOD:01148+94=Reactome:R-HSA-8939707+148=MOD:01148+148=Reactome:R-HSA-8939707</li>
-    </ul></li>
+      </ul></li>
+      <li>Example 2 (R-HSA-8952387, aka PolyUb-K94,K148-RUNX3 [nucleoplasm]):
+        <ul>
+          <li>+94=MOD:01148+94=Reactome:R-HSA-8939707+148=MOD:01148+148=Reactome:R-HSA-8939707</li>
+        </ul></li>
   </ul>
-  <h3 id="b3.-modifiedresidue">B3. ModifiedResidue</h3>
+  <h3 id="c3.-modifiedresidue">C3. ModifiedResidue</h3>
   <p>(see general instructions above)</p>
 </html>
