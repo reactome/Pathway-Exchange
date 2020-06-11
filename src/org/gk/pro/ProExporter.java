@@ -128,10 +128,7 @@ public class ProExporter {
                                                     ReactomeJavaConstants.FragmentDeletionModification,
                                                     ReactomeJavaConstants.FragmentReplacedModification,
                                                     ReactomeJavaConstants.IntraChainCrosslinkedResidue);
-
-        // If the class map has less than 8 classes, try to add to it the EWAS's residue schemas.
-        if (residueClassMap.size() < ProExporterConstants.numResidueClasses)
-            populateClassMap(ewas);
+        populateClassMap(ewas);
 
         for (GKInstance residue : modifiedResidues) {
             residueExporter = residueClassMap.get(residue.getSchemClass());

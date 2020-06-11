@@ -21,5 +21,4 @@ public class ProExporterConstants {
     public static final String deletion = "DELETION";
     public static final String replaced = "REPLACED";
     public static final String crosslink = "CROSSLINK";
-    public static final int numResidueClasses = 8;
 }
