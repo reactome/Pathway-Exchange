@@ -85,14 +85,13 @@ public class ReactomeToMsigDBExport {
     @Test
     public void exportMouseGMT() throws Exception {
         dba = new MySQLAdaptor("localhost",
-                               "gk_current_ver71",
+                               "gk_current_ver73",
                                "",
                                "");
         speciesId = 48892L;
         isForGMT = true;
-        useUniProt = true;
-        // For signaling transduction only
-        FileOutputStream fos = new FileOutputStream("ReactomeMousePathways_ST_Rel71.gmt");
+        useUniProt = false;
+        FileOutputStream fos = new FileOutputStream("ReactomeMousePathways_Rel73.gmt");
         export(fos);
     }
     
@@ -296,10 +295,6 @@ public class ReactomeToMsigDBExport {
     private Map<GKInstance, List<String>> generatePathwayToGeneNamesMap(Collection<GKInstance> pathways) throws Exception {
         Map<GKInstance, List<String>> pathwayToIds = new HashMap<GKInstance, List<String>>();
         PathwayReferenceEntityHelper helper = new PathwayReferenceEntityHelper();
-        Map<String, String> idToGene = null;
-        if (speciesId.equals(48892L)) {
-            idToGene = new MousePathwaysHelper().loadMap();
-        }
         for (Iterator it = pathways.iterator(); it.hasNext();) {
             GKInstance pathway = (GKInstance) it.next();
             Set<GKInstance> referenceEntities = helper.grepReferenceEntitiesInPathway(pathway);
@@ -310,8 +305,6 @@ public class ReactomeToMsigDBExport {
                         GKInstance refDb = (GKInstance) refEntity.getAttributeValue(ReactomeJavaConstants.referenceDatabase);
                         if (refDb.getDisplayName().equals("UniProt")) {
                             String identifier = (String) refEntity.getAttributeValue(ReactomeJavaConstants.identifier);
-                            if (idToGene != null)
-                                identifier = idToGene.get(identifier);
                             if (identifier != null)
                                 geneNames.add(identifier);
                         }
