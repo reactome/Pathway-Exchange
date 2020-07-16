@@ -182,7 +182,11 @@ public class HyperGraphConverter {
                                             "liam",
                                             ")8J7m]!%[<");
         GKInstance diagram = dba.fetchInstance(diagramDbId);
-        HyperGraph convertedDiagram = createGraph(diagram);
+        HyperGraph graph = createGraph(diagram);
+        System.out.println("Edges:");
+        graph.printEdges();
+        System.out.println("Nodes:");
+        graph.printNodes();
     }
 
 }
