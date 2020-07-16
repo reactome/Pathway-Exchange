@@ -87,9 +87,11 @@ public class HyperGraphConverter {
         // Handle conversions to Tail.
         List<Node> inputs = edge.getOutputNodes();
         List<Node> activators = edge.getActivatorNodes();
+        List<Node> catalysts= edge.getHelperNodes();
         List<Node> inhibitors= edge.getInhibitorNodes();
         HashSet<HyperNode> tail = createHyperNodeSet(inputs);
         tail.addAll(createHyperNodeSet(activators));
+        tail.addAll(createHyperNodeSet(catalysts));
         tail.addAll(createHyperNodeSet(inhibitors));
 
         // Handle conversions to HyperEdge.
