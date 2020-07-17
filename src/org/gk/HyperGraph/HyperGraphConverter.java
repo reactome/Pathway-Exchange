@@ -47,7 +47,7 @@ public class HyperGraphConverter {
      * @throws InvalidAttributeException
      * @throws Exception
      */
-    public HyperGraph createGraph(GKInstance diagram) throws InvalidAttributeException, Exception {
+    public HyperGraph createHyperGraph(GKInstance diagram) throws InvalidAttributeException, Exception {
         DiagramGKBReader reader = new DiagramGKBReader();
         RenderablePathway pathway = reader.openDiagram(diagram);
         List<Renderable> components = pathway.getComponents();
@@ -163,7 +163,7 @@ public class HyperGraphConverter {
     }
 
     @Test
-    public void testConvertDiagram() throws Exception {
+    public void testCreateHyperGraph() throws Exception {
         /* Simple test pathway (DBID 211728). Expected output:
 
            Edges:
@@ -173,7 +173,7 @@ public class HyperGraphConverter {
 
            edu.reed.HyperEdge@7d68ef40
            Tail : [ARHGAP10, p-T402-PAK2(213-524)]
-           Head : [PAK-2p34:RHG10 complex, perinuclear PAK-2p34:RHG10 complex]
+           Head : [PAK-2p34:RHG10 complex]
 
            Nodes:
 
@@ -184,7 +184,7 @@ public class HyperGraphConverter {
                                             "liam",
                                             ")8J7m]!%[<");
         GKInstance diagram = dba.fetchInstance(diagramDbId);
-        HyperGraph graph = createGraph(diagram);
+        HyperGraph graph = createHyperGraph(diagram);
         System.out.println("Edges:");
         graph.printEdges();
         System.out.println("Nodes:");
