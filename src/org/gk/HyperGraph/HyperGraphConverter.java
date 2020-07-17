@@ -2,19 +2,17 @@ package org.gk.HyperGraph;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.gk.model.GKInstance;
+import org.gk.model.ReactomeJavaConstants;
 import org.gk.persistence.DiagramGKBReader;
 import org.gk.persistence.MySQLAdaptor;
 import org.gk.render.Node;
 import org.gk.render.Renderable;
 import org.gk.render.RenderablePathway;
 import org.gk.schema.InvalidAttributeException;
-import org.gk.schema.SchemaAttribute;
-import org.gk.schema.SchemaClass;
 import org.junit.Test;
 
 import edu.reed.HyperGraph;
@@ -22,6 +20,10 @@ import edu.reed.HyperNode;
 
 
 /**
+ * Construct a HyperGraph from a given pathway diagram.
+ *
+ * General procedure is as follows:
+ *
  * (1) Get the diagram from invoking caller.
  * (2) Read in pathway from diagram reader.
  * (3) Iterate over all rendered components.
@@ -57,7 +59,8 @@ public class HyperGraphConverter {
         HyperGraph graph = new HyperGraph();
 
         for (Renderable component : components) {
-            // Currently, the only nodes included in the HyperGraph are those that are connected to an edge.
+            // Currently, the only nodes included in the HyperGraph are those
+            // that are connected to at least one edge.
             if (component instanceof org.gk.render.HyperEdge) {
                 edge = createHyperEdge((org.gk.render.HyperEdge) component);
                 if (edge != null)
@@ -69,10 +72,10 @@ public class HyperGraphConverter {
     }
 
     /**
-     * Convert a Reaction Like Event to a HyperEdge.
+     * Convert a Reactome HyperEdge to a Reed HyperEdge.
      *
-     * @param edge
-     * @return HyperEdie
+     * @param org.gk.render.edge
+     * @return edu.reed.HyperEdge
      * @throws InvalidAttributeException
      * @throws Exception
      */
@@ -85,7 +88,7 @@ public class HyperGraphConverter {
         HashSet<HyperNode> head = createHyperNodeSet(outputs);
 
         // Handle conversions to Tail.
-        List<Node> inputs = edge.getOutputNodes();
+        List<Node> inputs = edge.getInputNodes();
         List<Node> activators = edge.getActivatorNodes();
         List<Node> catalysts= edge.getHelperNodes();
         List<Node> inhibitors= edge.getInhibitorNodes();
@@ -105,8 +108,7 @@ public class HyperGraphConverter {
     /**
      * Convert a list of Nodes to a set of HyperNodes.
      *
-     * @param rle
-     * @param attName
+     * @param nides
      * @return HashSet
      * @throws InvalidAttributeException
      * @throws Exception
@@ -118,11 +120,7 @@ public class HyperGraphConverter {
 
         for (Node node : nodes) {
             // Check if a new node needs to be created.
-            instance = node.getInstance();
-            if (instance == null)
-                continue;
-
-            Long dbid = instance.getDBID();
+            Long dbid = node.getReactomeId();
             if (hyperNodes.containsKey(dbid))
                 hyperNode = hyperNodes.get(dbid);
 
@@ -149,36 +147,38 @@ public class HyperGraphConverter {
         if (node == null)
             return null;
 
-        GKInstance instance = node.getInstance();
-        if (instance == null)
-            return null;
-
+        edu.reed.HyperNode hyperNode = new edu.reed.HyperNode(node.getDisplayName());
         Map<String, String> attributes = new HashMap<String, String>();
-        SchemaClass cls = instance.getSchemClass();
 
-	    for (Iterator<?> it = cls.getAttributes().iterator(); it.hasNext();) {
-	        SchemaAttribute att = (SchemaAttribute) it.next();
-	        String attName = att.getName();
-	        Object attValue = instance.getAttributeValue(attName);
+        // DBID
+        attributes.put("DB_ID", node.getReactomeId() + "");
 
-	        if (attValue == null)
-	            continue;
+        // Stable Identifier
+        GKInstance instance = node.getInstance();
+        if (instance != null)
+            attributes.put("stable_id", instance.getAttributeValue(ReactomeJavaConstants.stableIdentifier) + "");
 
-	        attributes.put(attName, attValue.toString());
-	    }
-
-        HyperNode hyperNode = new HyperNode(instance.getDBID().toString());
 	    hyperNode.setAttributes(attributes);
         return hyperNode;
     }
 
     @Test
     public void testConvertDiagram() throws Exception {
-        // Simple test pathway.
-        // Name: CYP3A43 6b-hydroxylates TEST
-        // Id: R-HSA-211959.1
-        // Url: https://reactome.org/PathwayBrowser/#/R-HSA-211945&SEL=R-HSA-211959&PATH=R-HSA-1430728,R-HSA-211859
-        Long diagramDbId = 9676704L;
+        /* Simple test pathway (DBID 211728). Expected output:
+
+           Edges:
+           edu.reed.HyperEdge@123f1134
+           Tail : [PAK-2p34:RHG10 complex]
+           Head : [perinuclear PAK-2p34:RHG10 complex]
+
+           edu.reed.HyperEdge@7d68ef40
+           Tail : [ARHGAP10, p-T402-PAK2(213-524)]
+           Head : [PAK-2p34:RHG10 complex, perinuclear PAK-2p34:RHG10 complex]
+
+           Nodes:
+
+         */
+        Long diagramDbId = 9676707L;
         MySQLAdaptor dba = new MySQLAdaptor("localhost",
                                             "central",
                                             "liam",
