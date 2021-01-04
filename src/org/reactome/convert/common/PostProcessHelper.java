@@ -11,8 +11,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 import org.gk.database.SynchronizationManager;
 import org.gk.database.util.LiteratureReferenceAttributeAutoFiller;
 import org.gk.model.GKInstance;
@@ -25,7 +25,6 @@ import org.gk.persistence.PersistenceManager;
 import org.gk.persistence.XMLFileAdaptor;
 import org.gk.schema.GKSchemaClass;
 import org.reactome.b2rMapper.B2RMapperUtilities;
-import org.reactome.biopax.AraCycPostProcessor;
 import org.reactome.px.util.FileUtility;
 
 
@@ -36,7 +35,7 @@ import org.reactome.px.util.FileUtility;
  *
  */
 public class PostProcessHelper {
-    private static final Logger logger = Logger.getLogger(AraCycPostProcessor.class);
+    private static final Logger logger = Logger.getLogger(PostProcessHelper.class);
 
     @SuppressWarnings("unchecked")
     public static void mergeReferenceEntity(GKInstance targetRefPepSeq,
@@ -426,6 +425,7 @@ public class PostProcessHelper {
             Object pubmedId = litRef.getAttributeValue(ReactomeJavaConstants.pubMedIdentifier);
             if (pubmedId == null)
                 continue; // Cannot do anything
+            logger.info("Processing " + pubmedId + "...");
             autoFiller.process(litRef, null);
             InstanceDisplayNameGenerator.setDisplayName(litRef);
         }
