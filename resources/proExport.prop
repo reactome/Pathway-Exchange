@@ -1,0 +1,6 @@
+host=localhost
+database=gk_current_ver79
+username={}
+password={}
+port=3306
+exportPath=output/Reactome2Pro_Release_79_010722.txt
