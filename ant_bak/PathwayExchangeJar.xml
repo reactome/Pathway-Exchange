@@ -8,6 +8,7 @@
      guanming
      ====================================================================== -->
 <project name="PathwayExchangeJar" default="jar" basedir="..">
+    <property name="compiler.args" value="-Xlint:deprecation"/>
     <property name="destDir" value="../RESTfulAPI/web/WEB-INF/lib/" />
     <property name="srcDir" value="${basedir}/src" />
     <property name="classDir" value="${basedir}/classes" />
