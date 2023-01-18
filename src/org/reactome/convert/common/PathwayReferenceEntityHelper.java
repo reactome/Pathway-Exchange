@@ -92,7 +92,10 @@ public class PathwayReferenceEntityHelper {
             grepRefEntitiesFromInstanceRecursively(pe,
                                                    refEntities);
         }
-        // TODO: probably Polymer's unit should be included too.
+        else if (pe.getSchemClass().isa(ReactomeJavaConstants.Polymer)) {
+            grepRefEntitiesFromInstanceRecursively(pe,
+                                                   refEntities);
+        }
         return refEntities;
     }
     
@@ -124,6 +127,12 @@ public class PathwayReferenceEntityHelper {
                     if (list != null)
                         children.addAll(list);
                 }
+                // For Polymer
+                if (inst.getSchemClass().isValidAttribute(ReactomeJavaConstants.repeatedUnit)) {
+                    List<GKInstance> list = inst.getAttributeValuesList(ReactomeJavaConstants.repeatedUnit);
+                    if (list != null)
+                        children.addAll(list);
+                }
                 if (children.size() == 0)
                     continue;
                 for (Iterator it = children.iterator(); it.hasNext();) {
@@ -136,6 +145,8 @@ public class PathwayReferenceEntityHelper {
                     else if (tmp.getSchemClass().isa(ReactomeJavaConstants.EntitySet))
                         next.add(tmp);
                     else if (tmp.getSchemClass().isa(ReactomeJavaConstants.Complex))
+                        next.add(tmp);
+                    else if (tmp.getSchemClass().isa(ReactomeJavaConstants.Polymer))
                         next.add(tmp);
                 }
             }
