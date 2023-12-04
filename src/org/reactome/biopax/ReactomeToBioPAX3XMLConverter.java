@@ -314,8 +314,6 @@ public class ReactomeToBioPAX3XMLConverter {
         }
         attachReactomeIDAsXref(regulation, modulation);
         attachReactomeDatasource(modulation);
-        // Need to handle summation
-        handleEventSummation(regulation, modulation);
         // Need to handle literatureReference
         handleEventLiteratureReferences(regulation, modulation);
         // Need to handle regulator
