@@ -26,6 +26,7 @@
             <include name="reactome/reactome.jar" />
             <include name="sbgn/*.jar" />
             <include name="sbml/*.jar" />
+            <include name="jaxb/*.jar" />
         </fileset>
     </path>
 

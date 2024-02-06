@@ -1430,6 +1430,7 @@ public class ReactomeToBioPAX3XMLConverter {
         if (bpEntity != null)
             return bpEntity;
         boolean isSet = rEntity.getSchemClass().isa(ReactomeJavaConstants.EntitySet);
+        boolean isDrug = false;
         SchemaClass reactomeType = getReactomeEntityType(rEntity);
         // Try to figure out the type based on the referenceEntity
         if (reactomeType == null) { // For Polymer, OtherEntity and other entities which don't have referenceEntity values
@@ -1438,6 +1439,7 @@ public class ReactomeToBioPAX3XMLConverter {
         else if (rEntity.getSchemClass().isa(ReactomeJavaConstants.Drug)) {
             String bpTypeName = getBPTypeForDrug(rEntity);
             bpEntity = createIndividualElm(bpTypeName);
+            isDrug = true; 
         }
         else if (rEntity.getSchemClass().isa(ReactomeJavaConstants.Complex) ||
                  reactomeType.isa(ReactomeJavaConstants.Complex)) { // Special case
@@ -1471,6 +1473,13 @@ public class ReactomeToBioPAX3XMLConverter {
                               "Converted from EntitySet in Reactome");
             handleEntitySetMember(rEntity,
                                   bpEntity);
+        }
+        if (isDrug) {
+            // Add a flag for some drugs that don't have references to IUPHAR/BPS Guide to Pharmacology
+            createDataPropElm(bpEntity, 
+                    BioPAX3JavaConstants.comment, 
+                    BioPAX3JavaConstants.XSD_STRING, 
+                    "Converted from Drug in Reactome");
         }
         handleNames(rEntity, bpEntity);
         // Get the compartment information
@@ -1919,7 +1928,7 @@ public class ReactomeToBioPAX3XMLConverter {
     @Test
     public void testConvert() throws Exception {
         MySQLAdaptor dba = new MySQLAdaptor("localhost",
-                                            "gk_central_112219",
+                                            "gk_central_051723",
                                             "root",
                                             "macmysql01",
                                             3306);
@@ -1982,9 +1991,12 @@ public class ReactomeToBioPAX3XMLConverter {
         // A pathway has entities with cross-reference: Beta-catenin independent WNT signaling
 //        GKInstance topEvent = dba.fetchInstance(3858494L);
         // For drug
-        GKInstance topEvent = dba.fetchInstance(1227986L);
+//        GKInstance topEvent = dba.fetchInstance(1227986L);
+        // For drug that doesn't have IUPHAR reference
+        GKInstance topEvent = dba.fetchInstance(2161541L);
+        
         // Test for sumoylation
-        topEvent = dba.fetchInstance(3232118L);
+//        topEvent = dba.fetchInstance(3232118L);
         
         ReactomeToBioPAX3XMLConverter converter = new ReactomeToBioPAX3XMLConverter();
         converter.setReactomeEvent(topEvent);

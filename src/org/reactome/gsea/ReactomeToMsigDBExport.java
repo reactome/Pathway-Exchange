@@ -50,7 +50,7 @@ public class ReactomeToMsigDBExport {
         if (dba != null)
             return dba;
         dba = new MySQLAdaptor("localhost",
-                               "gk_current_ver32", 
+                               "gk_current_ver80", 
                                "root",
                                "macmysql01");
         return dba;
@@ -115,6 +115,7 @@ public class ReactomeToMsigDBExport {
         // To be used later
         att = cls.getAttribute(ReactomeJavaConstants.summation);
         dba.loadInstanceAttributeValues(pathways, att);
+        ensureUniquePathwayNames(pathways);
         // Create pathway to gene ids map
         if (isForGMT) {
             exportInGMT(pathways, os);
@@ -134,6 +135,36 @@ public class ReactomeToMsigDBExport {
                    pathwayToGeneIds,
                    os);
         }
+    }
+    
+    /**
+     * Make sure pathway names exported are unique by attaching DB_IDs for duplicated names.
+     * @param pathways
+     * @throws Exception
+     */
+    private void ensureUniquePathwayNames(Collection<GKInstance> pathways) throws Exception {
+    	Map<String, Set<GKInstance>> name2pathways = new HashMap<>();
+    	for (GKInstance pathway : pathways) {
+    		String name = pathway.getDisplayName();
+    		name2pathways.compute(name, (key, set) -> {
+    			if (set == null)
+    				set = new HashSet<>();
+    			set.add(pathway);
+    			return set;
+    		});
+    	}
+    	// Attach DB_IDs if necessary
+    	for (String name : name2pathways.keySet()) {
+    		Set<GKInstance> namedPathways = name2pathways.get(name);
+    		if (namedPathways.size() > 1) {
+    			System.out.println("Reset _displayNames for: " + namedPathways);
+    			for (GKInstance pathway : namedPathways) {
+    				String displayName = pathway.getDisplayName();
+    				Long dbId = pathway.getDBID();
+    				pathway.setDisplayName(displayName + "_" + dbId);
+    			}
+    		}
+    	}
     }
     
     /**

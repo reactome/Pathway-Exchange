@@ -268,7 +268,7 @@ public class ProExporter {
         // Get property file.
         String propPath = null;
         if (args.length == 0)
-            propPath =  "proExport.prop";
+            propPath =  "resources/proExport.prop";
         else
             propPath = args[0];
 
