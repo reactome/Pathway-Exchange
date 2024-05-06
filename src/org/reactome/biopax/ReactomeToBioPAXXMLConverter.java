@@ -1813,7 +1813,11 @@ public class ReactomeToBioPAXXMLConverter {
     }
     
     private void handleCompartment(GKInstance rEntity, Element bpInstance) throws Exception {
-        GKInstance compartment = (GKInstance) rEntity.getAttributeValue(ReactomeJavaConstants.compartment);
+       if (!rEntity.getSchemClass().isValidAttribute(ReactomeJavaConstants.compartment)) {
+           return;
+       }
+
+       GKInstance compartment = (GKInstance) rEntity.getAttributeValue(ReactomeJavaConstants.compartment);
         if (compartment == null)
             return;
         // should never occur
