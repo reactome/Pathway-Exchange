@@ -410,6 +410,7 @@ public class ReactomeToBioPAX3XMLConverter {
         handleEventAuthorship(event, bpEvent, ReactomeJavaConstants.authored);
         handleEventAuthorship(event, bpEvent, ReactomeJavaConstants.reviewed);
         handleEventAuthorship(event, bpEvent, ReactomeJavaConstants.edited);
+        handleDisease(event, bpEvent);
     }
     
     private void handleEventAuthorship(GKInstance event,
@@ -1498,6 +1499,7 @@ public class ReactomeToBioPAX3XMLConverter {
         attachReactomeIDAsXref(rEntity, bpEntity);
         attachReactomeDatasource(bpEntity);
         handleCrossReferences(rEntity, bpEntity);
+        handleDisease(rEntity, bpEntity);
         rToBInstanceMap.put(rEntity, bpEntity);
         return bpEntity;
     }
@@ -1515,31 +1517,56 @@ public class ReactomeToBioPAX3XMLConverter {
                 createObjectPropElm(bpEntity,
                                     BioPAX3JavaConstants.xref,
                                     relationXrefElm);
+                return;
             }
-            relationXrefElm = createIndividualElm(BioPAX3JavaConstants.RelationshipXref);
-            rToBInstanceMap.put(crossReference, relationXrefElm);
-            Element relationshipType = getRelationTypeCV(BioPAX3JavaConstants.ADDITIONAL_INFORMATION);
-            createObjectPropElm(relationXrefElm,
-                                BioPAX3JavaConstants.relationshipType,
-                                relationshipType);
-            GKInstance referenceDB = (GKInstance) crossReference.getAttributeValue(ReactomeJavaConstants.referenceDatabase);
-            if (referenceDB != null) {
-                createDataPropElm(relationXrefElm,
-                                  BioPAX3JavaConstants.db,
-                                  BioPAX3JavaConstants.XSD_STRING,
-                                  referenceDB.getDisplayName());
-            }
-            String identifier = (String) crossReference.getAttributeValue(ReactomeJavaConstants.identifier);
-            if (identifier != null) {
-                createDataPropElm(relationXrefElm,
-                                  BioPAX3JavaConstants.id,
-                                  BioPAX3JavaConstants.XSD_STRING,
-                                  identifier);
-            }
-            createObjectPropElm(bpEntity,
-                                BioPAX3JavaConstants.xref,
-                                relationXrefElm);
+            handleNewRelationship(crossReference, bpEntity);
         }
+    }
+    
+    private void handleDisease(GKInstance rEntity, 
+                               Element bpEntity) throws Exception {
+        if (!rEntity.getSchemClass().isValidAttribute(ReactomeJavaConstants.disease))
+            return; // Nothing to be done here
+        List<GKInstance> diseases = rEntity.getAttributeValuesList(ReactomeJavaConstants.disease);
+        if (diseases == null || diseases.size() == 0)
+            return;
+        for (GKInstance disease : diseases) {
+            Element relationXrefElm = rToBInstanceMap.get(disease);
+            if (relationXrefElm != null) {
+                createObjectPropElm(bpEntity,
+                                    BioPAX3JavaConstants.xref,
+                                    relationXrefElm);
+                return;
+            }
+            handleNewRelationship(disease, bpEntity);
+        }
+    }
+
+    private void handleNewRelationship(GKInstance crossReference, Element bpEntity)
+            throws InvalidAttributeException, Exception {
+        Element relationXrefElm = createIndividualElm(BioPAX3JavaConstants.RelationshipXref);
+        rToBInstanceMap.put(crossReference, relationXrefElm);
+        Element relationshipType = getRelationTypeCV(BioPAX3JavaConstants.ADDITIONAL_INFORMATION);
+        createObjectPropElm(relationXrefElm,
+                            BioPAX3JavaConstants.relationshipType,
+                            relationshipType);
+        GKInstance referenceDB = (GKInstance) crossReference.getAttributeValue(ReactomeJavaConstants.referenceDatabase);
+        if (referenceDB != null) {
+            createDataPropElm(relationXrefElm,
+                              BioPAX3JavaConstants.db,
+                              BioPAX3JavaConstants.XSD_STRING,
+                              referenceDB.getDisplayName());
+        }
+        String identifier = (String) crossReference.getAttributeValue(ReactomeJavaConstants.identifier);
+        if (identifier != null) {
+            createDataPropElm(relationXrefElm,
+                              BioPAX3JavaConstants.id,
+                              BioPAX3JavaConstants.XSD_STRING,
+                              identifier);
+        }
+        createObjectPropElm(bpEntity,
+                            BioPAX3JavaConstants.xref,
+                            relationXrefElm);
     }
 
     private String getBPTypeForDrug(GKInstance rEntity) throws InvalidAttributeException, Exception {
@@ -1932,7 +1959,7 @@ public class ReactomeToBioPAX3XMLConverter {
     @Test
     public void testConvert() throws Exception {
         MySQLAdaptor dba = new MySQLAdaptor("localhost",
-                                            "gk_central_051723",
+                                            "gk_central_04152024",
                                             "root",
                                             "macmysql01",
                                             3306);
@@ -1997,10 +2024,13 @@ public class ReactomeToBioPAX3XMLConverter {
         // For drug
 //        GKInstance topEvent = dba.fetchInstance(1227986L);
         // For drug that doesn't have IUPHAR reference
-        GKInstance topEvent = dba.fetchInstance(2161541L);
+//        GKInstance topEvent = dba.fetchInstance(2161541L);
         
         // Test for sumoylation
 //        topEvent = dba.fetchInstance(3232118L);
+        
+        // Check with disease
+        GKInstance topEvent = dba.fetchInstance(5662853L);
         
         ReactomeToBioPAX3XMLConverter converter = new ReactomeToBioPAX3XMLConverter();
         converter.setReactomeEvent(topEvent);

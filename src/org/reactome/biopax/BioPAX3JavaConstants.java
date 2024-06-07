@@ -186,6 +186,7 @@ public class BioPAX3JavaConstants {
     public static final String stepConversion = "stepConversion";
     public static final String deltaH = "deltaH";
     public static final String participant = "participant";
+    public static final String disease = "disease";
     // used for relationships
     public static final String GO_BIOLOGICAL_PROCESS = "gene ontology term for cellular process";
     public static final String GO_MOLECULLAR_FUNCTION = "gene ontology term for cellular function";
