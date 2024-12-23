@@ -81,6 +81,7 @@ public class ReactomeToBioPAXUtilities {
         if (adaptor instanceof MySQLAdaptor) {
             MySQLAdaptor dba = (MySQLAdaptor) adaptor;
             Integer releaseNumber = dba.getReleaseNumber();
+            System.out.println("Release number is " + releaseNumber);
             return releaseNumber;
         }
         return null;
