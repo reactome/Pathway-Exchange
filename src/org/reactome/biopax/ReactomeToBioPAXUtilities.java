@@ -62,7 +62,7 @@ public class ReactomeToBioPAXUtilities {
         PersistenceAdaptor adaptor = inst.getDbAdaptor();
         if (adaptor instanceof MySQLAdaptor) {
             MySQLAdaptor dba = (MySQLAdaptor) adaptor;
-            Integer releaseNumber = dba.getReleaseNumber();
+            Integer releaseNumber = getReleaseNumber(dba);
             if (releaseNumber != null)
                 return BioPAXJavaConstants.REACTOME_DB_ID + " Release " + releaseNumber;
         }
@@ -111,7 +111,7 @@ public class ReactomeToBioPAXUtilities {
             Object value = release.getAttributeValue("releaseNumber");
             if (value instanceof Integer) {
                 Integer releaseNumber = (Integer) value;
-                System.out.println("Release number: " + releaseNumber);
+                //System.out.println("Release number: " + releaseNumber);
                 if (releaseNumber > currentRelease) {
                     currentRelease = releaseNumber;
                 }
