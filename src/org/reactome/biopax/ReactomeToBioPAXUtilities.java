@@ -62,7 +62,7 @@ public class ReactomeToBioPAXUtilities {
         PersistenceAdaptor adaptor = inst.getDbAdaptor();
         if (adaptor instanceof MySQLAdaptor) {
             MySQLAdaptor dba = (MySQLAdaptor) adaptor;
-            Integer releaseNumber = dba.getReleaseNumber();
+            Integer releaseNumber = getReleaseNumber(dba);
             if (releaseNumber != null)
                 return BioPAXJavaConstants.REACTOME_DB_ID + " Release " + releaseNumber;
         }
@@ -80,10 +80,48 @@ public class ReactomeToBioPAXUtilities {
         PersistenceAdaptor adaptor = inst.getDbAdaptor();
         if (adaptor instanceof MySQLAdaptor) {
             MySQLAdaptor dba = (MySQLAdaptor) adaptor;
-            Integer releaseNumber = dba.getReleaseNumber();
+            Integer releaseNumber = getReleaseNumber(dba);
+            System.out.println("Release number is " + releaseNumber);
             return releaseNumber;
         }
         return null;
     }
-    
+
+    private static Integer getReleaseNumber(MySQLAdaptor dba) throws Exception {
+        if (!dba.getSchema().isValidClass("_Release")) {
+            return null;
+        }
+
+        Collection<?> c = dba.fetchInstancesByClass("_Release");
+        if (c == null || c.isEmpty()) {
+            System.out.println("No instances found for _Release.");
+            return null;
+        }
+
+        System.out.println("Size of _Release collection: " + c.size());
+        int currentRelease = 0;
+
+        for (Object obj : c) {
+            if (!(obj instanceof GKInstance)) {
+                System.out.println("Invalid object type: " + obj.getClass());
+                continue;
+            }
+
+            GKInstance release = (GKInstance) obj;
+            Object value = release.getAttributeValue("releaseNumber");
+            if (value instanceof Integer) {
+                Integer releaseNumber = (Integer) value;
+                //System.out.println("Release number: " + releaseNumber);
+                if (releaseNumber > currentRelease) {
+                    currentRelease = releaseNumber;
+                }
+            } else {
+                System.out.println("Invalid release number: " + value);
+            }
+        }
+
+        return currentRelease;
+    }
+
+
 }
